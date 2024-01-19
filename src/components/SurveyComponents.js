@@ -21,7 +21,7 @@ export const Title = styled.p`
   font-weight: 600;
   line-height: 22px;
 `;
-export const NextButton = styled.button`
+export const NextSmallButton = styled.button`
   border-radius: 5px;
   background: #6046ff;
   color: var(--white, #fff);
@@ -34,11 +34,30 @@ export const NextButton = styled.button`
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
 `;
 
-export const ButtonText = styled.p`
+export const SmallButtonText = styled.p`
   text-align: center;
   font-family: Poppins;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 150%;
+`;
+
+export const NextButton = styled.button`
+  border-radius: 10px;
+  background: #6046ff;
+  color: var(--white, #fff);
+  display: flex;
+  width: 90vw;
+  height: 6vh;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+`;
+
+export const ButtonText = styled.p`
+  font-size: 16px;
+  font-weight: 600;
 `;
