@@ -68,9 +68,7 @@ export default function AuthRule() {
           />
           <span>&nbsp;아래 약관에 모두 동의합니다</span>
         </div>
-        <Hr>
-          <hr />
-        </Hr>
+        <Hr></Hr>
 
         <div className="textBox">
           <img
@@ -151,10 +149,8 @@ const Rect = styled.div`
 `;
 
 const Hr = styled.div`
-  hr {
-    background: rgba(96, 70, 255, 0.3);
-    height: 1px;
-  }
+  background: rgba(96, 70, 255, 0.3);
+  height: 1px;
   margin-top: 20px;
   margin-bottom: 20px;
 `;
