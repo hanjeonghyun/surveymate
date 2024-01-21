@@ -5,8 +5,8 @@ import {
   NextButton,
   ButtonText,
 } from "../../components/AuthComponents.js";
-import checkBt from "../../assets/images/Component 28.svg";
-import originalBt from "../../assets/images/Rectangle 64.svg";
+import checkBt from "../../assets/images/bComponent 28.svg";
+import originalBt from "../../assets/images/bRectangle 64.svg";
 import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";

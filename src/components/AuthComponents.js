@@ -30,7 +30,6 @@ export const InputLabel = styled.p`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
-  margin-top: 7vh;
 `;
 
 export const AuthInput = styled.input`
@@ -60,6 +59,7 @@ export const NextButton = styled.button`
   align-items: center;
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `;
 
 export const ButtonText = styled.p`
