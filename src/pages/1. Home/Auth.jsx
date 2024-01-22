@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import * as C from '../../components/AuthComponents';
+import { Link } from 'react-router-dom';
 
 export default function Auth() {
     return(
@@ -30,9 +31,12 @@ export default function Auth() {
             </Wrapper>
             <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
         </Content>
-        <C.NextButton onClick={()=>alert("로그인")}>
-            <C.ButtonText>다음</C.ButtonText>
-        </C.NextButton>
+
+        <Link to="/authimg">
+          <C.NextButton>
+              <C.ButtonText>다음</C.ButtonText>
+          </C.NextButton>
+        </Link>
     </>
     );
 }

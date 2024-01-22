@@ -1,9 +1,28 @@
 import styled from "styled-components";
 import * as C from "../../components/AuthComponents";
-import defaultProfile from "../../assets/images/defaultProfile.svg";
-import fixButton from "../../assets/images/fixButton.svg";
+import ddefaultProfile from "../../assets/images/ddefaultProfile.svg";
+import dfixButton from "../../assets/images/dfixButton.svg";
+import { Link } from "react-router-dom";
+import {React, useState, useEffect} from 'react'
 
 export default function Profile() {
+  const [inputName,setInputName] = useState('');
+  const [nameValid, setNameValid] = useState(false);
+  const [notAllow, setNotAllow]= useState(true);
+
+  const handleName = (e) =>{
+    setInputName(e.target.value);
+    setNameValid(e.target.value.trim());
+
+  }
+
+  useEffect (()=>{
+    if(nameValid){
+        setNotAllow(false);
+        return;
+    }
+    setNotAllow(true);
+},[nameValid])
   return (
     <>
       <C.TitleWrapper>
@@ -12,12 +31,12 @@ export default function Profile() {
       <ProfileWrapper>
         <DefaultProfile>
           <img
-            src={defaultProfile}
+            src={ddefaultProfile}
             alt='defaultProfile'
           />
           <FixButton>
             <img
-              src={fixButton}
+              src={dfixButton}
               alt='fixButton'
             />
           </FixButton>
@@ -28,10 +47,13 @@ export default function Profile() {
       <C.AuthInput
         placeholder='스트로베리 초코 생크림 케이크'
         name='nickname'
+        value={inputName} onChange={handleName}
       ></C.AuthInput>
-      <C.NextButton type='submit'>
-        <C.ButtonText>다음</C.ButtonText>
-      </C.NextButton>
+      <Link to="/authrule">
+        <C.NextButton type='submit' disabled={notAllow}>
+          <C.ButtonText>다음</C.ButtonText>
+        </C.NextButton>
+      </Link>
     </>
   );
 }

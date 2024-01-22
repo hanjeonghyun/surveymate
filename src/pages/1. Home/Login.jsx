@@ -1,35 +1,75 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { NextButton, TitleWrapper, Title , InputLabel, AuthInput, ButtonText} from '../../components/AuthComponents';
 import {Link} from 'react-router-dom'
-import coloredLogo from "../../assets/images/ColoredLogo.png"
+import coloredLogo from "../../assets/images/aColoredLogo.png"
 
 
 export default function Login() {
+    const [inputId,setInputId] = useState('');
+    const [inputPw,setInputPw] = useState('');
+
+    const [idValid, setIdValid] = useState(false);
+    const [pwValid, setPwValid] = useState(false);
+    const [notAllow, setNotAllow]= useState(true);
+
+    const handleId = (e) =>{
+        setInputId(e.target.value);
+        const regex=
+            /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if(regex.test(e.target.value)){
+            setIdValid(true);
+        } else{
+            setIdValid(false);
+        }
+    };
+
+        const handlePw=(e)=>{
+        setInputPw(e.target.value);
+        const regex=
+            /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[@$!*#?&])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/;
+        if(regex.test(e.target.value)){
+            setPwValid(true);
+        } else{
+            setPwValid(false);
+        }
+    };
+
+    useEffect(()=>{
+        if(idValid && pwValid){
+            setNotAllow(false);
+            return;
+        }
+        setNotAllow(true);
+
+    },[idValid,pwValid])
 
     return(
-        <LoginWrapper>
+        <>
         <TitleWrapper>
             <Title>
                 로그인
             </Title>
         </TitleWrapper>
         <LogoImg>
-            <img src={coloredLogo} alt="로고" />
+            <img src={coloredLogo} alt="로고" style={{position: 'absolute'}}/>
         </LogoImg>
-              
+        
         <InputLabel>
-        아이디
-        <br/>
-        <LoginInput type="email" inputMode="email" placeholder="surmate@example.ac.kr">
-        </LoginInput>
-        <br/>
-        비밀번호
-        <br/>
-        <LoginInput type="password" placeholder="비밀번호를 입력해주세요">
-        </LoginInput>
+            아이디
+            <br/>
+            <LoginInput type="email" inputMode="email" placeholder="surmate@example.ac.kr"
+            value={inputId} onChange={handleId}>
+            </LoginInput>
+            <br/>
+            비밀번호
+            <br/>
+            <LoginInput type="password" placeholder="비밀번호를 입력해주세요"
+            value={inputPw} onChange={handlePw}>
+            </LoginInput>
         </InputLabel>
-        <NextButton >
+
+        <NextButton disabled={notAllow} >
             <ButtonText>
                 로그인
             </ButtonText>
@@ -50,24 +90,24 @@ export default function Login() {
             </GoAuthText>   
         </GoAuth>
         </Link>
-
-        </LoginWrapper>
-        
+        </>  
         
     );
 }
 
+
 const LogoImg = styled.div`
-    width:54vw;
-    height:17.5vh;
+    position:relative;
     display:block;
     margin:auto;
     margin-top:5vh;
     margin-bottom:3vh;
-`;
-const LoginWrapper=styled.div`
-    // width:100vw;
-    // height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:50vw;
+    height:17.5vh;
+
 `;
 
 const LoginInput=styled(AuthInput)`
@@ -89,10 +129,9 @@ const GoAuth=styled.button`
     border-radius: 10px;
     background: rgba(96, 70, 255, 0.10);
     width: 90vw;
-    height:7vh;
+    height:6.25vh;
     flex-shrink:0;
     border:none;
-
 `;
 
 const GoAuthText=styled.div`
