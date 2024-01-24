@@ -32,6 +32,7 @@ export const NextSmallButton = styled.button`
   align-items: center;
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `;
 
 export const SmallButtonText = styled.p`
