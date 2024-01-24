@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Login from "./pages/1. Home/Login";
+import Main from "./pages/2.Survey/Main";
 import SideBar from "./components/SideBar";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Main />} />
       </Routes>
       <SideBar />
     </>
