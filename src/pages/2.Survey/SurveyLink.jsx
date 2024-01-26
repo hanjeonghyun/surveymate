@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { ButtonText, NextButton, NextSmallButton, SmallButtonText, Title, TitleWrapper } from '../../components/SurveyComponents'
 import styled, { css } from 'styled-components';
 import checkMessage from "../../assets/images/acheck_message.svg";
+import { useNavigate } from 'react-router-dom';
 
 export default function SurveyLink() {
 
     const [showAlert,setShowAlert]=useState(false);
     const [nextBtValid,setNextBtValid]=useState(false);
     const [notAllow,setNotAllow]=useState(true);
-
+    const navigate=useNavigate();
     const pointLink ="https://survey_Google_asdfasdf/asd..";
 
     const handleCopy =async()=>{
@@ -42,11 +43,11 @@ export default function SurveyLink() {
   return (
     <>
         <TitleWrapper>
-            <BackButton></BackButton>
+            <BackButton onClick={()=>{navigate(-1)}}></BackButton>
             <Title>
                 설문조사 등록
             </Title>
-            <ThisNextSmallButton disabled={notAllow}>
+            <ThisNextSmallButton disabled={notAllow} onClick={()=>{navigate("/surveypoint")}}>
                 <SmallButtonText>
                     다음
                 </SmallButtonText>

@@ -1,40 +1,37 @@
 import React from "react";
-import {
-  TitleWrapper,
-  Title,
-  NextButton,
-  ButtonText,
-} from "../../components/SurveyComponents";
+import {TitleWrapper,Title,NextButton,ButtonText} from "../../components/SurveyComponents";
 import profile from "../../assets/images/bGroup 34.svg";
 import back from "../../assets/images/bicon_back.svg";
 import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
 import SurveyAlert from "./SurveyAlert";
 import SurveyBottomPopUp from "./SurveyBottomPopUp";
 import styled from "styled-components";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SurveyView() {
-  const [sameLoggedIn, setSameLoggedIn] = useState(true);
-  const [nickName, setNickName] = useState("강이");
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showAlert, setShowAlert]=useState(false);
   const navigate = useNavigate();
+  const nickName="가나다";
+  const serverName="가나다";
+  const currentPathname=window.location.pathname;
+  const { state } = useLocation();
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
-  //설문조사 등록 과정의 경우 '설문이 등록되었습니다' 버튼 뜨게 만들어야 함
+  //surveyview1:메인화면에서 접속시 surveyview2:설문등록시
   //서버로부터 현재 접속자명 불러오기
   //서버로부터 글 작성자명 불러오기
   const ButtonClick=()=>{
-    if (sameLoggedIn==true){
+    if (nickName===serverName){
       setShowPopUp(true)
     }
   }
   useEffect(() => {
-    if (nickName === "강이") {
-      setSameLoggedIn(true);
-    } else {
-      setSameLoggedIn(false);
-    }
+    if (currentPathname==="/surveyview2") {
+      setShowAlert(true);
+
+    } 
+
   }, []);
   return (
     <Wrap>
@@ -51,7 +48,7 @@ export default function SurveyView() {
           <div>0000-00-00</div>
         </ProfileWrite>
         <ReportButton>
-          <img onClick={ButtonClick} src={sameLoggedIn ? dot:''}></img>
+          <img onClick={ButtonClick} src={nickName===serverName ? dot:''}></img>
         </ReportButton>
       </Profile>
       <Hr></Hr>
@@ -65,15 +62,16 @@ export default function SurveyView() {
         <div>3. 추가적인 경품이 있다면 기재해 주세요</div>
         <div>4. 누구를 대상으로 진행하는 설문인가요?</div>
       </Content>
-      <Check>
-      <Blank></Blank>
-        <NextButton className={sameLoggedIn ? "none" : ""}>
+      <NextButtonWrapper className={(nickName===serverName) ? "none" : ""}>
+        <NextButton>
           <ButtonText>설문 참여하기</ButtonText>
         </NextButton>
-        <AlertWrapper className={sameLoggedIn ? "" : "none"}>
-          <SurveyAlert text="설문이 등록되었습니다"></SurveyAlert>
-        </AlertWrapper>
-      </Check>
+      </NextButtonWrapper>
+      {showAlert&&<AlertWrapper className={nickName===serverName ? "" : "none"}>
+        <AlertPosition>
+        <SurveyAlert text="설문이 등록되었습니다"></SurveyAlert>
+        </AlertPosition>
+      </AlertWrapper>}
       {showPopUp&&<SurveyBottomPopUp/>}
     </Wrap>
   );
@@ -131,29 +129,31 @@ const TitleFont = styled.p`
   line-height: 22px; /* 137.5% */
 `;
 
-const Check = styled.div`
-  .none {
-    display: none;
+const NextButtonWrapper=styled.div`
+  &.none{
+    display:none;
   }
-  position:absolute;
-  width:90%;
- // bottom:20vh;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
+  margin-top: 300px;
+`
 
 const AlertWrapper = styled.div`
-  position: relative;
-  top: 10vw;
-  width: 90%;
+  &.none{
+    display: none;
+  }
+  position:fixed;
+  top:50vh;
+  left:0;
+  width:100vw;
+  height:70vh;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
+const AlertPosition=styled.div`
+  position:sticky;
+  top: 70%;
+`
 const ReportButton = styled.div`
   &.none {
     display: none;
@@ -168,6 +168,4 @@ const Back=styled.img`
   position:absolute;
   left:0;  
 `
-const Blank=styled.div`
-  height:700px;
-`
+

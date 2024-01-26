@@ -1,8 +1,6 @@
-import styled from "styled-components";
+import {styled,css} from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import Warning from "../../assets/images/dwarning.svg";
-import Back from "../../assets/images/dicon_back.svg";
-import SideBar from "../../components/SideBar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -16,7 +14,7 @@ export default function SurveyPoint() {
   };
 
   const handleSubmit = () => {
-    navigate("/");
+    navigate("/surveyview2");
   };
 
   const confirmPoint = (value) => {
@@ -33,18 +31,12 @@ export default function SurveyPoint() {
 
   return (
     <>
-      <TitleWrapper>
-        <BackButton onClick={handleBack}>
-          <img
-            src={Back}
-            alt='BackButton'
-          />
-        </BackButton>
-        <C.Title>설문조사 등록</C.Title>
-        <C.NextSmallButton onClick={clickNext}>
-          <C.SmallButtonText>다음</C.SmallButtonText>
-        </C.NextSmallButton>
-      </TitleWrapper>
+      <C.TitleWrapper>
+                <BackBtn onClick={handleBack}></BackBtn>
+                <C.Title>설문조사 등록</C.Title>
+                <ThisNextSmallButton disabled={point===0} onClick={clickNext}>
+                  <C.SmallButtonText>다음</C.SmallButtonText></ThisNextSmallButton>
+      </C.TitleWrapper>
       <ProcessTitle>기간별 사용 포인트 선택</ProcessTitle>
       <ProcessExplain>
         기간별 최대 시간이 되면, 게시물이 자동 삭제됩니다.
@@ -78,7 +70,6 @@ export default function SurveyPoint() {
       <NotifyBox>
         <TermText>0000년 00월 00일 ~ 0000년 00월 00일</TermText>
       </NotifyBox>
-      <SideBar />
     </>
   );
 }
@@ -113,6 +104,27 @@ function PointBottom({ onCancel, point, handleSubmit }) {
     </>
   );
 }
+
+const BackBtn = styled.button`
+    background: url('src/assets/images/dicon_back.svg') no-repeat;
+    width: 24px;
+    height: 24px;
+    border: none;
+    position: absolute;
+    left: 5vw;
+`
+const ThisNextSmallButton=styled(C.NextSmallButton)`
+    position:absolute;
+    right:5vw;
+    cursor: pointer;
+    ${props=>
+    props.disabled&&
+    css`
+        background-color:#D9D9D9;
+        pointer-events: none; 
+    `}
+`;
+
 
 //바텀시트 스타일 컴포넌트
 

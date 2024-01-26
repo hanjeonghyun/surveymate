@@ -3,14 +3,22 @@ import styled from 'styled-components'
 import plus from "../../assets/images/bGroup 45.svg"
 import { useNavigate, Link } from 'react-router-dom'
 export default function SurveyMain() {
-    const navigate = useNavigate();
+    const navigate=useNavigate();
     const surveyDummys=
-    [{title: "설문조사 제목1", time: "1일전", content:"설문조사 미리보기가 들어갈 부분입니다. 설문조사 내용을 입력하세요", id:1}
+    [{title: "설문조사 제목1", time: "1일전", content:"설문조사 미리보기가 들어갈 부분입니다. 설문조사 내용을 입력하세요", id:1,
+    status:""}
     ,{title: "설문조사 제목2", time: "2일전", content:"내용", id:2}
-    ,{title: "설문조사 제목3", time: "2일전", content:"내용", id:3}
+    ,{title: "설문조사 제목3", time: "2일전", content:"내용", id:3, status:"finished"}
     ,{title: "설문조사 제목4", time: "2일전", content:"내용", id:4}
     ,{title: "설문조사 제목5", time: "2일전", content:"내용", id:5}
-    ,{title: "설문조사 제목6", time: "2일전", content:"내용", id:6}]
+   ]
+   const surveyViewClick=(e)=>{
+    navigate("/surveyview1"),{
+        state:e
+    }
+   }
+
+   
   return (
     <>
     <All>      
@@ -21,7 +29,8 @@ export default function SurveyMain() {
       <ListWrapper>
       {surveyDummys.map((e)=>{
             return(
-                <EachListWrapper key={e.id}>
+                <EachListWrapper key={e.id} onClick={()=>surveyViewClick(e)}
+                    className={e.status}>
                     <Title>
                         <Font className="title">{e.title}</Font>
                         <Font className="time">{e.time}</Font>
@@ -35,7 +44,9 @@ export default function SurveyMain() {
       </ListWrapper>
     </All>
     <PlusWrapper>
+        <Link to="/surveycontent">
         <Plus src={plus}></Plus>
+        </Link>
     </PlusWrapper>
     </>
   )
@@ -49,15 +60,13 @@ const All = styled.div`
 
 const PlusWrapper=styled.div`
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:89vh;
+    top:77vh;
+    left:75vw;
+    width:92px;
+    height:92px;
 `
 const Plus=styled.img`
     position:sticky;
-    top:90%;
-    left: 100%;
 `
 
 const Top = styled.div`
@@ -108,6 +117,9 @@ const EachListWrapper=styled.div`
     box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.20);
     margin: 8px 0;
     padding: 2vh 2vh;
+    &.finished{
+        background: rgba(0, 0, 0, 0.20);
+    }
     
 `
 const Blank=styled.div`

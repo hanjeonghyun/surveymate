@@ -1,14 +1,16 @@
 import React from 'react'
 import styled from 'styled-components';
 import * as C from '../../components/SurveyComponents';
+import { useNavigate } from 'react-router-dom';
 
 export default function SurveyContent() {
+    const navigate=useNavigate();
     return(
         <div>
             <C.TitleWrapper>
-                <BackBtn onClick={()=>alert("back")}></BackBtn>
+                <BackBtn onClick={()=>navigate(-1)}></BackBtn>
                 <C.Title>설문조사 등록</C.Title>
-                <NextBtn onClick={()=>alert("next")}>다음</NextBtn>
+                <NextBtn onClick={()=>navigate("/surveylink")}>다음</NextBtn>
             </C.TitleWrapper>
 
             <Title placeholder='제목을 입력하세요(최대 몇자인지)'></Title>
@@ -43,6 +45,11 @@ const NextBtn = styled.button`
 const Title = styled.input`
     &::placeholder {
         color: #D6D6D6;
+        font-family: Poppins;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px;
     }
     font-size: 16px;
     font-weight: 600;
@@ -60,6 +67,11 @@ const Content = styled.textarea`
     text-align: left;
     &::placeholder {
         color: #D6D6D6;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
     }
     margin-top: 3vh;
     border: none;
@@ -75,5 +87,10 @@ const Adress = styled.input`
     font-weight: 500;
     &::placeholder {
         color: #A7A7A7;
+        font-family: Poppins;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
     }
 `
