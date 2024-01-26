@@ -5,7 +5,7 @@ export const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 10vh;
+  height: 6vh;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   background: var(--white, #fff);
@@ -49,7 +49,7 @@ export const NextButton = styled.button`
   color: var(--white, #fff);
   display: flex;
   width: 90vw;
-  height: 6vh;
+  height: 5vh;
   justify-content: center;
   align-items: center;
   border: none;

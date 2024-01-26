@@ -5,16 +5,30 @@ import {
   NextButton,
   ButtonText,
 } from "../../components/SurveyComponents";
-import profile from "../../assets/images/Group 34.svg";
+import profile from "../../assets/images/bGroup 34.svg";
+import back from "../../assets/images/bicon_back.svg";
+import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
+import SurveyAlert from "./SurveyAlert";
+import SurveyBottomPopUp from "./SurveyBottomPopUp";
 import styled from "styled-components";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SurveyView() {
   const [sameLoggedIn, setSameLoggedIn] = useState(true);
   const [nickName, setNickName] = useState("강이");
+  const [showPopUp, setShowPopUp] = useState(false);
+  const navigate = useNavigate();
+  //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
+  //설문조사 등록 과정의 경우 '설문이 등록되었습니다' 버튼 뜨게 만들어야 함
   //서버로부터 현재 접속자명 불러오기
   //서버로부터 글 작성자명 불러오기
+  const ButtonClick=()=>{
+    if (sameLoggedIn==true){
+      setShowPopUp(true)
+    }
+  }
   useEffect(() => {
     if (nickName === "강이") {
       setSameLoggedIn(true);
@@ -23,9 +37,10 @@ export default function SurveyView() {
     }
   }, []);
   return (
-    <div>
+    <Wrap>
       <TitleWrapper>
         <Title>설문응답</Title>
+        <Back src={back} onClick={()=>{navigate("/survey")}}></Back>
       </TitleWrapper>
       <Profile>
         <div>
@@ -35,8 +50,8 @@ export default function SurveyView() {
           <div>{nickName}</div>
           <div>0000-00-00</div>
         </ProfileWrite>
-        <ReportButton className={sameLoggedIn ? "none" : ""}>
-          <ReportFont>신고</ReportFont>
+        <ReportButton>
+          <img onClick={ButtonClick} src={sameLoggedIn ? dot:''}></img>
         </ReportButton>
       </Profile>
       <Hr></Hr>
@@ -51,27 +66,22 @@ export default function SurveyView() {
         <div>4. 누구를 대상으로 진행하는 설문인가요?</div>
       </Content>
       <Check>
+      <Blank></Blank>
         <NextButton className={sameLoggedIn ? "none" : ""}>
           <ButtonText>설문 참여하기</ButtonText>
         </NextButton>
-        <SameLogged className={sameLoggedIn ? "" : "none"}>
-          <StyledNextButton className="delete">
-            <ButtonText>삭제</ButtonText>
-          </StyledNextButton>
-          <StyledNextButton>
-            <ButtonText>수정 완료</ButtonText>
-          </StyledNextButton>
-        </SameLogged>
         <AlertWrapper className={sameLoggedIn ? "" : "none"}>
-          <Alert>
-            <p>설문이 등록되었습니다.</p>
-          </Alert>
+          <SurveyAlert text="설문이 등록되었습니다"></SurveyAlert>
         </AlertWrapper>
       </Check>
-    </div>
+      {showPopUp&&<SurveyBottomPopUp/>}
+    </Wrap>
   );
 }
 
+const Wrap=styled.div`
+  box-sizing: border-box;
+`
 const Profile = styled.div`
   display: flex;
   align-items: center;
@@ -98,7 +108,7 @@ const ProfileWrite = styled.div`
   line-height: normal;
 `;
 const Hr = styled.div`
-  width: 350px;
+  width: 100%;
   height: 1px;
   background: #efedff;
 `;
@@ -125,71 +135,39 @@ const Check = styled.div`
   .none {
     display: none;
   }
-  margin-top: 35vh;
-`;
-const SameLogged = styled.div`
+  position:absolute;
+  width:90%;
+ // bottom:20vh;
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 `;
 
-const StyledNextButton = styled(NextButton)`
-  box-shadow: none;
-  width: 40vw;
-  margin-left: 3vw;
-  margin-right: 3vw;
-  &.delete {
-    background-color: #d9d9d9;
-  }
-`;
+
 const AlertWrapper = styled.div`
   position: relative;
-  top: -10px;
-  width: 100%;
+  top: 10vw;
+  width: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-const Alert = styled.div`
-  width: 280px;
-  height: 30px;
-  flex-shrink: 0;
-  border-radius: 999px;
-  background: rgba(65, 65, 65, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  p {
-    color: var(--white, #fff);
-    text-align: center;
-    font-family: Poppins;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 `;
 
 const ReportButton = styled.div`
   &.none {
     display: none;
   }
-  margin-left: 40vw;
-  width: 59px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: #d9d9d9;
-  text-align: center;
+  position:absolute;
+  right:0;
+  margin-right:5vw;
 `;
-const ReportFont = styled.p`
-  color: #000;
 
-  text-align: center;
-  font-family: Inter;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 40px; /* 307.692% */
-  letter-spacing: -0.408px;
-`;
+const Back=styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0;  
+`
+const Blank=styled.div`
+  height:700px;
+`

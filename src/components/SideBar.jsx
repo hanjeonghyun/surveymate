@@ -1,24 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import clickedHome from "../assets/images/octicon_home-24.svg";
-import homeBt from "../assets/images/octicon_home-24 (1).svg";
-import clickedSurvey from "../assets/images/majesticons_paper-fold-line.svg";
-import surveyBt from "../assets/images/majesticons_paper-fold-line (1).svg";
-import clickedMarket from "../assets/images/clarity_coin-bag-line.svg";
-import marketBt from "../assets/images/clarity_coin-bag-line (1).svg";
+import clickedHome from "../assets/images/bocticon_home-24.svg";
+import homeBt from "../assets/images/bocticon_home-24 (1).svg";
+import clickedSurvey from "../assets/images/bmajesticons_paper-fold-line.svg";
+import surveyBt from "../assets/images/bmajesticons_paper-fold-line (1).svg";
+import clickedMarket from "../assets/images/bclarity_coin-bag-line.svg";
+import marketBt from "../assets/images/bclarity_coin-bag-line (1).svg";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function SideBar() {
   const [selected, setSelected] = useState("survey");
+  const navigate = useNavigate();
 
   const onButtonClick = (type) => {
     setSelected(type);
+    navigate(type)
   };
 
   return (
     <BarWrapper>
-      <Bar onClick={() => onButtonClick("home")} selected={selected === "home"}>
-        <img src={selected === "home" ? clickedHome : homeBt} alt="홈" />
-        <Text selected={selected === "home"}>홈</Text>
+      <Bar onClick={() => onButtonClick("main")} selected={selected === "main"}>
+        <img src={selected === "main" ? clickedHome : homeBt} alt="홈" />
+        <Text selected={selected === "main"}>홈</Text>
       </Bar>
       <Bar
         onClick={() => onButtonClick("survey")}
