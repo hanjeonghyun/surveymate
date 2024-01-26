@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled,{css} from "styled-components";
 
 export const TitleWrapper = styled.div`
   text-align: center;
@@ -32,6 +32,7 @@ export const NextSmallButton = styled.button`
   align-items: center;
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `;
 
 export const SmallButtonText = styled.p`
@@ -49,12 +50,18 @@ export const NextButton = styled.button`
   color: var(--white, #fff);
   display: flex;
   width: 90vw;
-  height: 5vh;
+  height: 6vh;
   justify-content: center;
   align-items: center;
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  ${props=>
+    (props.disabled)&&
+    css`
+        background-color:#D9D9D9;
+        pointer-events: none; 
+    `}
 `;
 
 export const ButtonText = styled.p`
