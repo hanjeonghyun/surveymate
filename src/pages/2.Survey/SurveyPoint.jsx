@@ -20,8 +20,11 @@ export default function SurveyPoint() {
   };
 
   const confirmPoint = (value) => {
-    setBottom(true);
     setPoint(value * 10);
+  };
+
+  const clickNext = () => {
+    setBottom(true);
   };
 
   const clickCancel = () => {
@@ -38,8 +41,8 @@ export default function SurveyPoint() {
           />
         </BackButton>
         <C.Title>설문조사 등록</C.Title>
-        <C.NextSmallButton>
-          <C.SmallButtonText onClick={handleSubmit}>다음</C.SmallButtonText>
+        <C.NextSmallButton onClick={clickNext}>
+          <C.SmallButtonText>다음</C.SmallButtonText>
         </C.NextSmallButton>
       </TitleWrapper>
       <ProcessTitle>기간별 사용 포인트 선택</ProcessTitle>
@@ -61,6 +64,7 @@ export default function SurveyPoint() {
           <PointBottom
             onCancel={clickCancel}
             point={point}
+            handleSubmit={handleSubmit}
           />
         )}
         <SizedBox />
@@ -80,7 +84,7 @@ export default function SurveyPoint() {
 }
 
 //설문등록 확인 바텀시트
-function PointBottom({ onCancel, point }) {
+function PointBottom({ onCancel, point, handleSubmit }) {
   return (
     <>
       <BackgroundBottomSheet>
@@ -101,7 +105,7 @@ function PointBottom({ onCancel, point }) {
               <C.ButtonText>취소</C.ButtonText>
             </CancelButton>
             <ConfirmButton>
-              <C.ButtonText>등록</C.ButtonText>
+              <C.ButtonText onClick={handleSubmit}>등록</C.ButtonText>
             </ConfirmButton>
           </BottomButtonWrapper>
         </BottomSheetWrapper>
