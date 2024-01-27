@@ -3,26 +3,34 @@ import * as C from "../../components/AuthComponents";
 import ddefaultProfile from "../../assets/images/ddefaultProfile.svg";
 import dfixButton from "../../assets/images/dfixButton.svg";
 import { Link } from "react-router-dom";
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from "react";
 
 export default function Profile() {
-  const [inputName,setInputName] = useState('');
+  const [inputName, setInputName] = useState("");
   const [nameValid, setNameValid] = useState(false);
-  const [notAllow, setNotAllow]= useState(true);
+  const [notAllow, setNotAllow] = useState(true);
 
-  const handleName = (e) =>{
+  const [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
+
+  const onUploadImage = (e) => {
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedImage(imageUrl);
+  };
+
+  const handleName = (e) => {
     setInputName(e.target.value);
     setNameValid(e.target.value.trim());
+  };
 
-  }
-
-  useEffect (()=>{
-    if(nameValid){
-        setNotAllow(false);
-        return;
+  useEffect(() => {
+    if (nameValid) {
+      setNotAllow(false);
+      return;
     }
     setNotAllow(true);
-},[nameValid])
+  }, [nameValid]);
+
   return (
     <>
       <C.TitleWrapper>
@@ -30,15 +38,14 @@ export default function Profile() {
       </C.TitleWrapper>
       <ProfileWrapper>
         <DefaultProfile>
-          <img
-            src={ddefaultProfile}
-            alt='defaultProfile'
-          />
-          <FixButton>
-            <img
-              src={dfixButton}
-              alt='fixButton'
+          {uploadedImage ? (
+            <UploadedImg
+              src={uploadedImage}
+              alt='profileImage'
             />
+          ) : null}
+          <FixButton>
+            <FileInput onChange={onUploadImage} />
           </FixButton>
         </DefaultProfile>
       </ProfileWrapper>
@@ -47,16 +54,34 @@ export default function Profile() {
       <C.AuthInput
         placeholder='스트로베리 초코 생크림 케이크'
         name='nickname'
-        value={inputName} onChange={handleName}
+        value={inputName}
+        onChange={handleName}
       ></C.AuthInput>
-      <Link to="/authrule">
-        <C.NextButton type='submit' disabled={notAllow}>
+      <Link to='/authrule'>
+        <C.NextButton
+          type='submit'
+          disabled={notAllow}
+        >
           <C.ButtonText>다음</C.ButtonText>
         </C.NextButton>
       </Link>
     </>
   );
 }
+
+const FileInput = ({ onChange }) => {
+  return (
+    <>
+      <ImgInput
+        type='file'
+        id='fileInput'
+        accept='images/*'
+        onChange={onChange}
+      />
+      <Imglabel htmlFor='fileInput' />
+    </>
+  );
+};
 
 const SizedBox = styled.div`
   width: 90vw;
@@ -87,5 +112,24 @@ const FixButton = styled.div`
   transform: translateY(-50%);
   z-index: 2;
   margin: 0;
+  cursor: pointer;
+`;
+
+const UploadedImg = styled.img`
+  border-radius: 70%;
+  width: 125px;
+  height: 125px;
+`;
+
+const ImgInput = styled.input`
+  display: none;
+`;
+
+const Imglabel = styled.label`
+  background-image: url(${dfixButton});
+  background-size: cover;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
   cursor: pointer;
 `;
