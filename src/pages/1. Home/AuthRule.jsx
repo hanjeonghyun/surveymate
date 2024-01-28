@@ -56,7 +56,7 @@ export default function AuthRule() {
         onSubmit={(e) => {
           e.preventDefault();
           if (check.all === checkBt) {
-            navigate("/");
+            navigate("/login");
           }
         }}
       >

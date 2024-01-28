@@ -74,9 +74,11 @@ export default function Login() {
                 로그인
             </ButtonText>
         </NextButton>
+        <Link to="/pwfind">
         <FindPW>
             비밀번호 찾기 &gt;
         </FindPW>
+        </Link>
 
         <Link to="/auth">
         <GoAuth>
