@@ -32,7 +32,7 @@ export default function PwFind() {
             <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
         </Content>
 
-        <Link to="/login" style={{ textDecoration: 'none' }}>
+        <Link to="/login">
           <C.NextButton>
               <C.ButtonText>완료</C.ButtonText>
           </C.NextButton>

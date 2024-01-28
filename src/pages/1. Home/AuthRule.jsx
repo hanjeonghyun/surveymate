@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TitleWrapper,
   Title,
@@ -45,6 +45,15 @@ export default function AuthRule() {
           : originalBt,
     }));
   };
+  const [notAllow, setNotAllow] = useState(true);
+
+  const checkNotAllow = useEffect(()=>{
+    if(check.all===checkBt){
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  },[check.all])
 
   return (
     <Rule>
@@ -56,7 +65,8 @@ export default function AuthRule() {
         onSubmit={(e) => {
           e.preventDefault();
           if (check.all === checkBt) {
-            navigate("/login");
+            navigate("/login")
+            checkNotAllow
           }
         }}
       >
@@ -110,7 +120,7 @@ export default function AuthRule() {
 
         <br></br>
         <br></br>
-        <NextButton>
+        <NextButton disabled={notAllow}>
           <ButtonText>다음</ButtonText>
         </NextButton>
       </form>
