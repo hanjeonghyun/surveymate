@@ -54,7 +54,7 @@ export default function Auth() {
     return(
         <>
         <C.TitleWrapper>
-            <C.Title>비밀번호 찾기</C.Title>
+            <C.Title>회원가입</C.Title>
         </C.TitleWrapper>
         <Content0>
             <C.InputLabel>아이디 - 학교 이메일</C.InputLabel>
@@ -76,7 +76,7 @@ export default function Auth() {
             </Wrapper>
         </Content>
         <Content>
-            <C.InputLabel>새로운 비밀번호</C.InputLabel>
+            <C.InputLabel>비밀번호</C.InputLabel>
             <Wrapper>
                 <AuthInput2 
                     type='password' 
