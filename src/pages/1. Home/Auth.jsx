@@ -10,6 +10,9 @@ export default function Auth() {
     const [password, setPassword] = useState('');
     const [number, setNumber] = useState('');
 
+    const [emailMessage, setEmailMessage] = useState('');
+    const [numberMessage, setNumberMessage] = useState('');
+
     const [isEmail, setIsEmail] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
     const [isNumber, setIsNumber] = useState(false);
@@ -19,8 +22,10 @@ export default function Auth() {
     const onChangeEmail = (e) => {
         const currentEmail = e.target.value;
         setEmail(currentEmail);
-        const emailRegExp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a]+[c]+\.+[k]+[r]/i;
-        if (!emailRegExp.test(currentEmail)) {
+        const emailRegExp1 = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a]+[c]+\.[k]+[r]/i;
+        const emailRegExp2 = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[e]+[d]+[u]/i;
+        const emailRegExp3 = /^[a-zA-Z0-9+-_.]+@[e]+[w]+[h]+[a]+[i]+[n]+\.[n]+[e]+[t]/i;
+        if (!emailRegExp1.test(currentEmail) && !emailRegExp2.test(currentEmail) && !emailRegExp3.test(currentEmail)) {
             setIsEmail(false);
         } else {
             setIsEmail(true);
@@ -30,7 +35,7 @@ export default function Auth() {
     const onChangePassword = (e) => {
         const currentPassword = e.target.value;
         setPassword(currentPassword);
-        const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
+        const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
         if (!passwordRegExp.test(currentPassword)) {
             setIsPassword(false);
         } else { 
@@ -55,17 +60,18 @@ export default function Auth() {
         const goToLogin = () => window.location.reload();
         if (!isEmail ? false : true) {
             alert("인증코드를 전송했습니다.");
+            setEmailMessage("유효하지 않은 이메일입니다.");
         } else {
-            alert('이메일을 올바르게 입력해주세요.');
-            goToLogin();
+            setEmailMessage("유효하지 않은 이메일입니다.");
         }
     };
     const onChangeNumberBtn = (e) => {
         e.preventDefault();
         if (!isNumber ? false : true) {
             alert("인증코드를 확인했습니다.");
+            setNumberMessage("유효하지 않은 인증코드입니다.");
         } else {
-            alert('인증코드가 일치하지않습니다.');
+            setNumberMessage("유효하지 않은 인증코드입니다.");
         }
     };
 
@@ -79,17 +85,15 @@ export default function Auth() {
             getData();
             console.log('id : ', email, 'number: ', number, 'pw :', password);
         } else {
-            alert('이메일 혹은 비밀번호를 정확히 입력해주세요.');
+            alert('비밀번호를 올바르게 입력해주세요.');
         }
     };
 
     const getData = async (e) => {
         try {
-            const response = await axios.get(`http://localhost:5181/auth`, 
+            const response = await axios.post(`https://survey-mate-api.jinhy.uk/survey/survey`, 
             {
-                id: email,
-                number: number,
-                pw: password
+                surveyId: email
             },
             );
             console.log(response);
@@ -124,6 +128,7 @@ export default function Auth() {
                     onChange={onChangeEmail} />
                 <BtnA type='button' onClick={onChangeEmailBtn}></BtnA>
             </Wrapper>
+            <PA className={!isEmail ? "Alert" : ""}>{emailMessage}</PA>
         </Content0>
         <Content>
             <C.InputLabel>인증코드 6자리</C.InputLabel>
@@ -137,6 +142,7 @@ export default function Auth() {
                     onChange={onChangeNumber}/>
                 <BtnA type='button' onClick={onChangeNumberBtn}></BtnA>
             </Wrapper>
+            <PA className={!isNumber ? "Alert" : ""}>{numberMessage}</PA>
         </Content>
         <Content>
             <C.InputLabel>비밀번호</C.InputLabel>
@@ -151,7 +157,7 @@ export default function Auth() {
                 <BtnE 
                     type='button' 
                     onClick={handlePasswordType}
-                    style={{ backgroundColor: !pwType.visible ? "" : "#6046FF" }}
+                    style={{ background: !pwType.visible ? "" : "url('src/assets/images/cEyeopen.svg')" }}
                     ></BtnE>
             </Wrapper>
             <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
@@ -181,6 +187,16 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+`
+const PA = styled.p`
+    font-size: 10px;
+    font-weight: 400;
+    display: none;
+    margin-top: 1vh;
+    &.Alert{
+        color: #FF0000;
+        display: inline;
+    }
 `
 const P = styled.p`
     font-size: 10px;
