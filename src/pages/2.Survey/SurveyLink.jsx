@@ -47,7 +47,7 @@ export default function SurveyLink() {
             <Title>
                 설문조사 등록
             </Title>
-            <ThisNextSmallButton disabled={notAllow} onClick={()=>{navigate("/surveypoint")}}>
+            <ThisNextSmallButton disabled={notAllow} onClick={()=>{navigate("/surveyview2")}}>
                 <SmallButtonText>
                     다음
                 </SmallButtonText>

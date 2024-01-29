@@ -15,7 +15,7 @@ export default function SurveyPoint() {
   };
 
   const handleSubmit = () => {
-    navigate("/surveyview2");
+    navigate("/surveylink");
   };
 
   const confirmPoint = (value) => {

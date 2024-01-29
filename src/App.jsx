@@ -20,8 +20,8 @@ function App() {
         <Route path="/surveyview1" element={<SurveyView />} />
         <Route path="/surveyview2" element={<SurveyView />} />
         <Route path="/surveycontent" element={<SurveyContent />} />
-        <Route path="/surveylink" element={<SurveyLink/>}/>
         <Route path="/surveypoint" element={<SurveyPoint/>}/>
+        <Route path="/surveylink" element={<SurveyLink/>}/>
       </Routes>
       <SideBar />
     </>
