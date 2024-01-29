@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Login from './pages/1. Home/Login'
+import My from './pages/4. My/My'
 
 function App() {
   return (
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<My />} />
       </Routes>
   );
 }
