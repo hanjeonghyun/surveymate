@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Login from './pages/1. Home/Login'
+import Market from './pages/3.Market/Market'
 
 function App() {
   return (
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<Market />} />
       </Routes>
   );
 }
