@@ -1,12 +1,20 @@
 import React from 'react'
 import image from "../../assets/images/bicon_photo.svg"
 import * as C from "../../components/SurveyComponents";
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { showPopUpState } from "./SurveyView";
 
 export default function SurveyBottomPopUp() {
+  const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
+  const backgroundClick=(e)=>{
+    if (e.target === e.currentTarget) {
+      setShowPopUp(false);
+  }
+}
   return (
     <>
-    <BackgroundBottomSheet>
+    {showPopUp&&<BackgroundBottomSheet onClick={backgroundClick}>
       <BottomSheetWrapper>
         <BottomSheetInfo>
           <InputLabel>설문등록 관리</InputLabel>
@@ -29,6 +37,7 @@ export default function SurveyBottomPopUp() {
         </BottomButtonWrapper>
       </BottomSheetWrapper>
     </BackgroundBottomSheet>
+  }
   </>
   )
 }

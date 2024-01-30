@@ -8,9 +8,15 @@ import SurveyBottomPopUp from "./SurveyBottomPopUp";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { atom, useRecoilState, RecoilEnv } from 'recoil';
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+export const showPopUpState=atom({
+    key:"showPopUpState",
+    default:false,
+});
 
 export default function SurveyView() {
-  const [showPopUp, setShowPopUp] = useState(false);
+  const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
   const [showAlert, setShowAlert]=useState(false);
   const navigate = useNavigate();
   const nickName="가나다";
