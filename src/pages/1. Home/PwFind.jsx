@@ -35,7 +35,9 @@ export default function PwFind() {
     const onClickEmail=()=>{
         if (isEmail){
             axios.post(`/api/auth/password/certification-request`,{
-                receiver:email,
+                receiver: email,
+                mailSubject: "[썰매 (Survey Mate)] 회원가입을 위한 인증 코드입니다.",
+                mailTitle: "인증 코드",
             })
             .then((response)=>{
                 console.log(response);
@@ -108,6 +110,7 @@ export default function PwFind() {
                 
             })
             .catch((response)=>{
+                console.log(response);
                 if(response.response.status===401){
                     alert("다른 비밀번호를 입력해주세요")
                 }else{
