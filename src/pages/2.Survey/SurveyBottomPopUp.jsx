@@ -1,38 +1,56 @@
 import React from 'react'
 import image from "../../assets/images/bicon_photo.svg"
+import cancelImage from "../../assets/images/bpajamas_warning-solid.svg"
 import * as C from "../../components/SurveyComponents";
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { showPopUpState } from "./SurveyView";
+import { useState } from 'react';
 
-export default function SurveyBottomPopUp() {
+export default function SurveyBottomPopUp({initialData}) {
   const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
+  const [changeContent, setChangeContent]=useState(initialData);
   const backgroundClick=(e)=>{
     if (e.target === e.currentTarget) {
       setShowPopUp(false);
   }
 }
+  const button1Click=()=>{
+    if (changeContent.button1==="삭제"){
+    setChangeContent({
+        title: "삭제 확인",
+        line1: "게시글을 삭제하시겠습니까?",
+        line2: "",
+        button1: "취소",
+        button2: "삭제",
+      });
+    }
+    else{
+        setShowPopUp(false)
+    }
+  }
   return (
     <>
     {showPopUp&&<BackgroundBottomSheet onClick={backgroundClick}>
       <BottomSheetWrapper>
         <BottomSheetInfo>
-          <InputLabel>설문등록 관리</InputLabel>
+          <InputLabel>{changeContent.title}</InputLabel>
           <ProcessExplain>
-            등록된 설문을 수정하거나 <br />
-            삭제할 수 있어요
+            {changeContent.line1} <br />
+            {changeContent.line2}
           </ProcessExplain>
           <img
-            src={image}
+            src={changeContent.title==="삭제 확인"?cancelImage:image}
             alt='image'
+            className={changeContent.title==="삭제 확인"?"cancelImage":"image"}
           />
         </BottomSheetInfo>
         <BottomButtonWrapper>
-          <CancelButton >
-            <C.ButtonText>삭제하기</C.ButtonText>
+          <CancelButton onClick={button1Click}>
+            <C.ButtonText>{changeContent.button1}</C.ButtonText>
           </CancelButton>
           <ConfirmButton>
-            <C.ButtonText>수정하기</C.ButtonText>
+            <C.ButtonText>{changeContent.button2}</C.ButtonText>
           </ConfirmButton>
         </BottomButtonWrapper>
       </BottomSheetWrapper>
@@ -71,9 +89,11 @@ const BottomSheetInfo = styled.div`
   padding: 5%;
   text-align: center;
   img{
+    &.image{
     max-height: initial;
     margin-top: -15%;
     margin-bottom: -15%;
+    }
   }
 `;
 

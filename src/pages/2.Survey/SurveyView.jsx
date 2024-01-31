@@ -78,7 +78,13 @@ export default function SurveyView() {
         <SurveyAlert text="설문이 등록되었습니다"></SurveyAlert>
         </AlertPosition>
       </AlertWrapper>}
-      {showPopUp&&<SurveyBottomPopUp/>}
+      {showPopUp&&<SurveyBottomPopUp initialData={{
+      title: "등록 게시글 관리",
+      line1: "등록된 게시글을 수정하거나",
+      line2: "삭제할 수 있어요",
+      button1: "삭제",
+      button2: "수정"
+    }}/>}
     </Wrap>
   );
 }
