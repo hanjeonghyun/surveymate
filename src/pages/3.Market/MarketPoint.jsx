@@ -5,7 +5,6 @@ import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import SideBar from "../../components/SideBar";
 
 export default function MarketPoint() {
   let [point, setPoint] = useState(0);
@@ -60,7 +59,6 @@ export default function MarketPoint() {
           handleSubmit={handleSubmit}
         />
       )}
-      <SideBar />
     </>
   );
 }
