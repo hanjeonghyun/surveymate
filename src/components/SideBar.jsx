@@ -9,14 +9,14 @@ import marketBt from "../assets/images/bclarity_coin-bag-line (1).svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 export default function SideBar() {
-  const [selected, setSelected] = useState("survey");
+  const [selected, setSelected] = useState("main");
   const navigate = useNavigate();
-
   const onButtonClick = (type) => {
     setSelected(type);
-    navigate(type)
+    navigate(`/${type}`)
   };
 
+  if (['/login', '/auth', '/authimg', '/authrule', '/pwfind'].includes(window.location.pathname)) return null;
   return (
     <BarWrapper>
       <Bar onClick={() => onButtonClick("main")} selected={selected === "main"}>
@@ -45,6 +45,7 @@ export default function SideBar() {
       </Bar>
     </BarWrapper>
   );
+  
 }
 
 const BarWrapper = styled.div`
