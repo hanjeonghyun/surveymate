@@ -4,7 +4,6 @@ import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import SideBar from "../../components/SideBar";
 
 export default function MarketPoint() {
@@ -17,11 +16,7 @@ export default function MarketPoint() {
   };
 
   const handleSubmit = () => {
-    navigate("/");
-  };
-
-  const confirmPoint = (value) => {
-    setPoint(value * 10);
+    navigate("/marketpointcomplete");
   };
 
   const clickConfirm = () => {
@@ -37,12 +32,6 @@ export default function MarketPoint() {
       <C.TitleWrapper>
         <BackBtn onClick={handleBack}></BackBtn>
         <C.Title>설문데이터 구매</C.Title>
-        <ThisNextSmallButton
-          disabled={point === 0}
-          onClick={clickConfirm}
-        >
-          <C.SmallButtonText>다음</C.SmallButtonText>
-        </ThisNextSmallButton>
       </C.TitleWrapper>
       <ProcessTitle>포인트 차감 내용</ProcessTitle>
       <B.InputLabel>차감 포인트</B.InputLabel>
@@ -52,7 +41,6 @@ export default function MarketPoint() {
       <HavingPoint>보유 포인트 {point} POINT</HavingPoint>
       <SizedBox />
       <C.NextButton onClick={clickConfirm}>구매 확인</C.NextButton>
-
       {showBottom && (
         <PointBottom
           onCancel={clickCancel}
