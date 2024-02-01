@@ -48,7 +48,6 @@ export default function MarketPoint() {
           handleSubmit={handleSubmit}
         />
       )}
-      <SideBar />
     </>
   );
 }

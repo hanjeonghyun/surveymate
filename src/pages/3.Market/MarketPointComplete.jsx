@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import complete from "../../assets/images/dcomplete.svg";
 import completelogo from "../../assets/images/dcompletelogo.svg";
 import styled from "styled-components";
-import SideBar from "../../components/SideBar";
 
 export default function MarketPointComplete() {
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ export default function MarketPointComplete() {
         />
         <C.NextButton>데이터 파일 다운로드</C.NextButton>
       </ContentsWrapper>
-      <SideBar />
+  
     </>
   );
 }
