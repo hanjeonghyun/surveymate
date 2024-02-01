@@ -1,9 +1,9 @@
 import {React, useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { NextButton, TitleWrapper, Title , InputLabel, AuthInput, ButtonText} from '../../components/AuthComponents';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import coloredLogo from "../../assets/images/aColoredLogo.png"
-
+import axios from 'axios'
 
 export default function Login() {
     const [inputId,setInputId] = useState('');
@@ -11,28 +11,28 @@ export default function Login() {
 
     const [idValid, setIdValid] = useState(false);
     const [pwValid, setPwValid] = useState(false);
+    const [pwType, setpwType] = useState({type: "password", visible: false});
     const [notAllow, setNotAllow]= useState(true);
+    const [isLogin, setIsLogin] = useState('true');
 
     const handleId = (e) =>{
         setInputId(e.target.value);
-        const regex=
-            /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-        if(regex.test(e.target.value)){
-            setIdValid(true);
-        } else{
-            setIdValid(false);
-        }
+        setIdValid(e.target.value.trim());
     };
 
-        const handlePw=(e)=>{
+    const handlePw=(e)=>{
         setInputPw(e.target.value);
-        const regex=
-            /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[@$!*#?&])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/;
-        if(regex.test(e.target.value)){
-            setPwValid(true);
-        } else{
-            setPwValid(false);
+        setPwValid(e.target.value.trim());
+    };
+
+    const handlePasswordType = () => {
+        setpwType(() => {
+        if (!pwType.visible) {
+            return { type: "text", visible: true };
+        } else {
+            return { type: "password", visible: false };
         }
+        });
     };
 
     useEffect(()=>{
@@ -43,6 +43,32 @@ export default function Login() {
         setNotAllow(true);
 
     },[idValid,pwValid])
+
+    const navigate = useNavigate();
+    const handleSubmit =async()=>{
+        try{
+            const response = await axios.post("https://survey-mate-api.jinhy.uk/auth/login",{
+                id: inputId,
+                password: inputPw,
+            });
+            //navigate('/mainL');
+            alert('로그인 성공!');
+            console.log('서버 응답:', response.data);
+        }catch (error){
+            setIsLogin(false);
+            if (error.response) {
+                // 서버 응답이 있을 경우
+                console.error('서버 응답 상태 코드:', error.response.status);
+                console.error('서버 응답 데이터:', error.response.data);
+            } else if (error.request) {
+                // 서버 응답이 없을 경우 (요청은 보냈지만 응답이 없음)
+                console.error('서버 응답 없음');
+            } else {
+                // 오류가 발생한 경우
+                console.error('Axios 오류:', error.message);
+            }
+        }
+    };
 
     return(
         <>
@@ -57,19 +83,31 @@ export default function Login() {
         
         <InputLabel>
             아이디
-            <br/>
-            <LoginInput type="email" inputMode="email" placeholder="surmate@example.ac.kr"
-            value={inputId} onChange={handleId}>
-            </LoginInput>
-            <br/>
+        </InputLabel>
+        <LoginInput type="email" inputMode="email" placeholder="surmate@example.ac.kr"
+        value={inputId} onChange={handleId}>
+        </LoginInput>
+        
+    <Content>
+        <InputLabel>
             비밀번호
-            <br/>
-            <LoginInput type="password" placeholder="비밀번호를 입력해주세요"
+        </InputLabel>
+        <Wrapper>
+            <LoginInput type={pwType.type} placeholder="비밀번호를 입력해주세요"
             value={inputPw} onChange={handlePw}>
             </LoginInput>
-        </InputLabel>
+            <BtnE 
+                type='button' 
+                onClick={handlePasswordType}
+                style={{ background: !pwType.visible ? "" : "url('src/assets/images/cEyeopen.svg')" }}
+            ></BtnE>
+        </Wrapper>
+        <ErrorMessageWrap className={!isLogin ? "Alert" : ""}>
+                아이디 또는 비밀번호를 잘못 입력하셨습니다.
+        </ErrorMessageWrap>
+        </Content>
 
-        <NextButton disabled={notAllow} >
+        <NextButton disabled={notAllow} onClick={handleSubmit}>
             <ButtonText>
                 로그인
             </ButtonText>
@@ -111,9 +149,41 @@ const LogoImg = styled.div`
     height:17.5vh;
 
 `;
+const Content = styled.div`
+    margin-top: 4vh;
+    margin-bottom:4vh;
+`
+
+const Wrapper = styled.div`
+    position: relative;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 const LoginInput=styled(AuthInput)`
-    margin-bottom: 5vh;
+    margin-bottom: 0vh;
+    margin-top:0vh;
+`;
+
+const BtnE = styled.button`
+    background: url('src/assets/images/cEye.svg') no-repeat;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-size:cover;
+`
+const ErrorMessageWrap = styled.div`
+    font-size: 10px;
+    font-weight: 400;
+    display: none;
+    margin-top: 1vh;
+    &.Alert{
+        color: #FF0000;
+        display: inline;
+        
+    }
 `;
 
 const FindPW=styled.div`
