@@ -64,6 +64,7 @@ export default function MyProfileFix() {
         value={inputName}
         onChange={handleName}
       ></AuthInput>
+      <ErrorMsg>이미 사용 중인 닉네임입니다.</ErrorMsg>
       <C.NextButton
         type='submit'
         disabled={notAllow}
@@ -172,4 +173,14 @@ const AuthInput = styled.input`
   &:focus {
     outline: none;
   }
+`;
+
+const ErrorMsg = styled.p`
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #ff0000;
 `;

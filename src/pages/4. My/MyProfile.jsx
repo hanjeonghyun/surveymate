@@ -1,36 +1,14 @@
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import SideBar from "../../components/SideBar";
-import defaultProfile from "../../assets/images/ddefaultprofile.svg";
+import defaultProfile from "../../assets/images/ddefaultProfile.svg";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+
 export default function MyProfile() {
   const navigate = useNavigate();
 
   const handleBack = () => {
     navigate(-1);
-  };
-
-  let handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        `api/auth/join?memberId=${encodeURIComponent(
-          email
-        )}&nickname=${encodeURIComponent(
-          nickname
-        )}&password=${encodeURIComponent(
-          password
-        )}&emailToken=${encodeURIComponent(
-          number
-        )}&messageConsent=true&marketingConsent=true`,
-        FormData
-      );
-      console.log("요청 성공", res);
-      return res.data;
-    } catch (error) {
-      console.log("요청 실패", error);
-    }
   };
 
   const profileFix = () => {
@@ -46,7 +24,7 @@ export default function MyProfile() {
       <ProfileWrapper>
         <DefaultProfile>
           <img
-            src={defaultprofile}
+            src={defaultProfile}
             alt='defaultprofile'
           />
         </DefaultProfile>
@@ -98,17 +76,17 @@ const DefaultProfile = styled.div`
   object-fit: cover;
 `;
 
-const Divideline = styled.div`
-  width: 90vw;
-  height: 1px;
-  margin-top: 2vh;
-  background: #efedff;
-`;
-
 const MenuBox = styled.div`
   text-align: left;
   width: 90vw;
   height: 1vh;
   padding: 25px 10px;
   cursor: pointer;
+`;
+
+const Divideline = styled.div`
+  width: 90vw;
+  height: 1px;
+  margin-top: 2vh;
+  background: #efedff;
 `;
