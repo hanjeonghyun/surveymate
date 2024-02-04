@@ -6,17 +6,30 @@ import clickedSurvey from "../assets/images/bmajesticons_paper-fold-line.svg";
 import surveyBt from "../assets/images/bmajesticons_paper-fold-line (1).svg";
 import clickedMarket from "../assets/images/bclarity_coin-bag-line.svg";
 import marketBt from "../assets/images/bclarity_coin-bag-line (1).svg";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function SideBar() {
-  const [selected, setSelected] = useState("survey");
+  const [selected, setSelected] = useState("main");
   const navigate = useNavigate();
-
   const onButtonClick = (type) => {
     setSelected(type);
-    navigate(type)
+    navigate(`/${type}`)
   };
+  useEffect(() => {
+    const pathname = location.pathname;
+    if (pathname==="/main"){
+      setSelected("main")
+    }
+    else if (pathname==="/survey") {
+      setSelected("survey");
+    } else if (pathname==="/market") {
+      setSelected("market");
+    }
+      // 다른 페이지에 따라 필요한 로직 추가
+    
+  }, [location.pathname]);
 
+  if (['/login', '/auth', '/authimg', '/authrule', '/pwfind'].includes(window.location.pathname)) return null;
   return (
     <BarWrapper>
       <Bar onClick={() => onButtonClick("main")} selected={selected === "main"}>
@@ -45,6 +58,7 @@ export default function SideBar() {
       </Bar>
     </BarWrapper>
   );
+  
 }
 
 const BarWrapper = styled.div`

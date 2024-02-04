@@ -1,9 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import plus from "../../assets/images/bGroup 45.svg"
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
+import { alertState } from './SurveyView'
+import { useRecoilState } from 'recoil'
+import { useEffect, useState } from 'react'
 export default function SurveyMain() {
     const navigate=useNavigate();
+    const [survey, setSurvey] = useState(true);
+    const [showAlert, setShowAlert]=useRecoilState(alertState);
     const surveyDummys=
     [{title: "설문조사 제목1", time: "1일전", content:"설문조사 미리보기가 들어갈 부분입니다. 설문조사 내용을 입력하세요", id:1,
     status:""}
@@ -13,17 +18,26 @@ export default function SurveyMain() {
     ,{title: "설문조사 제목5", time: "2일전", content:"내용", id:5}
    ]
    const surveyViewClick=(e)=>{
+    setShowAlert(false)
     navigate("/surveyview1"),{
         state:e
     }
    }
+   useEffect(() => {
+    if (window.location.pathname === "/survey") {
+      setSurvey(true);
+    }
+    if (window.location.pathname === "/market") {
+      setSurvey(false);
+    }
+  }, [window.location.pathname]);
 
    
   return (
     <>
     <All>      
       <Top>
-        <Logo></Logo>
+        <Logo className={survey ? "survey" : "market"}></Logo>
         <LBtn onClick={()=>alert("프로필")}></LBtn>
       </Top>
       <ListWrapper>
@@ -44,8 +58,8 @@ export default function SurveyMain() {
       </ListWrapper>
     </All>
     <PlusWrapper>
-        <Link to="/surveycontent">
-        <Plus src={plus}></Plus>
+        <Link to={survey ? "/surveycontent" : "/marketcontent"}>
+        <Plus src={survey ? plus : marketPlus}></Plus>
         </Link>
     </PlusWrapper>
     </>

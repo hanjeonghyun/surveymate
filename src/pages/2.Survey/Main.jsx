@@ -1,18 +1,20 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-export default function SurveyContent() {
+export default function Main() {
+    const navigate=useNavigate();
     return(
         <All>
             <Top>
                 <Logo></Logo>
-                <Login><LBtn onClick={()=>alert("로그인")}>로그인</LBtn></Login>
+                <LBtn onClick={()=>alert("프로필")}></LBtn>
             </Top>
             <Sset>
                 <Stitle><B>신규 등록</B> 설문조사</Stitle>
                 <Sone>
                 <Stwo>
-                    <Scontent onClick={()=>alert("설문조사 제목 1")}>설문조사 제목 1</Scontent>
+                    <Scontent onClick={()=>navigate("/surveyview1")}>설문조사 제목 1</Scontent>
                     <Scontent>설문조사 제목 2</Scontent>
                     <Scontent>설문조사 제목 3</Scontent>
                 </Stwo>
@@ -27,7 +29,7 @@ export default function SurveyContent() {
                 <Stitle><B>신규 판매 등록</B> 설문조사</Stitle>
                 <Sone>
                 <Stwo>
-                    <Scontent>설문조사 제목 1</Scontent>
+                    <Scontent onClick={()=>navigate("/marketview1")}>설문조사 제목 1</Scontent>
                     <Scontent>설문조사 제목 2</Scontent>
                     <Scontent>설문조사 제목 3</Scontent>
                 </Stwo>
@@ -60,22 +62,16 @@ const Logo = styled.div`
     border: none;
     display: inline-block;
 `
-const Login = styled.div`
+const LBtn = styled.button`
     display: inline-block;
     position: absolute;
     top: 50%;
     margin-top: -15px;
     right: 0%;
-    margin-right: -10px;
-`
-const LBtn = styled.button`
-    font-size: 14px;
-    font-weight: 600;
-    color: #6046FF;
+    background: url('src/assets/images/cIcon.svg') no-repeat;
+    width: 32px;
+    height: 32px;
     border: none;
-    background-color: white;
-    width: 55px;
-    height: 30px;
 `
 const Sset = styled.div`
     padding-top: 4vh;

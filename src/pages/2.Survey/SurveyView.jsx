@@ -6,7 +6,7 @@ import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
 import SurveyAlert from "./SurveyAlert";
 import SurveyBottomPopUp from "./SurveyBottomPopUp";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
@@ -14,15 +14,24 @@ export const showPopUpState=atom({
     key:"showPopUpState",
     default:false,
 });
+export const messageState=atom({
+    key:"messageState",
+    default:"설문이 등록되었습니다.",
+});
+export const alertState=atom({
+  key:"alertState",
+  default:false,
+});
 
 export default function SurveyView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
-  const [showAlert, setShowAlert]=useState(false);
+  const [alertMessage,setAlertMessage]=useRecoilState(messageState);
+  const [showAlert, setShowAlert]=useRecoilState(alertState);
   const navigate = useNavigate();
   const nickName="가나다";
   const serverName="가나다";
   const currentPathname=window.location.pathname;
-  const { state } = useLocation();
+
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
   //surveyview1:메인화면에서 접속시 surveyview2:설문등록시
   //서버로부터 현재 접속자명 불러오기
@@ -33,17 +42,27 @@ export default function SurveyView() {
     }
   }
   useEffect(() => {
+    ///수정완료 시에도 setShowAlert 뜨게 해야 함 
     if (currentPathname==="/surveyview2") {
       setShowAlert(true);
 
     } 
 
   }, []);
+
+  const BackButtonClick=()=>{
+    if (currentPathname==="/surveyview2"){
+      navigate("/survey")
+    }
+    else{
+      navigate(-1)
+    }
+  }
   return (
     <Wrap>
       <TitleWrapper>
-        <Title>설문응답</Title>
-        <Back src={back} onClick={()=>{navigate("/survey")}}></Back>
+        <Title>설문조사</Title>
+        <Back src={back} onClick={BackButtonClick}></Back>
       </TitleWrapper>
       <Profile>
         <div>
@@ -70,12 +89,12 @@ export default function SurveyView() {
       </Content>
       <NextButtonWrapper className={(nickName===serverName) ? "none" : ""}>
         <NextButton>
-          <ButtonText>설문 참여하기</ButtonText>
+          <ButtonText>설문 응답</ButtonText>
         </NextButton>
       </NextButtonWrapper>
       {showAlert&&<AlertWrapper className={nickName===serverName ? "" : "none"}>
         <AlertPosition>
-        <SurveyAlert text="설문이 등록되었습니다"></SurveyAlert>
+        <SurveyAlert text={alertMessage}></SurveyAlert>
         </AlertPosition>
       </AlertWrapper>}
       {showPopUp&&<SurveyBottomPopUp initialData={{

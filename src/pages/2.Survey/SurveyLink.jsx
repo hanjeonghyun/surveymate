@@ -3,12 +3,15 @@ import { ButtonText, NextButton, NextSmallButton, SmallButtonText, Title, TitleW
 import styled, { css } from 'styled-components';
 import checkMessage from "../../assets/images/acheck_message.svg";
 import { useNavigate } from 'react-router-dom';
+import {messageState} from "./SurveyView";
+import { useRecoilState } from 'recoil';
 
 export default function SurveyLink() {
 
     const [showAlert,setShowAlert]=useState(false);
     const [nextBtValid,setNextBtValid]=useState(false);
     const [notAllow,setNotAllow]=useState(true);
+    const [alertMessage,setAlertMessage]=useRecoilState(messageState);
     const navigate=useNavigate();
     const pointLink ="https://survey_Google_asdfasdf/asd..";
 
@@ -33,13 +36,9 @@ export default function SurveyLink() {
         }
         setNextBtValid(false);
         setNotAllow(true);
-        
+        setAlertMessage("설문이 등록되었습니다.")
 
     },[showAlert])
-
-
-
-  
   return (
     <>
         <TitleWrapper>
