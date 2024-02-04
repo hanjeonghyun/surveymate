@@ -8,6 +8,8 @@ import MarketView from "./pages/3.Market/MarketView";
 import MarketContent from "./pages/3.Market/MarketContent";
 import MarketPointComplete from "./pages/3.Market/MarketPointComplete";
 import MarketPoint from "./pages/3.Market/marketpoint";
+import SurveyFix from './pages/2.Survey/SurveyFix';
+
 
 function App() {
   return (
@@ -45,7 +47,11 @@ function App() {
           path='/marketpointcomplete'
           element={<MarketPointComplete />}
         />
-      </Routes>
+        <Route
+          path='/surveyfix'
+          element={<SurveyFix/>}
+        />
+        </Routes>
       <SideBar />
     </>
   );

@@ -2,15 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { messageState } from "../2.Survey/SurveyView";
 export default function SurveyContent() {
   const navigate = useNavigate();
+  const [alertMessage, setAlertMessage] = useRecoilState(messageState);
   const [upload, setUpload] = useState(false);
   const [ismessage, setIsMessage] = useState(
     "판매 데이터 업로드 (CSV, XLSX 만 가능)"
   );
-
+  
   const handleClick = () => {
     if (upload) {
       setUpload(false);
@@ -20,6 +22,9 @@ export default function SurveyContent() {
       setIsMessage("업로드 완료");
     }
   };
+  useEffect(() => {
+    setAlertMessage("판매등록이 완료되었습니다.")
+  }, []);
 
   return (
     <div>

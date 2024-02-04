@@ -3,10 +3,13 @@ import styled from "styled-components";
 import plus from "../../assets/images/bGroup 45.svg";
 import marketPlus from "../../assets/images/bmarketupload.svg";
 import { useNavigate, Link } from "react-router-dom";
+import { alertState } from './SurveyView'
+import { useRecoilState } from 'recoil'
 import { useEffect, useState } from "react";
 export default function SurveyMain() {
   const navigate = useNavigate();
   const [survey, setSurvey] = useState(true);
+  const [showAlert, setShowAlert]=useRecoilState(alertState);
   const surveyDummys = [
     {
       title: "설문조사 제목1",
@@ -28,6 +31,7 @@ export default function SurveyMain() {
     { title: "설문조사 제목5", time: "2일전", content: "내용", id: 5 },
   ];
   const surveyViewClick = (e) => {
+    setShowAlert(false)
     navigate(survey ? "/surveyview1" : "/marketview1"),
       {
         state: e,

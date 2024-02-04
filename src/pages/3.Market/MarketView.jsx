@@ -13,21 +13,20 @@ import SurveyBottomPopUp from "../2.Survey/SurveyBottomPopUp";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { atom, useRecoilState, RecoilEnv } from "recoil";
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-export const showPopUpState = atom({
-  key: "showPopUpState",
-  default: false,
-});
+import { atom,useRecoilState,RecoilEnv } from "recoil";
+import { showPopUpState } from "../2.Survey/SurveyView";
+import { alertState } from "../2.Survey/SurveyView";
+import { messageState } from "../2.Survey/SurveyView";
+
 
 export default function MarketView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
-  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useRecoilState(messageState);
+  const [showAlert, setShowAlert]=useRecoilState(alertState);
   const navigate = useNavigate();
   const nickName = "가나다라";
   const serverName = "가나다";
   const currentPathname = window.location.pathname;
-  const state = useLocation();
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
   //marketview1:메인화면에서 접속시 marketview2:설문등록시
   //서버로부터 현재 접속자명 불러오기
@@ -40,17 +39,26 @@ export default function MarketView() {
   useEffect(() => {
     if (currentPathname === "/marketview2") {
       setShowAlert(true);
+    }else{
+      setShowAlert(false);
     }
-  }, []);
+  }, [currentPathname]);
+
+  const BackButtonClick=()=>{
+    if (currentPathname==="/marketview2"){
+      navigate("/market")
+    }
+    else{
+      navigate(-1)
+    }
+  }
   return (
     <Wrap>
       <TitleWrapper>
         <Title>설문데이터</Title>
         <Back
           src={back}
-          onClick={() => {
-            navigate("/market");
-          }}
+          onClick={BackButtonClick}
         ></Back>
       </TitleWrapper>
       <Profile>
@@ -96,13 +104,13 @@ export default function MarketView() {
           </NextButton>
         </Link>
       </NextButtonWrapper>
-      {showAlert && (
+      {showAlert && 
         <AlertWrapper>
           <AlertPosition>
-            <SurveyAlert text='판매등록이 완료되었습니다'></SurveyAlert>
+            <SurveyAlert text={alertMessage}></SurveyAlert>
           </AlertPosition>
         </AlertWrapper>
-      )}
+      }
       {showPopUp && (
         <SurveyBottomPopUp
           initialData={{

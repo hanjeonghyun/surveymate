@@ -6,10 +6,12 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { showPopUpState } from "./SurveyView";
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SurveyBottomPopUp({initialData}) {
   const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
   const [changeContent, setChangeContent]=useState(initialData);
+  const navigate=useNavigate();
   const backgroundClick=(e)=>{
     if (e.target === e.currentTarget) {
       setShowPopUp(false);
@@ -27,6 +29,13 @@ export default function SurveyBottomPopUp({initialData}) {
     }
     else{
         setShowPopUp(false)
+    }
+  }
+  const button2Click=()=>{
+    if (changeContent.button2==="수정"){
+      navigate("/surveyfix")
+    }else{
+      navigate("/main")
     }
   }
   return (
@@ -49,7 +58,7 @@ export default function SurveyBottomPopUp({initialData}) {
           <CancelButton onClick={button1Click}>
             <C.ButtonText>{changeContent.button1}</C.ButtonText>
           </CancelButton>
-          <ConfirmButton>
+          <ConfirmButton onClick={button2Click}>
             <C.ButtonText>{changeContent.button2}</C.ButtonText>
           </ConfirmButton>
         </BottomButtonWrapper>
