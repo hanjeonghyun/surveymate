@@ -4,7 +4,6 @@ import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import SideBar from "../../components/SideBar";
 
 export default function MarketPoint() {
   let [point, setPoint] = useState(0);
