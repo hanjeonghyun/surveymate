@@ -23,6 +23,11 @@ const GlobalStyle = createGlobalStyle`
         margin: 0vw 5vw;
         font-family: PoppinsBold, sans-serif; 
     }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
 `;
 
 export default GlobalStyle;

@@ -5,6 +5,7 @@ import * as C from '../../components/SurveyComponents';
 import { Link } from 'react-router-dom';
 
 export default function MyOut() {
+    const navigate = useNavigate();
     
     const [pwType1, setpwType1] = useState({type: "password", visible: false});
 
@@ -21,7 +22,7 @@ export default function MyOut() {
     return(
     <>
         <C.TitleWrapper>
-            <BackBtn onClick={()=>alert("back")}></BackBtn>
+            <BackBtn onClick={()=>{navigate(-1)}}></BackBtn>
             <C.Title>회원 탈퇴</C.Title>
         </C.TitleWrapper>
         

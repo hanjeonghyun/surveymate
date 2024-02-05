@@ -29,6 +29,10 @@ export default function MyProfileFix() {
     setNameValid(e.target.value.trim());
   };
 
+  const profileFix =()=>{
+    navigate('/myprofile');
+  };
+
   useEffect(() => {
     if (nameValid) {
       setNotAllow(false);
@@ -68,6 +72,7 @@ export default function MyProfileFix() {
       <C.NextButton
         type='submit'
         disabled={notAllow}
+        onClick={profileFix}
       >
         <C.ButtonText>다음</C.ButtonText>
       </C.NextButton>

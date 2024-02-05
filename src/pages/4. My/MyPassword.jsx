@@ -5,9 +5,13 @@ import * as C from '../../components/SurveyComponents';
 import { Link } from 'react-router-dom';
 
 export default function MyPassword() {
-    
+    const navigate = useNavigate();
     const [pwType1, setpwType1] = useState({type: "password", visible: false});
     const [pwType2, setpwType2] = useState({type: "password", visible: false});
+
+    const handleBack = () => {
+        navigate(-1);
+      };
 
     const handlePasswordType1 = (e) => {
         setpwType1(() => {
@@ -27,11 +31,14 @@ export default function MyPassword() {
         }
         });
     };
+    const pwFix=()=>{
+        navigate('/myprofile');
+    };
 
     return(
     <>
         <C.TitleWrapper>
-            <BackBtn onClick={()=>alert("back")}></BackBtn>
+            <BackBtn onClick={handleBack}></BackBtn>
             <C.Title>비밀번호 변경</C.Title>
         </C.TitleWrapper>
         
@@ -68,6 +75,7 @@ export default function MyPassword() {
             <Blank />
             <C.NextButton
                 type="submit"
+                onClick={pwFix}
                 >
                 <C.ButtonText>변경</C.ButtonText>
             </C.NextButton>

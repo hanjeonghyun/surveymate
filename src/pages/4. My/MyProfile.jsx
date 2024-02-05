@@ -1,6 +1,6 @@
+import React from 'react'
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
-import SideBar from "../../components/SideBar";
 import defaultProfile from "../../assets/images/ddefaultProfile.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,14 @@ export default function MyProfile() {
 
   const profileFix = () => {
     navigate("/myprofilefix");
+  };
+
+  const pwFix = ()=>{
+    navigate("/mypassword");
+  };
+
+  const withdrawal=()=>{
+    navigate("/myout");
   };
 
   return (
@@ -32,10 +40,9 @@ export default function MyProfile() {
       <MyText>스트로베리 초코 생크림 케이크</MyText>
       <Divideline />
       <MenuBox onClick={profileFix}>프로필 변경</MenuBox>
-      <MenuBox>비밀번호 변경</MenuBox>
+      <MenuBox onClick={pwFix}>비밀번호 변경</MenuBox>
       <MenuBox>아이디 - 학교 메일 변경</MenuBox>
-      <MenuBox>회원 탈퇴</MenuBox>
-      <SideBar />
+      <MenuBox onClick={withdrawal}>회원 탈퇴</MenuBox>
     </>
   );
 }
