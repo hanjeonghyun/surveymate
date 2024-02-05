@@ -2,15 +2,19 @@ import styled from "styled-components";
 import * as C from "../../components/AuthComponents";
 import ddefaultProfile from "../../assets/images/ddefaultProfile.svg";
 import dfixButton from "../../assets/images/dfixButton.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { React, useState, useEffect } from "react";
+import axios, { toFormData } from "axios";
 
 export default function Profile() {
-  const [inputName, setInputName] = useState("");
+  let [nickname, setInputName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  let { email, number, password } = location.state;
 
-  const [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
+  let [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
 
   const onUploadImage = (e) => {
     const file = e.target.files[0];
@@ -30,6 +34,35 @@ export default function Profile() {
     }
     setNotAllow(true);
   }, [nameValid]);
+
+  let handleSubmit = async (e) => {
+    navigate("/authrule");
+
+    console.log(email, password, number, nickname);
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("memberId", email);
+    formData.append("nickname", nickname);
+    formData.append("password", password);
+    formData.append("emailToken", number);
+    formData.append("messageConsent", true);
+    formData.append("marketingConsent", true);
+    try {
+      const res = await axios.post(
+        `https://survey-mate-api.jinhy.uk/auth/join`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("요청 성공", res);
+      return JSON.parse(JSON.stringify(res.data));
+    } catch (error) {
+      console.error("요청 에러", error);
+    }
+  };
 
   return (
     <>
@@ -54,17 +87,16 @@ export default function Profile() {
       <C.AuthInput
         placeholder='스트로베리 초코 생크림 케이크'
         name='nickname'
-        value={inputName}
+        value={nickname}
         onChange={handleName}
       ></C.AuthInput>
-      <Link to='/authrule'>
-        <C.NextButton
-          type='submit'
-          disabled={notAllow}
-        >
-          <C.ButtonText>다음</C.ButtonText>
-        </C.NextButton>
-      </Link>
+      <C.NextButton
+        type='submit'
+        disabled={notAllow}
+        onClick={handleSubmit}
+      >
+        <C.ButtonText>다음</C.ButtonText>
+      </C.NextButton>
     </>
   );
 }
@@ -75,7 +107,7 @@ const FileInput = ({ onChange }) => {
       <ImgInput
         type='file'
         id='fileInput'
-        accept='images/*'
+        accept='image/*'
         onChange={onChange}
       />
       <Imglabel htmlFor='fileInput' />
