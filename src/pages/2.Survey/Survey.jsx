@@ -15,27 +15,31 @@ export default function SurveyMain() {
       title: "설문조사 제목1",
       time: "1일전",
       content:
-        "설문조사 미리보기가 들어갈 부분입니다. 설문조사 내용을 입력하세요",
+        "설문조사 내용을 입력하세요",
       id: 1,
-      status: "",
+      finished: true,
     },
-    { title: "설문조사 제목2", time: "2일전", content: "내용", id: 2 },
+    { title: "설문조사 제목2", time: "2일전", content: "내용", id: 2, finished: false },
     {
       title: "설문조사 제목3",
       time: "2일전",
       content: "내용",
       id: 3,
-      status: "finished",
+      finished: true,
     },
-    { title: "설문조사 제목4", time: "2일전", content: "내용", id: 4 },
-    { title: "설문조사 제목5", time: "2일전", content: "내용", id: 5 },
+    { title: "설문조사 제목4", time: "2일전", content: "내용", id: 4 , finished:false},
+    { title: "설문조사 제목5", time: "2일전", content: "내용", id: 5, finished:false},
   ];
   const surveyViewClick = (e) => {
     setShowAlert(false)
-    navigate(survey ? "/surveyview1" : "/marketview1"),
+    navigate(survey ? "/surveyview1" : "/marketview1",
       {
-        state: e,
-      };
+        state: {
+          title: e.title,
+          finished:e.finished,
+          content: e.content,
+        },
+      });
   };
   useEffect(() => {
     if (window.location.pathname === "/survey") {
@@ -59,7 +63,7 @@ export default function SurveyMain() {
               <EachListWrapper
                 key={e.id}
                 onClick={() => surveyViewClick(e)}
-                className={e.status}
+                className={e.finished}
               >
                 <Title>
                   <Font className='title'>{e.title}</Font>
@@ -150,7 +154,7 @@ const EachListWrapper = styled.div`
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   margin: 8px 0;
   padding: 2vh 2vh;
-  &.finished {
+  &.true {
     background: rgba(0, 0, 0, 0.2);
   }
 `;

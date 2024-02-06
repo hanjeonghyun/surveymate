@@ -23,10 +23,12 @@ export default function MarketView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
   const [alertMessage, setAlertMessage] = useRecoilState(messageState);
   const [showAlert, setShowAlert]=useRecoilState(alertState);
+  const [finished, setFinished]=useState(false);
   const navigate = useNavigate();
   const nickName = "가나다라";
   const serverName = "가나다";
   const currentPathname = window.location.pathname;
+  const location = useLocation();
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
   //marketview1:메인화면에서 접속시 marketview2:설문등록시
   //서버로부터 현재 접속자명 불러오기
@@ -40,9 +42,13 @@ export default function MarketView() {
     if (currentPathname === "/marketview2") {
       setShowAlert(true);
     }else{
+      ///marketview1일 때
+      console.log(location.state)
+      setFinished(location.state.finished)
       setShowAlert(false);
+
     }
-  }, [currentPathname]);
+  }, [currentPathname,location]);
 
   const BackButtonClick=()=>{
     if (currentPathname==="/marketview2"){
@@ -50,6 +56,11 @@ export default function MarketView() {
     }
     else{
       navigate(-1)
+    }
+  }
+  const nextButtonClick=()=>{
+    if (finished===false){
+      navigate("/marketpoint")
     }
   }
   return (
@@ -98,11 +109,9 @@ export default function MarketView() {
             : ""
         }
       >
-        <Link to={"/marketpoint"}>
-          <NextButton>
-            <ButtonText>설문 응답 데이터 구매</ButtonText>
+          <NextButton onClick={nextButtonClick}>
+            <ButtonText>{finished? "데이터 파일 다운로드":"설문 응답 데이터 구매"}</ButtonText>
           </NextButton>
-        </Link>
       </NextButtonWrapper>
       {showAlert && 
         <AlertWrapper>
