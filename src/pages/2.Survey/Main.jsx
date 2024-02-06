@@ -14,7 +14,7 @@ export default function Main() {
                 <Stitle><B>신규 등록</B> 설문조사</Stitle>
                 <Sone>
                 <Stwo>
-                    <Scontent onClick={()=>navigate("/surveyview1")}>설문조사 제목 1</Scontent>
+                    <Scontent onClick={()=>alert("설문조사페이지")}>설문조사 제목 1</Scontent>
                     <Scontent>설문조사 제목 2</Scontent>
                     <Scontent>설문조사 제목 3</Scontent>
                 </Stwo>
@@ -29,7 +29,7 @@ export default function Main() {
                 <Stitle><B>신규 판매 등록</B> 설문조사</Stitle>
                 <Sone>
                 <Stwo>
-                    <Scontent onClick={()=>navigate("/marketview1")}>설문조사 제목 1</Scontent>
+                    <Scontent onClick={()=>alert("설문조사페이지")}>설문조사 제목 1</Scontent>
                     <Scontent>설문조사 제목 2</Scontent>
                     <Scontent>설문조사 제목 3</Scontent>
                 </Stwo>
