@@ -36,7 +36,7 @@ export default function MyPage() {
         </ProfileWrite>
       </Profile>
     <ButtonWrapper>
-        <Btn onClick={profileFix}><BtnText>프로필 수정</BtnText></Btn>
+        <Btn onClick={profileFix}><BtnText>프로필 변경</BtnText></Btn>
         <Btn onClick={pointList}><BtnText>포인트 내역</BtnText></Btn>
     </ButtonWrapper>
     <Hr></Hr>
@@ -60,7 +60,7 @@ export default function MyPage() {
         <Link to ="/mylist2">
         <MenuBox>
             <MenuText>
-                판매 등록한 설문데이터
+                내가 판매 등록한 설문데이터
             </MenuText>
             <img src={next_icon}></img>
         </MenuBox>
@@ -68,7 +68,7 @@ export default function MyPage() {
         <Link to ='/mylist3'>
         <MenuBox>
         <   MenuText>
-                구매한 설문데이터
+                내가 구매한 설문데이터
             </MenuText>
             <img src={next_icon}></img>
         </MenuBox>

@@ -9,22 +9,24 @@ export default function MyPoint() {
     const [selectedCategory, setSelectedCategory] = useState('total');
 
     const categoryDummys = {
-        total:[{type: "plus", title: "설문조사 응답", time:"2024-01-24",point:"+30",balance:"잔액 80POINT", id:1},
-        {type: "minus", title: "설문조사 등록", time:"2024-01-24",point:"-30",balance:"잔액 50POINT", id:2},
-        {type: "plus", title: "설문조사 응답", time:"2024-01-25",point:"+30",balance:"잔액 80POINT", id:3},
-        {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:4},
-        {type: "minus", title: "설문조사 등록", time:"2024-01-26",point:"-30",balance:"잔액 80POINT", id:5},
-        {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:6},
-        {type: "plus", title: "설문조사 응답", time:"2024-01-27",point:"+30",balance:"잔액 140POINT", id:7},
-        {type: "minus", title: "설문조사 등록", time:"2024-01-28",point:"-30",balance:"잔액 110POINT", id:8},
-        {type: "minus", title: "설문조사 등록", time:"2024-01-29",point:"-30",balance:"잔액 80POINT", id:9},
-        {type: "minus", title: "설문조사 등록", time:"2024-01-31",point:"-30",balance:"잔액 50POINT", id:10},
-        {type: "minus", title: "설문조사 등록", time:"2024-02-01",point:"-30",balance:"잔액 20POINT", id:11},
-    ],
+        total:[
+            {type: "plus", title: "설문조사 응답", time:"2024-01-24",point:"+30",balance:"잔액 80POINT", id:1},
+            {type: "minus", title: "설문조사 등록", time:"2024-01-24",point:"-30",balance:"잔액 50POINT", id:2}, 
+            {type: "plus", title: "설문조사 응답", time:"2024-01-25",point:"+30",balance:"잔액 80POINT", id:3},
+            {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:4},  
+            {type: "minus", title: "설문조사 등록", time:"2024-01-26",point:"-30",balance:"잔액 80POINT", id:5},
+            {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:6},
+            {type: "plus", title: "설문조사 응답", time:"2024-01-27",point:"+30",balance:"잔액 140POINT", id:7},
+            {type: "minus", title: "설문조사 등록", time:"2024-01-28",point:"-30",balance:"잔액 110POINT", id:8},
+            {type: "minus", title: "설문조사 등록", time:"2024-01-29",point:"-30",balance:"잔액 80POINT", id:9},
+            {type: "minus", title: "설문조사 등록", time:"2024-01-31",point:"-30",balance:"잔액 50POINT", id:10},
+            {type: "minus", title: "설문조사 등록", time:"2024-02-01",point:"-30",balance:"잔액 20POINT", id:11},
+        ],
         plus:[],
         minus:[],
     };
 
+    const reversedArray = categoryDummys.total.reverse();
     categoryDummys.plus = categoryDummys.total.filter(item => item.type === 'plus');
     categoryDummys.minus = categoryDummys.total.filter(item => item.type === 'minus');
 

@@ -10,6 +10,7 @@ export default function MyProfileFix() {
   const [inputName, setInputName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
+  const [showAlert,setShowAlert]=useState(false);
 
   const [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
 
@@ -30,7 +31,7 @@ export default function MyProfileFix() {
   };
 
   const profileFix =()=>{
-    navigate('/myprofile');
+    setShowAlert(true);
   };
 
   useEffect(() => {
@@ -74,8 +75,9 @@ export default function MyProfileFix() {
         disabled={notAllow}
         onClick={profileFix}
       >
-        <C.ButtonText>다음</C.ButtonText>
+        <C.ButtonText>변경</C.ButtonText>
       </C.NextButton>
+      {showAlert&&<Alert><p>변경 내용이 저장되었습니다.</p></Alert>}
     </>
   );
 }
@@ -188,4 +190,42 @@ const ErrorMsg = styled.p`
   letter-spacing: 0px;
   text-align: left;
   color: #ff0000;
+`;
+
+const Alert=styled.div`
+    position:fixed;
+    bottom:13vh;
+    left:50%;
+    transform:translateX(-50%);
+    width: 280px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: rgba(65, 65, 65, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+        color: var(--white, #fff);
+        text-align: center;
+        font-family: Poppins;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      animation: fadeInOut 4s forwards; 
+      opacity: 0;
+      @keyframes fadeInOut {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
 `;

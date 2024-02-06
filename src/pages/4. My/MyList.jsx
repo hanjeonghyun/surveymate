@@ -31,16 +31,16 @@ export default function MyList() {
   useEffect(() => {
     //pathname에 따라 받아오는 api 다르게
     if (currentPathname==="/mylist1") {
-      setPageTitle("응답한 설문조사");
+      setPageTitle("내가 응답한 설문조사");
     } 
     if (currentPathname==="/mylist2") {
-      setPageTitle("판매등록 설문조사");
+      setPageTitle("내가 판매 등록한 설문데이터");
     } 
     if (currentPathname==="/mylist3") {
-      setPageTitle("구매완료 설문조사");
+      setPageTitle("내가 구매한 설문데이터");
     } 
     if (currentPathname==="/mylist4") {
-      setPageTitle("등록 설문조사");
+      setPageTitle("내가 등록한 설문조사");
     } 
 
   }, [currentPathname]);

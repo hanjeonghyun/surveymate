@@ -41,7 +41,6 @@ export default function MyProfile() {
       <Divideline />
       <MenuBox onClick={profileFix}>프로필 변경</MenuBox>
       <MenuBox onClick={pwFix}>비밀번호 변경</MenuBox>
-      <MenuBox>아이디 - 학교 메일 변경</MenuBox>
       <MenuBox onClick={withdrawal}>회원 탈퇴</MenuBox>
     </>
   );
