@@ -19,26 +19,17 @@ export default function SurveyLink() {
         try{
             await navigator.clipboard.writeText(pointLink);
             setShowAlert(true);
-            // setTimeout(() => {
-            //     setShowAlert(false);
-            //   }, 4000); 
-            
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 1000);        
+            setNotAllow(false);
         }catch(error){
             alert("복사 실패")
         }
     };
+    
 
-    useEffect(()=>{
-        if(showAlert){
-            setNextBtValid(true);
-            setNotAllow(false);
-            return;
-        }
-        setNextBtValid(false);
-        setNotAllow(true);
-        setAlertMessage("설문이 등록되었습니다.")
 
-    },[showAlert])
   return (
     <>
         <TitleWrapper>
