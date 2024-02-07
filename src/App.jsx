@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import SideBar from './components/SideBar';
 
 import Login from './pages/1.Home/Login'
 import Auth from './pages/1.Home/Auth'
@@ -18,6 +19,10 @@ import Market from './pages/3.Market/Market'
 import SideBar from './components/SideBar';
 import MarketView from './pages/3.Market/MarketView';
 import MarketContent from './pages/3.Market/MarketContent';
+import MyList from './pages/4. My/MyList';
+import My from './pages/4. My/My'
+import MyView from './pages/4. My/MyView';
+import MyPassword from './pages/4. My/MyPassword';
 
 function App() {
   return (
@@ -36,12 +41,17 @@ function App() {
         <Route path="/surveycontent" element={<SurveyContent />} />
         <Route path="/surveypoint" element={<SurveyPoint/>}/>
         <Route path="/surveylink" element={<SurveyLink/>}/>
-        <Route path='/' element={<Market />} />
         <Route path='/market' element={<Survey />} />
         <Route path='/survey' element={<Survey />} />
         <Route path='/marketview1' element={<MarketView />} />
         <Route path='/marketview2' element={<MarketView />} />
         <Route path='/marketcontent' element={<MarketContent />} />
+        <Route path='/mylist1' element={<MyList />} />
+        <Route path='/mylist2' element={<MyList />} />
+        <Route path='/mylist3' element={<MyList />} />
+        <Route path='/mylist4' element={<MyList />} />
+        <Route path='/myview' element={<MyView/>}/>
+        <Route path='/mypassword' element={<MyPassword/>}/>
       </Routes>
       <SideBar />
     </>

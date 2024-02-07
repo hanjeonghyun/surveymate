@@ -9,7 +9,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
             <GlobalStyle/>
             <RecoilRoot>
-            <App />
+                  <App />
             </RecoilRoot>
       </BrowserRouter>
 );
