@@ -6,12 +6,25 @@ import back from "../../assets/images/bicon_back.svg";
 import SurveyAlert from "./SurveyAlert";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+
 export default function SurveyResult() {
+  useEffect(() => {
+    axios.get('/api/survey/answer/10')
+    .then((response)=>{
+      console.log(response)
+    })
+    .catch(()=>{
+      console.log("에러발생")
+    }) 
+  }, []);
   const navigate = useNavigate();
   const logoClicked = () => {
     navigate(`/survey`);
   };
-  //axios로 서버에서 값 받아서 수령 완료, 불가 판단하기
+
+ 
   return (
     <div>
       <TitleWrapper>

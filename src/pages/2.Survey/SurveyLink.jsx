@@ -25,6 +25,8 @@ export default function SurveyLink() {
             setNotAllow(false);
         }catch(error){
             alert("복사 실패")
+        }finally{
+            setAlertMessage("설문이 등록되었습니다.")
         }
     };
     

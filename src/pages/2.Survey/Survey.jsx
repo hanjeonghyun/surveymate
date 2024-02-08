@@ -6,44 +6,34 @@ import { useNavigate, Link } from "react-router-dom";
 import { alertState } from './SurveyView'
 import { useRecoilState } from 'recoil'
 import { useEffect, useState } from "react";
-export default function SurveyMain() {
+import axios from "axios";
+export default function Survey() {
   const navigate = useNavigate();
   const [survey, setSurvey] = useState(true);
   const [showAlert, setShowAlert]=useRecoilState(alertState);
-  const surveyDummys = [
-    {
-      title: "설문조사 제목1",
-      time: "1일전",
-      content:
-        "설문조사 내용을 입력하세요",
-      id: 1,
-      finished: true,
-    },
-    { title: "설문조사 제목2", time: "2일전", content: "내용", id: 2, finished: false },
-    {
-      title: "설문조사 제목3",
-      time: "2일전",
-      content: "내용",
-      id: 3,
-      finished: true,
-    },
-    { title: "설문조사 제목4", time: "2일전", content: "내용", id: 4 , finished:false},
-    { title: "설문조사 제목5", time: "2일전", content: "내용", id: 5, finished:false},
-  ];
+  const [surveyDummys,setSurveyDummys]=useState([{surveyId:0,title:"설문조사",description:"설문조사 1", createdAt: "3일전"}]);
   const surveyViewClick = (e) => {
     setShowAlert(false)
     navigate(survey ? "/surveyview1" : "/marketview1",
       {
         state: {
-          title: e.title,
-          finished:e.finished,
-          content: e.content,
+          surveyId: e.surveyId,
         },
       });
   };
   useEffect(() => {
     if (window.location.pathname === "/survey") {
       setSurvey(true);
+      axios.get(`/api/survey?page=1`)
+      .then((response)=>{
+        console.log(response.data.surveys);
+        setSurveyDummys(response.data.surveys)
+      })
+      .catch((response)=>{
+        console.log(response)
+        console.log("응답없음")
+      })
+
     }
     if (window.location.pathname === "/market") {
       setSurvey(false);
@@ -61,15 +51,15 @@ export default function SurveyMain() {
           {surveyDummys.map((e) => {
             return (
               <EachListWrapper
-                key={e.id}
+                key={e.surveyId}
                 onClick={() => surveyViewClick(e)}
                 className={e.finished}
               >
                 <Title>
                   <Font className='title'>{e.title}</Font>
-                  <Font className='time'>{e.time}</Font>
+                  <Font className='time'>{e.createdAt}</Font>
                 </Title>
-                <Font className='content'>{e.content}</Font>
+                <Font className='content'>{e.description}</Font>
               </EachListWrapper>
             );
           })}

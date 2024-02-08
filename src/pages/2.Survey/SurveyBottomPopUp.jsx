@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { showPopUpState } from "./SurveyView";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function SurveyBottomPopUp({initialData}) {
   const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
@@ -19,13 +20,14 @@ export default function SurveyBottomPopUp({initialData}) {
 }
   const button1Click=()=>{
     if (changeContent.button1==="삭제"){
-    setChangeContent({
+    setChangeContent(prevState=>({
+       ...prevState,
         title: "삭제 확인",
         line1: "게시글을 삭제하시겠습니까?",
         line2: "",
         button1: "취소",
         button2: "삭제",
-      });
+      }));
     }
     else{
         setShowPopUp(false)
@@ -35,7 +37,16 @@ export default function SurveyBottomPopUp({initialData}) {
     if (changeContent.button2==="수정"){
       navigate("/surveyfix")
     }else{
-      navigate("/main")
+      //삭제시
+      axios.delete(`/api/survey/${changeContent.surveyId}`)
+      .then((response)=>{
+        console.log(response)
+        alert("삭제되었습니다.")
+      })
+      .catch(()=>{
+       alert("삭제 과정에서 오류가 발생했습니다.")
+      })
+      .finally(()=>{navigate("/main")})
     }
   }
   return (

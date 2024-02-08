@@ -1,38 +1,57 @@
 import React from 'react'
 import styled from 'styled-components'
 import profile from "../../assets/images/bGroup 34.svg";
+import axios from 'axios';
 import {TitleWrapper,Title} from "../../components/SurveyComponents";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { showPopUpState } from "./SurveyView";
 import { messageState } from "./SurveyView";
-import { alertState } from "./SurveyView"
+import { alertState } from "./SurveyView";
+import { contentState } from './SurveyView';
 
 export default function SurveyFix() {
     const nickName="가나다"
     const navigate=useNavigate();
-    const [inputValue, setInputValue] = useState({
-        title:"기존 게시글 제목",
-        content:"기존 내용"});
-    const {title,content}=inputValue;
     const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
     const [alertMessage,setAlertMessage]=useRecoilState(messageState);
     const [showAlert, setShowAlert]=useRecoilState(alertState);
+    const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+    const {surveyId, title,description,createdAt,registrantName,linkUrl}=surveyContent;
+
     const surveyFixClick=()=>{
-        setShowPopUp(false)
-        setShowAlert(true)
-        setAlertMessage("수정내용이 저장되었습니다.")
-        navigate(-1)
-    }
+        axios.patch(`api/survey/${surveyId}`,{
+          title:title,
+          description: description,
+          linkUrl:linkUrl,
+        })
+        .then((response)=>{
+          setSurveyContent(response.data)
+        })
+        .catch(()=>{
+          console.log("응답없음")
+        })
+        .finally(()=>{
+          setShowPopUp(false)
+          setShowAlert(true)
+          setAlertMessage("수정내용이 저장되었습니다.")
+          navigate(-1)
+        })
+
+      }
+    
     const handleTitleChange=(e)=>{
         const {name,value}=e.target;
-        setInputValue((prevInputValue)=>({
+        setSurveyContent((prevInputValue)=>({
             ...prevInputValue,
             [name]:value,
         })
         );
     }
+
+  
+
   return (
     <>
     <TitleWrapper>
@@ -45,8 +64,8 @@ export default function SurveyFix() {
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{nickName}</div>
-          <div>0000-00-00</div>
+          <div>{registrantName}</div>
+          <div>{createdAt}</div>
         </ProfileWrite>
         <ReportButton>
           <img  src={''}></img>
@@ -59,8 +78,8 @@ export default function SurveyFix() {
         onChange={handleTitleChange}>
       </ContentTitle>
         <Content placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1.어떤 설문인가요?&#13;&#10;2.어디 소속인지 알려주세요!&#13;&#10;3.추가적인 경품이 있다면 기재해 주세요&#13;&#10;4.누구를 대상으로 진행하는 설문인가요?'
-        name="content"
-        value={content}
+        name="description"
+        value={description}
         onChange={handleTitleChange} >
       </Content>
     </>

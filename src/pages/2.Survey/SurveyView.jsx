@@ -6,6 +6,7 @@ import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
 import SurveyAlert from "./SurveyAlert";
 import SurveyBottomPopUp from "./SurveyBottomPopUp";
 import styled from "styled-components";
+import axios from "axios";
 import { useEffect,useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
@@ -22,12 +23,18 @@ export const alertState=atom({
   key:"alertState",
   default:false,
 });
+export const contentState=atom({
+  key:"contentState",
+  default:{surveyId:0, title:"설문조사",
+  description:"설문조사1", createdAt:"3일전"
+,registrantName:"가나다라",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
+})
 
 export default function SurveyView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
   const [alertMessage,setAlertMessage]=useRecoilState(messageState);
   const [showAlert, setShowAlert]=useRecoilState(alertState);
-  const [finished,setFinished]=useState(false);
+  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
   const navigate = useNavigate();
   const nickName="가나다라";
   const serverName="가나다";
@@ -48,8 +55,16 @@ export default function SurveyView() {
     if (currentPathname==="/surveyview2") {
       setShowAlert(true);
     } else{
-      setFinished(location.state.finished)
-      setShowAlert(false)
+      axios.get('api/survey/0')
+      .then((response)=>{
+        setSurveyContent(response.data)
+      })
+      .catch(()=>{
+        console.log("응답없음")
+      })
+      .finally(()=>{
+        setShowAlert(false)
+      })
     }
 
   }, [currentPathname, location]);
@@ -62,6 +77,10 @@ export default function SurveyView() {
       navigate(-1)
     }
   }
+
+  const respondClick=()=>{
+    window.open(surveyContent.linkUrl)
+  }
   return (
     <Wrap>
       <TitleWrapper>
@@ -73,8 +92,8 @@ export default function SurveyView() {
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{nickName}</div>
-          <div>0000-00-00</div>
+          <div>{surveyContent.registrantName}</div>
+          <div>{surveyContent.createdAt}</div>
         </ProfileWrite>
         <ReportButton>
           <img onClick={ButtonClick} 
@@ -83,19 +102,13 @@ export default function SurveyView() {
       </Profile>
       <Hr></Hr>
       <Content>
-        <TitleFont>제목을 입력하세요(최대 몇자인지)</TitleFont>
+        <TitleFont>{surveyContent.title}</TitleFont>
         <br></br>
-        <div>내용을 입력하세요(최대 몇자인지)</div>
-        <br></br>
-        <div>1. 어떤 설문인가요?</div>
-        <div>2. 어디 소속인지 알려주세요!</div>
-        <div>3. 추가적인 경품이 있다면 기재해 주세요</div>
-        <div>4. 누구를 대상으로 진행하는 설문인가요?</div>
+        {surveyContent.description}
       </Content>
-      <NextButtonWrapper className={(nickName===serverName || currentPathname==="/surveyview2"
-      || finished===true) ? "none" : ""}>
+      <NextButtonWrapper className={(nickName===serverName || currentPathname==="/surveyview2") ? "none" : ""}>
         <NextButton>
-          <ButtonText>설문 응답</ButtonText>
+          <ButtonText onClick={respondClick}>설문 응답</ButtonText>
         </NextButton>
       </NextButtonWrapper>
       {showAlert&&<AlertWrapper className={nickName===serverName || currentPathname==="/surveyview2"? "" : "none"}>
@@ -108,7 +121,8 @@ export default function SurveyView() {
       line1: "등록된 게시글을 수정하거나",
       line2: "삭제할 수 있어요",
       button1: "삭제",
-      button2: "수정"
+      button2: "수정",
+      surveyId: surveyContent.surveyId,
     }}/>}
     </Wrap>
   );
