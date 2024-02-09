@@ -8,14 +8,36 @@ import { useState } from "react";
 export default function SurveyPoint() {
   let [point, setPoint] = useState(0);
   const [showBottom, setBottom] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(null);
   const navigate = useNavigate();
+  const today = new Date();
+  const dueDate = selectedDay
+    ? new Date(today.getTime() + selectedDay * 24 * 60 * 60 * 1000)
+    : new Date();
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleSubmit = () => {
+  const handleDayButtonClick = (day) => {
+    confirmPoint(day);
+    setSelectedDay(day);
+  };
+
+  const handleSubmit = async () => {
     navigate("/surveyview2");
+    //   e.preventDefault();
+    //   try {
+    //     const formData = new FormData();
+    //     formData.append("title", email);
+    //     formData.append("discription", nickname);
+    //     formData.append("linkUrl", pa);
+    //     formData.append("period", point);
+    //     const res = await axios.post(`/api/survey`, formData);
+    //     console.log(res.data);
+    //   } catch (error) {
+    //     console.error("요청 에러", error);
+    //   }
   };
 
   const confirmPoint = (value) => {
@@ -51,8 +73,8 @@ export default function SurveyPoint() {
         {[1, 2, 3, 4, 5, 6, 7].map((day) => (
           <DayButton
             key={day}
-            onClick={() => confirmPoint(day)}
-            value={day}
+            onClick={() => handleDayButtonClick(day)}
+            selected={day === selectedDay}
           >
             <DayButtonText>{day}일</DayButtonText>
           </DayButton>
@@ -73,7 +95,17 @@ export default function SurveyPoint() {
       <SizedBox />
       <B.InputLabel>설문 대상 기간</B.InputLabel>
       <NotifyBox>
-        <TermText>0000년 00월 00일 ~ 0000년 00월 00일</TermText>
+        <TermText>
+          {selectedDay ? (
+            <>
+              {today.getFullYear()}년 {today.getMonth() + 1}월 {today.getDate()}
+              일 ~ {dueDate.getFullYear()}년 {dueDate.getMonth() + 1}월
+              {dueDate.getDate()}일
+            </>
+          ) : (
+            "0000년 00월 00일 ~ 0000년 00월 00일"
+          )}
+        </TermText>
       </NotifyBox>
     </>
   );
@@ -180,7 +212,8 @@ const DayButton = styled.button`
   width: 65px;
   height: 65px;
   border-radius: 70%;
-  background-color: #efedff;
+  background-color: ${(props) => (props.selected ? "#6046ff" : "#efedff")};
+  color: ${(props) => (props.selected ? "#efedff" : "#000")};
   border: none;
   cursor: pointer;
   filter: drop-shadow(0px 2px 11px rgba(0, 0, 0, 0.2));
