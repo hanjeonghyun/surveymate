@@ -26,7 +26,6 @@ export default function SurveyPoint() {
 
   const handleSubmit = async () => {
     navigate("/surveyview2");
-
     //   e.preventDefault();
     //   try {
     //     const formData = new FormData();
