@@ -3,12 +3,15 @@ import { ButtonText, NextButton, NextSmallButton, SmallButtonText, Title, TitleW
 import styled, { css } from 'styled-components';
 import checkMessage from "../../assets/images/acheck_message.svg";
 import { useNavigate } from 'react-router-dom';
+import {messageState} from "./SurveyView";
+import { useRecoilState } from 'recoil';
 
 export default function SurveyLink() {
 
     const [showAlert,setShowAlert]=useState(false);
     const [nextBtValid,setNextBtValid]=useState(false);
     const [notAllow,setNotAllow]=useState(true);
+    const [alertMessage,setAlertMessage]=useRecoilState(messageState);
     const navigate=useNavigate();
     const pointLink ="https://survey_Google_asdfasdf/asd..";
 
@@ -16,30 +19,17 @@ export default function SurveyLink() {
         try{
             await navigator.clipboard.writeText(pointLink);
             setShowAlert(true);
-            // setTimeout(() => {
-            //     setShowAlert(false);
-            //   }, 4000); 
-            
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 1000);        
+            setNotAllow(false);
         }catch(error){
             alert("복사 실패")
         }
     };
-
-    useEffect(()=>{
-        if(showAlert){
-            setNextBtValid(true);
-            setNotAllow(false);
-            return;
-        }
-        setNextBtValid(false);
-        setNotAllow(true);
-        
-
-    },[showAlert])
+    
 
 
-
-  
   return (
     <>
         <TitleWrapper>
@@ -47,7 +37,7 @@ export default function SurveyLink() {
             <Title>
                 설문조사 등록
             </Title>
-            <ThisNextSmallButton disabled={notAllow} onClick={()=>{navigate("/surveypoint")}}>
+            <ThisNextSmallButton disabled={notAllow} onClick={()=>{navigate("/surveyview2")}}>
                 <SmallButtonText>
                     다음
                 </SmallButtonText>

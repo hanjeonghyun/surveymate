@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
     
     body{
         margin: 0vw 5vw;
-        font-family: PoppinsBold, sans-serif; 
+        font-family: PoppinsMedium, sans-serif; 
     }
 `;
 

@@ -10,7 +10,7 @@ export default function SurveyContent() {
             <C.TitleWrapper>
                 <BackBtn onClick={()=>navigate(-1)}></BackBtn>
                 <C.Title>설문조사 등록</C.Title>
-                <NextBtn onClick={()=>navigate("/surveylink")}>다음</NextBtn>
+                <NextBtn onClick={()=>navigate("/surveypoint")}>다음</NextBtn>
             </C.TitleWrapper>
 
             <Title placeholder='제목을 입력하세요(최대 몇자인지)'></Title>
