@@ -1,16 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import { BrowserRouter } from 'react-router-dom';
-import GlobalStyle from './styles/GlobalStyles';
-import {RecoilRoot} from "recoil";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { BrowserRouter } from "react-router-dom";
+import GlobalStyle from "./styles/GlobalStyles";
+import { RecoilRoot } from "recoil";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <GlobalStyle/>
+    <GlobalStyle />
     <RecoilRoot>
       <App />
     </RecoilRoot>
-    
-</BrowserRouter>
+  </BrowserRouter>
 );
