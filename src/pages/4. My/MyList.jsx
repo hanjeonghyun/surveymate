@@ -1,5 +1,5 @@
-import React from 'react'
-import {TitleWrapper,Title} from "../../components/SurveyComponents";
+import React from "react";
+import { TitleWrapper, Title } from "../../components/SurveyComponents";
 import back from "../../assets/images/bicon_back.svg";
 import styled from 'styled-components';
 import { useState,useEffect } from 'react';
@@ -87,7 +87,7 @@ export default function MyList() {
       </ListWrapper>
       </All>
     </>
-  )
+  );
 }
 
 const All = styled.div`

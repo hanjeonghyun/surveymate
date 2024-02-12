@@ -2,11 +2,12 @@ import React,{useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as C from '../../components/SurveyComponents';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function MyOut() {
     const navigate = useNavigate();
-    
+    const [password, setPassword] = useState();
+    const [isPassword, setIsPassword] = useState(false);
     const [pwType1, setpwType1] = useState({type: "password", visible: false});
 
     const handlePasswordType1 = (e) => {
@@ -18,6 +19,33 @@ export default function MyOut() {
         }
         });
     };
+
+    const onChangePassword = (e) => {
+        const currentPassword = e.target.value;
+        setPassword(currentPassword);
+        setIsPassword(true);
+    };
+
+    const onClickButton=()=>{
+        if (isPassword){
+            axios.delete("https://survey-mate-api.jinhy.uk/auth/account",{
+                currentPassword: password,
+            })
+            .then((response)=>{
+                navigate("/")
+            })
+            .catch((response)=>{
+                if (response.response.status===401){
+                    alert('401 error')
+                    console.log(response)
+                }else{
+                    alert('404 error')
+            }
+            })
+        }else{
+
+        }
+    }
 
     return(
     <>
@@ -36,7 +64,11 @@ export default function MyOut() {
             <Wrapper>
                 <AuthInput2 
                     placeholder='비밀번호를 입력해주세요' 
-                    type={pwType1.type}/>
+                    type={pwType1.type}
+                    onChange={onChangePassword}
+                    id="password"
+                    name="password"
+                    value={password}/>
                 <BtnE 
                     type='button' 
                     onClick={handlePasswordType1}
@@ -50,6 +82,7 @@ export default function MyOut() {
             <Blank />
             <C.NextButton
                 type="submit"
+                onClick={onClickButton}
                 >
                 <C.ButtonText>회원 탈퇴</C.ButtonText>
             </C.NextButton>

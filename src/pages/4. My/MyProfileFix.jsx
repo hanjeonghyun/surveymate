@@ -1,17 +1,20 @@
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
+import * as B from "../../components/BottomSheet";
 
 import ddefaultProfile from "../../assets/images/ddefaultProfile.svg";
 import dfixButton from "../../assets/images/dfixButton.svg";
-import { React, useState, useEffect } from "react";
+import dchangeProfile from "../../assets/images/dchangeprofile.svg";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function MyProfileFix() {
-  const [inputName, setInputName] = useState("");
+  const [nickname, setNickname] = useState("");
   const [nameValid, setNameValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
-  const [showAlert,setShowAlert]=useState(false);
-
+  const [exist, setExist] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showBottom, setShowBottom] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
 
   const navigate = useNavigate();
@@ -19,28 +22,41 @@ export default function MyProfileFix() {
   const handleBack = () => {
     navigate(-1);
   };
+
+  const onFixClick = () => {
+    setShowBottom(true);
+  };
+
+  const onDelete = () => {
+    setUploadedImage(ddefaultProfile);
+    setShowBottom(false);
+  };
+
   const onUploadImage = (e) => {
     const file = e.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedImage(imageUrl);
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setUploadedImage(imageUrl);
+      setShowBottom(false);
+    } else {
+      setUploadedImage(ddefaultProfile);
+    }
   };
 
   const handleName = (e) => {
-    setInputName(e.target.value);
-    setNameValid(e.target.value.trim());
-  };
-
-  const profileFix =()=>{
-    setShowAlert(true);
+    const value = e.target.value;
+    setNickname(value);
+    setNameValid(value.trim() !== "");
+    setExist(false);
   };
 
   useEffect(() => {
-    if (nameValid) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  }, [nameValid]);
+    setNotAllow(!(nameValid && !exist));
+  }, [nameValid, exist]);
+
+  const profileFix = () => {
+    setShowAlert(true);
+  };
 
   return (
     <>
@@ -50,15 +66,19 @@ export default function MyProfileFix() {
       </C.TitleWrapper>
       <ProfileWrapper>
         <DefaultProfile>
-          {uploadedImage ? (
-            <UploadedImg
-              src={uploadedImage}
-              alt='profileImage'
-            />
-          ) : null}
+          <UploadedImg
+            src={uploadedImage}
+            alt='profileImage'
+          />
           <FixButton>
-            <FileInput onChange={onUploadImage} />
+            <Imglabel onClick={onFixClick} />
           </FixButton>
+          {showBottom && (
+            <ProfileBottom
+              onDelete={onDelete}
+              onUploadImage={onUploadImage}
+            />
+          )}
         </DefaultProfile>
       </ProfileWrapper>
       <SizedBox></SizedBox>
@@ -66,10 +86,11 @@ export default function MyProfileFix() {
       <AuthInput
         placeholder='스트로베리 초코 생크림 케이크'
         name='nickname'
-        value={inputName}
+        value={nickname}
         onChange={handleName}
       ></AuthInput>
-      <ErrorMsg>이미 사용 중인 닉네임입니다.</ErrorMsg>
+      {exist && <ErrorMsg>이미 사용 중인 닉네임입니다.</ErrorMsg>}
+      <SizedBox />
       <C.NextButton
         type='submit'
         disabled={notAllow}
@@ -77,24 +98,66 @@ export default function MyProfileFix() {
       >
         <C.ButtonText>변경</C.ButtonText>
       </C.NextButton>
-      {showAlert&&<Alert><p>변경 내용이 저장되었습니다.</p></Alert>}
+      {showAlert && (
+        <Alert>
+          <p>변경 내용이 저장되었습니다.</p>
+        </Alert>
+      )}
     </>
   );
 }
 
-const FileInput = ({ onChange }) => {
+function ProfileBottom({ onDelete, onUploadImage }) {
   return (
     <>
-      <ImgInput
-        type='file'
-        id='fileInput'
-        accept='image/*'
-        onChange={onChange}
-      />
-      <Imglabel htmlFor='fileInput' />
+      <B.BackgroundBottomSheet>
+        <B.BottomSheetWrapper>
+          <B.BottomSheetInfo>
+            <B.InputLabel>프로필 사진 관리</B.InputLabel>
+            <B.ProcessExplain>
+              프로필 사진을 변경하거나
+              <br /> 기본 프로필로 되돌릴 수 있어요.
+            </B.ProcessExplain>
+            <img
+              src={dchangeProfile}
+              alt='changeprofile'
+            />
+          </B.BottomSheetInfo>
+          <B.BottomButtonWrapper>
+            <B.CancelButton onClick={onDelete}>
+              <C.ButtonText>삭제</C.ButtonText>
+            </B.CancelButton>
+            <FileInput onUploadImage={onUploadImage} />
+          </B.BottomButtonWrapper>
+        </B.BottomSheetWrapper>
+      </B.BackgroundBottomSheet>
     </>
   );
-};
+}
+
+function FileInput({ onUploadImage }) {
+  return (
+    <>
+      <B.ConfirmButton>
+        <label
+          htmlFor='fileInput'
+          style={{ cursor: "pointer" }}
+        >
+          <C.ButtonText>
+            앨범에서 선택
+            <input
+              type='file'
+              id='fileInput'
+              accept='image/*'
+              onChange={onUploadImage}
+              style={{ display: "none" }}
+            />
+          </C.ButtonText>
+        </label>
+      </B.ConfirmButton>
+    </>
+  );
+}
 
 const BackBtn = styled.button`
   background: url("src/assets/images/dicon_back.svg") no-repeat;
@@ -122,7 +185,7 @@ const ProfileWrapper = styled.div`
 
 const DefaultProfile = styled.div`
   position: absolute;
-  z-index: 0;
+  /* z-index: 0; */
   border-radius: 70%;
   object-fit: cover;
 `;
@@ -171,7 +234,6 @@ const AuthInput = styled.input`
   height: 3vh;
   padding: 5px;
   border: none;
-  margin-bottom: 10vh;
   margin-top: 2vh;
   border-bottom: 0.4px solid rgba(96, 70, 255, 0.3);
   &::placeholder {
@@ -192,40 +254,40 @@ const ErrorMsg = styled.p`
   color: #ff0000;
 `;
 
-const Alert=styled.div`
-    position:fixed;
-    bottom:13vh;
-    left:50%;
-    transform:translateX(-50%);
-    width: 280px;
-    height: 30px;
-    flex-shrink: 0;
-    border-radius: 999px;
-    background: rgba(65, 65, 65, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    p {
-        color: var(--white, #fff);
-        text-align: center;
-        font-family: Poppins;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-      }
+const Alert = styled.div`
+  position: fixed;
+  bottom: 13vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(65, 65, 65, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: var(--white, #fff);
+    text-align: center;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 
-      animation: fadeInOut 4s forwards; 
+  animation: fadeInOut 4s forwards;
+  opacity: 0;
+  @keyframes fadeInOut {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
       opacity: 0;
-      @keyframes fadeInOut {
-        0% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-        }
-      }
+    }
+  }
 `;
