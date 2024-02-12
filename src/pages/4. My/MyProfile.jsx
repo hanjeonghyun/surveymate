@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import defaultProfile from "../../assets/images/ddefaultProfile.svg";
@@ -15,11 +15,11 @@ export default function MyProfile() {
     navigate("/myprofilefix");
   };
 
-  const pwFix = ()=>{
+  const pwFix = () => {
     navigate("/mypassword");
   };
 
-  const withdrawal=()=>{
+  const withdrawal = () => {
     navigate("/myout");
   };
 
@@ -61,7 +61,7 @@ const MyText = styled.p`
   font-family: poppins;
   font-size: 16px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 800;
   line-height: normal;
 `;
 
@@ -95,4 +95,5 @@ const Divideline = styled.div`
   height: 1px;
   margin-top: 2vh;
   background: #efedff;
+  margin: 20px 0 10px 0;
 `;
