@@ -17,23 +17,15 @@ export default function PwFind() {
     const [password, setPassword] = useState('');
     const [code, setCode]=useState('');
 
-    const [isEmail, setIsEmail] = useState(false);
-    const [isPassword, setIsPassword] = useState(false);
+    const [alertMessage, setAlertMessage]=useState({one:"",two:"",three:""})
+    const [color,setColor]=useState(false)
 
     const onChangeEmail = (e) => {
         const currentEmail = e.target.value;
         setEmail(currentEmail);
-        const emailRegExp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a]+[c]+\.+[k]+[r]/i;
-
-        if (!emailRegExp.test(currentEmail)) {
-            setIsEmail(false);
-        } else {
-            setIsEmail(true);
-        }
     };
 
     const onClickEmail=()=>{
-        if (isEmail){
             axios.post(`/api/auth/password/certification-request`,{
                 receiver: email,
                 mailSubject: "[썰매 (Survey Mate)] 회원가입을 위한 인증 코드입니다.",
@@ -41,7 +33,8 @@ export default function PwFind() {
             })
             .then((response)=>{
                 console.log(response);
-                alert("이메일로 인증코드가 전송되었습니다")
+                setAlertMessage({...alertMessage, one:"인증메일이 발송되었습니다. 확인해주세요.", two:"3분 이내로 입력해주세요."})
+    
             })
             .catch((response)=>{
                 console.log(response);
@@ -51,10 +44,8 @@ export default function PwFind() {
                     alert('서버 통신 에러')
                 }
             })
-        }else{
-            alert("이메일 형식을 지켜주세요")
         }
-    }
+    
 
     const onChangeCode=(e)=>{
         setCode(e.target.value);
@@ -76,7 +67,8 @@ export default function PwFind() {
         })
         .catch((response)=>{
             if (response.response.status===401){
-                alert("잘못된 인증번호입니다.")
+                setAlertMessage({...alertMessage, two:"인증코드를 잘못 입력하였습니다."})
+                setColor(true)
             }else{
             alert("서버 통신 에러")
         }
@@ -87,19 +79,11 @@ export default function PwFind() {
     const onChangePassword = (e) => {
         const currentPassword = e.target.value;
         setPassword(currentPassword);
-        const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
-        
-        if (!passwordRegExp.test(currentPassword)) {
-            setIsPassword(false);
-        } else { 
-            setIsPassword(true);
-        }
     };
 
     const navigate = useNavigate();
     const onClickButton = (e) => {
         e.preventDefault();
-        if (isPassword){
             axios.patch('/api/auth/password/reset',{
                 passwordResetToken: token,
                 newPassword: password,
@@ -112,19 +96,14 @@ export default function PwFind() {
             .catch((response)=>{
                 console.log(response);
                 if(response.response.status===401){
-                    alert("다른 비밀번호를 입력해주세요")
+                    setAlertMessage({...alertMessage, three:"기존 비밀번호와 동일합니다."})
+                    setColor(true)
                 }else{
                     alert("서버 통신 오류")
+                    window.location.reload();
                 }
             })
-        }else{
-            alert('이메일 혹은 비밀번호를 정확히 입력해주세요.');
-            window.location.reload();
         }
-        
-    };
-
-    
 
     return(
         <>
@@ -140,16 +119,18 @@ export default function PwFind() {
                     name="email" 
                     value={email} 
                     onChange={onChangeEmail} />
-                <BtnA type='button' onClick={onClickEmail}></BtnA>
+                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요"?"resend":""} onClick={onClickEmail}></BtnA>
             </Wrapper>
+            <P>{alertMessage.one}</P>
         </Content0>
         <Content>
             <C.InputLabel>인증코드 6자리</C.InputLabel>
             <Wrapper>
                 <AuthInput2 placeholder='000000' type='number'
                 id="code" name="code" value={code} onChange={onChangeCode}/>
-                <BtnA type='button' onClick={onClickCode}></BtnA>
+                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요"?"":"cant"} onClick={onClickCode}></BtnA>
             </Wrapper>
+            <P>{alertMessage.two}</P>
         </Content>
         <Content>
             <C.InputLabel>새로운 비밀번호</C.InputLabel>
@@ -164,7 +145,9 @@ export default function PwFind() {
                 <BtnE type='button' onClick={onClickButton} ></BtnE>
             </Wrapper>
             <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
+            <P>{alertMessage.three}</P>
         </Content>
+        <Blank></Blank>
 
         <Link to="/login">
             <C.NextButton
@@ -195,14 +178,22 @@ const P = styled.p`
     font-size: 10px;
     font-weight: 400;
     color: #848383;
-    margin-bottom: 8vh;
     margin-top: 1vh;
 `
+
 const BtnA = styled.input`
     background: url('src/assets/images/cArrow.svg') no-repeat;
     width: 32px;
     height: 32px;
     border: none;
+    &.cant{
+        background:url('src/assets/images/cArrowgray.svg') no-repeat;
+    }
+    &.resend{
+        background: url('src/assets/images/cResend.svg') no-repeat;
+        width: 58px;
+        height: 32px;
+    }
 `
 const BtnE = styled.input`
     background: url('src/assets/images/cEye.svg') no-repeat;
@@ -211,11 +202,14 @@ const BtnE = styled.input`
     border: none;
 `
 const AuthInput2 = styled.input`
+    position:relative;
+    left:-5px;
     width: calc(90vw - 55px);
     height: 3vh;
     padding: 5px;
     border: none;
     border-bottom: 0.4px solid rgba(96, 70, 255, 0.3);
+    
     &::placeholder {
         color: #d6d6d6;
     }
@@ -224,3 +218,6 @@ const AuthInput2 = styled.input`
     }
 `;
 
+const Blank=styled.div`
+    height:100px;
+`

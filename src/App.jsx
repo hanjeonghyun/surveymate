@@ -6,9 +6,11 @@ import Auth from './pages/1. Home/Auth'
 import AuthImg from './pages/1. Home/AuthImg'
 import AuthRule from './pages/1. Home/AuthRule'
 import PwFind from './pages/1. Home/PwFind';
+import SideBar from './components/SideBar';
 
 function App() {
   return (
+    <>
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path="/auth" element={<Auth />} />
@@ -16,6 +18,8 @@ function App() {
         <Route path="/authrule" element={<AuthRule/>}/>
         <Route path="/pwfind" element={<PwFind />}/>
       </Routes>
+      <SideBar/>
+    </>
   );
 }
 
