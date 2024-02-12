@@ -1,24 +1,130 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styled from 'styled-components';
 import * as C from '../../components/SurveyComponents';
 import { useNavigate } from 'react-router-dom';
+import * as B from "../../components/BottomSheet";
+import Warning from "../../assets/images/cLinkno.svg";
+import axios from 'axios';
 
 export default function SurveyContent() {
+    const [title, setTitle] = useState();
+    const [content, setContent] = useState();
+    const [link, setLink] = useState();
+    const [isLink, setIsLink] = useState(false);
+    const [showBottom, setBottom] = useState(false);
+    
+    const onChangeTitle = (e) => {
+        const currentTitle = e.target.value;
+        setTitle(currentTitle);
+    };
+    const onChangeContent = (e) => {
+        const currentContent = e.target.value;
+        setContent(currentContent);
+    };
+    const onChangeLink = (e) => {
+        const currentLink = e.target.value;
+        setLink(currentLink);
+        const linkRegExp = /^[a-zA-Z0-9-]+\.+[g]+[l]+[e]$/;
+        if (!linkRegExp.test(currentLink)) {
+            setIsLink(false);
+        } else {
+            setIsLink(true);
+        }
+    };
+
     const navigate=useNavigate();
+    const onClickNext=()=>{
+        const goToNext = () => {navigate('/surveypoint');};
+        if (isLink){
+            axios.post("https://survey-mate-api.jinhy.uk/survey",{
+                title: title,
+                description: content,
+                linkUrl: link,
+            })
+            .then((response)=>{
+                //()=>navigate("/surveypoint")
+                console.log(response);
+                navigate("/surveypoint");
+                goToNext();
+            })
+            .catch((response)=>{
+                if (response.response.status===401){
+                    //alert('401 에러')
+                    console.log(response);
+                    navigate("/surveypoint");
+                }else{
+                    //alert('404 에러')
+                }
+            })
+        }else{
+            setBottom(true);
+        }
+    };
+
+    const clickCheck=()=>{
+        setBottom(false);
+    };
+
     return(
         <div>
             <C.TitleWrapper>
                 <BackBtn onClick={()=>navigate(-1)}></BackBtn>
                 <C.Title>설문조사 등록</C.Title>
-                <NextBtn onClick={()=>navigate("/surveypoint")}>다음</NextBtn>
+                <NextBtn onClick={onClickNext}>다음</NextBtn>
             </C.TitleWrapper>
 
-            <Title placeholder='제목을 입력하세요(최대 몇자인지)'></Title>
+            <Title 
+                placeholder='제목을 입력하세요.'
+                id="title" 
+                name="title" 
+                value={title}
+                onChange={onChangeTitle}
+            ></Title>
             <Content 
-            placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1.어떤 설문인가요?&#13;&#10;2.어디 소속인지 알려주세요!&#13;&#10;3.추가적인 경품이 있다면 기재해 주세요&#13;&#10;4.누구를 대상으로 진행하는 설문인가요?
-            '></Content>
-            <Adress placeholder='google form 링크를 입력해주세요'></Adress>
+                placeholder='내용을 입력하세요.&#13;&#10;&#13;&#10;1.소속이 어디인가요?&#13;&#10;2.주제가 무엇인가요?&#13;&#10;3.대상은 누구인가요?&#13;&#10;4.응답 소요 시간은 얼마나 되나요?'
+                id="content" 
+                name="content" 
+                value={content}
+                onChange={onChangeContent}
+            ></Content>
+            <Adress 
+                placeholder='google form 링크를 입력해주세요'
+                id="link" 
+                name="link" 
+                value={link}
+                onChange={onChangeLink}
+            ></Adress>
+            {showBottom && (
+                <PointBottom
+                    clickCheck={clickCheck}
+                />
+            )}
         </div>
+    );
+}
+
+function PointBottom({clickCheck}) {
+    return (
+        <>
+        <B.BackgroundBottomSheet>
+            <B.BottomSheetWrapper>
+            <B.BottomSheetInfo>
+                <B.InputLabel>유효하지 않은 폼 링크가 등록되었어요.</B.InputLabel>
+                <B.ProcessExplain>
+                등록하신 설문조사가 구글폼으로 생성된 것인지<br />
+                확인해주세요.
+                </B.ProcessExplain>
+                <img
+                src={Warning}></img>
+            </B.BottomSheetInfo>
+            <B.BottomButtonWrapper>
+                <ConfirmButton>
+                <C.ButtonText onClick={clickCheck}>확인</C.ButtonText>
+                </ConfirmButton>
+            </B.BottomButtonWrapper>
+            </B.BottomSheetWrapper>
+        </B.BackgroundBottomSheet>
+        </>
     );
 }
 
@@ -61,7 +167,7 @@ const Title = styled.input`
 `
 const Content = styled.textarea`
     width: 90vw;
-    height: 25vh;
+    height: 23vh;
     font-size: 14px;
     font-weight: 500;
     text-align: left;
@@ -93,4 +199,17 @@ const Adress = styled.input`
         font-weight: 500;
         line-height: 150%;
     }
+`
+
+export const ConfirmButton = styled.button`
+    border-radius: 10px;
+    background: #6046ff;
+    color: var(--white, #fff);
+    width: 90vw;
+    height: 5vh;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 `

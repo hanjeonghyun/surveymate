@@ -77,7 +77,7 @@ export const InputLabel = styled.p`
   color: #000;
   text-align: left;
   font-family: Poppins;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
