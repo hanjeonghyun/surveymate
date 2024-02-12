@@ -7,6 +7,7 @@ import dfixButton from "../../assets/images/dfixButton.svg";
 import dchangeProfile from "../../assets/images/dchangeprofile.svg";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function MyProfileFix() {
   const [nickname, setNickname] = useState("");
@@ -54,8 +55,24 @@ export default function MyProfileFix() {
     setNotAllow(!(nameValid && !exist));
   }, [nameValid, exist]);
 
-  const profileFix = () => {
-    setShowAlert(true);
+  const profileFix = async () => {
+    try {
+      const res = await axios.get(`api/auth/nickname/${nickname}`, {
+        headers: {
+          accept: "*/*",
+        },
+      });
+
+      if (res.data.nicknameExist) {
+        setExist(true);
+        return;
+      } else {
+        setShowAlert(true);
+      }
+    } catch (error) {
+      console.error("요청 에러", error);
+      alert("에러 발생");
+    }
   };
 
   return (
