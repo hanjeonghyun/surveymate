@@ -41,6 +41,7 @@ export default function SurveyBottomPopUp({initialData}) {
       axios.delete(`/api/survey/${changeContent.surveyId}`)
       .then((response)=>{
         console.log(response)
+        setShowPopUp(false)
         alert("삭제되었습니다.")
       })
       .catch(()=>{

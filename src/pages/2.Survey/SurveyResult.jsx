@@ -8,10 +8,14 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { contentState } from "./SurveyView";
+//survey/surveyId에서 reward값 가져오기:recoil로 저장해두기  
 
 export default function SurveyResult() {
+  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
   useEffect(() => {
-    axios.get('/api/survey/answer/10')
+    axios.get(`/api/survey/answer/${surveyContent.reward}`)
     .then((response)=>{
       console.log(response)
     })
@@ -37,7 +41,7 @@ export default function SurveyResult() {
         </div>
         <br></br>
         <br></br>
-        <Font>10 POINT가 수령되었습니다.</Font>
+        <Font>{surveyContent.reward} POINT가 수령되었습니다.</Font>
         <LogoWrapper>
           <img src={logo}></img>
         </LogoWrapper>

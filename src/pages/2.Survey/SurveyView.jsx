@@ -10,6 +10,9 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
+import { listState } from "./Survey";
+
+//============recoil===============================================
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 export const showPopUpState=atom({
     key:"showPopUpState",
@@ -27,19 +30,20 @@ export const contentState=atom({
   key:"contentState",
   default:{surveyId:0, title:"설문조사",
   description:"설문조사1", createdAt:"3일전"
-,registrantName:"가나다라",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
+,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
 })
+//================================================================
 
 export default function SurveyView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
   const [alertMessage,setAlertMessage]=useRecoilState(messageState);
   const [showAlert, setShowAlert]=useRecoilState(alertState);
   const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+  const [surveyDummys,setSurveyDummys]=useRecoilState(listState);
   const navigate = useNavigate();
   const nickName="가나다라";
   const serverName="가나다";
   const currentPathname=window.location.pathname;
-  const location=useLocation();
 
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
   //surveyview1:메인화면에서 접속시 surveyview2:설문등록시
@@ -51,16 +55,19 @@ export default function SurveyView() {
     }
   }
   useEffect(() => {
-    ///수정완료 시에도 setShowAlert 뜨게 해야 함 
+    setShowPopUp(false)
     if (currentPathname==="/surveyview2") {
       setShowAlert(true);
+      
     } else{
-      axios.get('api/survey/0')
+      axios.get(`api/survey/${surveyDummys.surveyId}`)
+      //surveyview2일 때에는 다른 곳에서 id 받아오도록 수정
       .then((response)=>{
         setSurveyContent(response.data)
       })
-      .catch(()=>{
+      .catch((response)=>{
         console.log("응답없음")
+        console.log(response)
       })
       .finally(()=>{
         setShowAlert(false)

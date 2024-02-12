@@ -7,19 +7,26 @@ import { alertState } from './SurveyView'
 import { useRecoilState } from 'recoil'
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { RecoilEnv, atom} from "recoil";
+
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+export const listState=atom({
+    key:"listState",
+    default:[{surveyId:0,
+      title:"설문조사 15자 넘으면 생략되도록",
+      description:`설문조사설명내용임.ㅁ나sdfsd
+      이마넝리마너ㅣㄹ아머닝라마ㅣㄴ어림ㄴㅇ.
+      asdfaㅁ니ㅏ얼미ㅏ넝리ㅏ머나ㅣ런미ㅏ러이ㅏㅁ니아럼니ㅏ어리ㅏㅓ`, createdAt: "3일전"}],
+});
+
 export default function Survey() {
   const navigate = useNavigate();
   const [survey, setSurvey] = useState(true);
   const [showAlert, setShowAlert]=useRecoilState(alertState);
-  const [surveyDummys,setSurveyDummys]=useState([{surveyId:0,title:"설문조사",description:"설문조사 1", createdAt: "3일전"}]);
+  const [surveyDummys,setSurveyDummys]=useRecoilState(listState);
   const surveyViewClick = (e) => {
     setShowAlert(false)
-    navigate(survey ? "/surveyview1" : "/marketview1",
-      {
-        state: {
-          surveyId: e.surveyId,
-        },
-      });
+    navigate(survey ? "/surveyview1" : "/marketview1");
   };
   useEffect(() => {
     if (window.location.pathname === "/survey") {
@@ -56,10 +63,10 @@ export default function Survey() {
                 className={e.finished}
               >
                 <Title>
-                  <Font className='title'>{e.title}</Font>
+                  <Font className='title'>{e.title.length > 15 ? `${e.title.substring(0, 14)}...` : e.title}</Font>
                   <Font className='time'>{e.createdAt}</Font>
                 </Title>
-                <Font className='content'>{e.description}</Font>
+                <ContentWrapper>{e.description}</ContentWrapper>
               </EachListWrapper>
             );
           })}
@@ -143,7 +150,7 @@ const EachListWrapper = styled.div`
   background: var(--white, #fff);
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   margin: 8px 0;
-  padding: 2vh 2vh;
+  padding: 2vh 1.2vh;
   &.true {
     background: rgba(0, 0, 0, 0.2);
   }
@@ -169,11 +176,31 @@ const Font = styled.p`
     font-weight: 600;
   }
   &.time {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 400;
   }
   &.content {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
   }
 `;
+const ContentWrapper=styled.div`
+    width:100%;
+    //331px
+    overflow:hidden;
+    height:auto;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: pre-line;
+
+    display: -webkit-box;
+   -webkit-line-clamp: 3; // 원하는 라인수
+   -webkit-box-orient: vertical;
+
+    color: #000;
+    font-family: Poppins;
+    font-style: normal;
+    line-height: normal;
+    font-size: 11px;
+    font-weight: 500;
+`
