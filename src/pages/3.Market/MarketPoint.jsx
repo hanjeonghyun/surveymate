@@ -3,11 +3,13 @@ import * as C from "../../components/SurveyComponents";
 import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function MarketPoint() {
-  let [point, setPoint] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [showBottom, setBottom] = useState(false);
+  const [totalPoint, setTotalPoint] = useState(0);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -26,6 +28,40 @@ export default function MarketPoint() {
     setBottom(false);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/api/statement/total`, {
+          headers: {
+            accept: "*/*",
+          },
+        });
+        const totalPointData = res.data;
+        setTotalPoint(totalPointData);
+      } catch (error) {
+        console.error("요청 에러", error);
+        // alert("에러 발생");
+      }
+    };
+
+    const fetchAmount = async () => {
+      try {
+        const resAmount = await axios.get(`/api/data/buy/${dataId}`, {
+          headers: {
+            accept: "*/*",
+          },
+        });
+        const amountData = resAmount.data;
+        setAmount(amountData);
+      } catch (error) {
+        console.error("요청 에러", error);
+      }
+    };
+
+    fetchData();
+    fetchAmount();
+  }, []);
+
   return (
     <>
       <C.TitleWrapper>
@@ -35,15 +71,15 @@ export default function MarketPoint() {
       <ProcessTitle>포인트 차감 내용</ProcessTitle>
       <B.InputLabel>차감 포인트</B.InputLabel>
       <NotifyBox>
-        <DayButtonText>{point} POINT</DayButtonText>
+        <DayButtonText>{amount} POINT</DayButtonText>
       </NotifyBox>
-      <HavingPoint>보유 포인트 {point} POINT</HavingPoint>
+      <HavingPoint>보유 포인트 {totalPoint} POINT</HavingPoint>
       <SizedBox />
       <C.NextButton onClick={clickConfirm}>구매 확인</C.NextButton>
       {showBottom && (
         <PointBottom
           onCancel={clickCancel}
-          point={point}
+          amountt={amount}
           handleSubmit={handleSubmit}
         />
       )}
@@ -52,7 +88,7 @@ export default function MarketPoint() {
 }
 
 //설문등록 확인 바텀시트
-function PointBottom({ onCancel, point, handleSubmit }) {
+function PointBottom({ onCancel, amount, handleSubmit }) {
   return (
     <>
       <B.BackgroundBottomSheet>
@@ -60,7 +96,7 @@ function PointBottom({ onCancel, point, handleSubmit }) {
           <B.BottomSheetInfo>
             <B.InputLabel>데이터 구매 확인</B.InputLabel>
             <B.ProcessExplain>
-              {point}포인트를 사용하여 <br />
+              {amount}포인트를 사용하여 <br />
               응답 데이터를 구매하시겠습니까?
             </B.ProcessExplain>
             <img

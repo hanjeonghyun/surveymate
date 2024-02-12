@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import complete from "../../assets/images/dcomplete.svg";
 import completelogo from "../../assets/images/dcompletelogo.svg";
 import styled from "styled-components";
+import axios from "axios";
 
 export default function MarketPointComplete() {
   const navigate = useNavigate();
@@ -10,6 +11,32 @@ export default function MarketPointComplete() {
   const handleBack = () => {
     navigate(-1);
   };
+
+  let dataId = 1;
+
+  const handleDownload = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`/api/data/${dataId}`, {
+        headers: {
+          accept: "*/*",
+        },
+      });
+      //    return res.data; 구현 안 할 시 아래 부분 삭제
+      const download = res.data;
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(download);
+
+      XLSX.utils.book_append_sheet(wb, ws, "sheet1");
+
+      XLSX.writeFile(wb, `Surveymate_${dataId}.xlsx`);
+    } catch (error) {
+      console.error("요청 에러", error);
+    }
+  };
+
+  //npm i --save https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz
+  // https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz  -> 패키지 설치 필요.
 
   return (
     <>
@@ -28,9 +55,10 @@ export default function MarketPointComplete() {
           src={completelogo}
           alt='logo'
         />
-        <C.NextButton>데이터 파일 다운로드</C.NextButton>
+        <C.NextButton onClick={handleDownload}>
+          데이터 파일 다운로드
+        </C.NextButton>
       </ContentsWrapper>
-  
     </>
   );
 }
