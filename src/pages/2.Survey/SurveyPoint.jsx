@@ -58,10 +58,7 @@ export default function SurveyPoint() {
       <C.TitleWrapper>
         <BackBtn onClick={handleBack}></BackBtn>
         <C.Title>설문조사 등록</C.Title>
-        <ThisNextSmallButton
-          disabled={point === 0}
-          onClick={clickNext}
-        >
+        <ThisNextSmallButton onClick={clickNext}>
           <C.SmallButtonText>다음</C.SmallButtonText>
         </ThisNextSmallButton>
       </C.TitleWrapper>
@@ -151,6 +148,7 @@ const BackBtn = styled.button`
   position: absolute;
   left: 5vw;
 `;
+
 const ThisNextSmallButton = styled(C.NextSmallButton)`
   position: absolute;
   right: 5vw;
