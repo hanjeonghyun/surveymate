@@ -5,45 +5,49 @@ import styled from 'styled-components';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { RecoilEnv, atom} from "recoil";
+import { useRecoilState } from "recoil";
+
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+export const pageState=atom({
+  key:"pageState",
+  default:{pageTitle:"",surveyId:0}
+    });
+
 
 export default function MyList() {
   const currentPathname=window.location.pathname;
-  const [pageTitle,setPageTitle]=useState("응답한 설문조사")
+  const [pageSend,setPageSend]=useRecoilState(pageState);
   const [surveyDummys,setSurveyDummys]=useState([{surveyId:0,title:"데이터 없음",
   description:"데이터가 존재하지 않습니다.", createdAt: ""}]);
   const navigate = useNavigate();
   const myViewClick=(e)=>{
-    navigate('/myview',{
-      state:{
-        pageTitle:pageTitle,
-        surveyId:e.surveyId,
-      }
-    }) 
+    setPageSend({...pageSend,surveyId:e.surveyId})
+    navigate('/myview') 
     }
   const fetchData = async ()=>{
       //pathname에 따라 받아오는 api 다르게
       try{
       if (currentPathname==="/mylist1") {
-        setPageTitle("내가 응답한 설문조사");
-        //survey/respondent
+        setPageSend({pageTitle:"내가 응답한 설문조사"});
         const response= await axios.get('/api/survey/respondent');
         console.log(response.data)
         {response.data.surveys && setSurveyDummys(response.data.surveys)}
       } 
       else if (currentPathname==="/mylist2") {
-        setPageTitle("내가 판매 등록한 설문데이터");
+        setPageSend({pageTitle:"내가 판매 등록한 설문데이터"});
         const response= await axios.get('/api/data/list/seller');
         console.log(response.data)
         {response.data.surveys && setSurveyDummys(response.data.surveys)}
       } 
       else if (currentPathname==="/mylist3") {
-        setPageTitle("내가 구매한 설문데이터");
+        setPageSend({pageTitle:"내가 구매한 설문데이터"});
         const response= await axios.get('/api/data/list/buyer');
         console.log(response.data)
         {response.data.surveys && setSurveyDummys(response.data.surveys)}
       } 
       else if (currentPathname==="/mylist4") {
-        setPageTitle("내가 등록한 설문조사");
+        setPageSend({pageTitle:"내가 등록한 설문조사"});
         const response= await axios.get('/api/survey/registrant');
         console.log(response)
         {response.data.surveys && setSurveyDummys(response.data.surveys)};
@@ -63,7 +67,7 @@ export default function MyList() {
     <>
     <All>  
     <TitleWrapper>
-        <Title>{pageTitle}</Title>
+        <Title>{pageSend.pageTitle}</Title>
         <Back src={back} onClick={()=>{navigate(-1)}}></Back>
     </TitleWrapper>
     <br></br>
@@ -130,6 +134,7 @@ const ContentWrapper=styled.div`
     height:auto;
     text-overflow: ellipsis;
     word-break: break-all;
+    white-space:pre-line;
 
     display: -webkit-box;
    -webkit-line-clamp: 3; // 원하는 라인수

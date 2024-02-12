@@ -8,6 +8,7 @@ import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
 import axios from "axios";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
 import { useEffect } from 'react';
+import { pageState } from './MyList';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 export const contentState=atom({
@@ -18,11 +19,10 @@ export const contentState=atom({
 })
 
 
-
 export default function MyView() {
   const navigate=useNavigate();
-  const location=useLocation();
-  const {pageTitle, surveyId } = location.state;
+  const [pageSend, setPageSend]=useRecoilState(pageState);
+  const {pageTitle, surveyId}=pageSend;
   const [marketContent,setMarketContent]=useRecoilState(contentState);
   useEffect(() => {
     ///수정완료 시에도 setShowAlert 뜨게 해야 함 
@@ -39,9 +39,7 @@ export default function MyView() {
         console.log("응답없음")
         console.log(response)
       })
-      .finally(()=>{
-
-      })
+      
   }, [surveyId]);
 
   return (
