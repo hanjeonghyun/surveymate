@@ -1,56 +1,215 @@
 import React from "react";
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
+import * as B from "../../components/BottomSheet";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { messageState } from "../2.Survey/SurveyView";
+import { useState } from "react";
+import axios from 'axios'
+import Upload from "../../assets/images/cUpload.svg";
+import Notfile from "../../assets/images/cNotfile.svg";
+
 export default function SurveyContent() {
   const navigate = useNavigate();
-  const [alertMessage, setAlertMessage] = useRecoilState(messageState);
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
+  let [point, setPoint] = useState();
+  const [file, setFile] = useState();
   const [upload, setUpload] = useState(false);
-  const [ismessage, setIsMessage] = useState(
+  const [showFBottom, setFBottom] = useState(false);
+  const [showPBottom, setPBottom] = useState(false);
+  const [isFile, setIsFile] = useState();
+  const [isMessage, setIsMessage] = useState(
     "판매 데이터 업로드 (CSV, XLSX 만 가능)"
   );
-  
-  const handleClick = () => {
-    if (upload) {
-      setUpload(false);
-      setIsMessage("판매 데이터 업로드 (CSV, XLSX 만 가능)");
-    } else {
-      setUpload(true);
-      setIsMessage("업로드 완료");
-    }
+
+  const fileInput = React.useRef(null);
+  const handleButtonClick = (e) => {
+    fileInput.current.click();
   };
-  useEffect(() => {
-    setAlertMessage("판매등록이 완료되었습니다.")
-  }, []);
+
+  const onChangeTitle = (e) => {
+    const currentTitle = e.target.value;
+    setTitle(currentTitle);
+  };
+  const onChangeContent = (e) => {
+    const currentContent = e.target.value;
+    setContent(currentContent);
+  };
+  const onChangeFile = (e) => {
+    var fileInfo = e.target.files[0].name;
+    const currentFile = e.target.value;
+    setFile(currentFile);
+    const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
+    const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
+    //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
+    //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
+        if (!fileRegExp1.test(fileInfo)&&!fileRegExp2.test(fileInfo)) {
+            setIsFile(false);
+            setFBottom(true);
+            setUpload(false);
+            setIsMessage("판매 데이터 업로드 (CSV, XLSX 만 가능)");
+            console.log(fileInfo);
+        } else {
+            setIsFile(true);
+            setUpload(true);
+            setIsMessage("업로드 완료");
+            console.log(fileInfo);
+        }
+  };
+  const onChangePoint = (e) => {
+    const currentPoint = e.target.value;
+    setPoint(currentPoint);
+  };
+
+  const clickNext = () => {
+    setPBottom(true);
+  };
+  const clickCancel = () => {
+    setPBottom(false);
+    setFBottom(false);
+  };
+
+  const onClickUpload=()=>{
+    if(isFile){
+      axios.post("https://survey-mate-api.jinhy.uk/data",{
+        title: title,
+        description: content,
+        amount: point,
+        file: file
+      })
+      .then((response)=>{
+        console.log(response);
+        navigate("/marketview2");
+      })
+      .catch((response)=>{
+          if (response.response.status===401){
+            alert('401 error')
+            console.log(response)
+          }else{
+      }
+    })
+  }else{
+    alert('404 error')
+  }
+}
 
   return (
     <div>
       <C.TitleWrapper>
         <BackBtn onClick={() => navigate(-1)}></BackBtn>
         <C.Title>설문데이터 판매 등록</C.Title>
-        <NextBtn onClick={() => navigate("/marketview2")}>다음</NextBtn>
+        <NextBtn onClick={clickNext}>다음</NextBtn>
       </C.TitleWrapper>
 
-      <Title placeholder='제목을 입력하세요(최대 몇자인지)'></Title>
+      <Title 
+        placeholder='제목을 입력하세요(최대 몇자인지)'
+        id="title" 
+        name="title" 
+        value={title} 
+        onChange={onChangeTitle}
+      ></Title>
       <Content
-        placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1. 소속이 어디인가요?&#13;&#10;2. 주제가 무엇인가요?&#13;&#10;3. 대상은 누구인가요?&#13;&#10;4. 응답 소요 시간은 얼마나 되나요?
-            '
+        placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1. 소속이 어디인가요?&#13;&#10;2. 주제가 무엇인가요?&#13;&#10;3. 대상은 누구인가요?&#13;&#10;4. 응답 소요 시간은 얼마나 되나요?'
+        id="content" 
+        name="content" 
+        value={content} 
+        onChange={onChangeContent}
       ></Content>
       <UploadBtn
-        onClick={handleClick}
+        onClick={handleButtonClick}
         className={!upload ? "" : "finish"}
       >
         <UploadImg className={!upload ? "" : "finish"} />
-        <UploadText>{ismessage}</UploadText>
+        <UploadText>{isMessage}</UploadText>
       </UploadBtn>
+      <UploadFile
+        type="file"
+        id="file" 
+        name="file" 
+        value={file} 
+        onChange={onChangeFile}
+        ref={fileInput}
+      ></UploadFile>
       <Line></Line>
-
       <Sell>판매가 설정</Sell>
-      <SellPoint placeholder='판매희망 포인트를 입력해주세요'></SellPoint>
+      <SellPoint 
+        placeholder='판매희망 포인트를 입력해주세요'
+        type='number'
+        id="point" 
+        name="point" 
+        value={point}
+        onChange={onChangePoint}
+      ></SellPoint>
+      {showPBottom && (
+        <PointBottom
+          onCancel={clickCancel}
+          point={point}
+          onClickUpload={onClickUpload}
+        />
+      )}
+      {showFBottom && (
+        <FileBottom
+          onCancel={clickCancel}
+        />
+      )}
     </div>
+  );
+}
+
+function FileBottom({ onCancel }) {
+  return (
+    <>
+      <B.BackgroundBottomSheet>
+        <B.BottomSheetWrapper>
+          <B.BottomSheetInfo>
+            <B.InputLabel>유효하지 않은 파일이 등록되었어요</B.InputLabel>
+            <B.ProcessExplain>
+              업로드한 파일의 확장자가 CSV,XLSX인지<br />
+              확인해주세요.
+            </B.ProcessExplain>
+            <img
+              src={Notfile}
+              alt='Notfile'
+            />
+          </B.BottomSheetInfo>
+          <B.BottomButtonWrapper>
+            <ConfirmButton onClick={onCancel}>
+              <C.ButtonText>확인</C.ButtonText>
+            </ConfirmButton>
+          </B.BottomButtonWrapper>
+        </B.BottomSheetWrapper>
+      </B.BackgroundBottomSheet>
+    </>
+  );
+}
+
+function PointBottom({ onCancel, point, onClickUpload }) {
+  return (
+    <>
+      <B.BackgroundBottomSheet>
+        <B.BottomSheetWrapper>
+          <B.BottomSheetInfo>
+            <B.InputLabel>{point}포인트로 판매 등록 하시겠어요?</B.InputLabel>
+            <B.ProcessExplain>
+              등록 후 가격 변경은 불가합니다.<br />
+              가격 변경 시 삭제 후 재등록해주세요.
+            </B.ProcessExplain>
+            <img
+              src={Upload}
+              alt='Upload'
+            />
+          </B.BottomSheetInfo>
+          <B.BottomButtonWrapper>
+            <B.CancelButton onClick={onCancel}>
+              <C.ButtonText>취소</C.ButtonText>
+            </B.CancelButton>
+            <B.ConfirmButton>
+              <C.ButtonText onClick={onClickUpload}>등록</C.ButtonText>
+            </B.ConfirmButton>
+          </B.BottomButtonWrapper>
+        </B.BottomSheetWrapper>
+      </B.BackgroundBottomSheet>
+    </>
   );
 }
 
@@ -143,6 +302,9 @@ const UploadText = styled.p`
   font-size: 14px;
   font-weight: 500;
 `;
+const UploadFile = styled.input`
+  display: none;
+`;
 const Line = styled.hr`
   border: 1px solid #efedff;
 `;
@@ -158,10 +320,23 @@ const SellPoint = styled.input`
   border-radius: 10px;
   border: 2px solid #cfc8ff;
   font-size: 16px;
+  text-align: center;
   &::placeholder {
     font-size: 16px;
     font-weight: 500;
     text-align: center;
     color: #d9d9d9;
   }
+`;
+export const ConfirmButton = styled.button`
+  border-radius: 10px;
+  background: #6046ff;
+  color: var(--white, #fff);
+  width: 80vw;
+  height: 5vh;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `;
