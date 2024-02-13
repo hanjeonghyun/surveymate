@@ -6,76 +6,125 @@ import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
 import SurveyAlert from "./SurveyAlert";
 import SurveyBottomPopUp from "./SurveyBottomPopUp";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import axios from "axios";
+import { useEffect,useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
+import { listState } from "./Survey";
+import { idState } from "./Survey";
+
+//============recoil===============================================
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 export const showPopUpState=atom({
     key:"showPopUpState",
     default:false,
 });
+export const messageState=atom({
+    key:"messageState",
+    default:"설문이 등록되었습니다.",
+});
+export const alertState=atom({
+  key:"alertState",
+  default:false,
+});
+export const contentState=atom({
+  key:"contentState",
+  default:{surveyId:0, title:"설문조사",
+  description:`1.
+  입력
+  완료`, createdAt:"3일전"
+,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
+})
+//================================================================
 
 export default function SurveyView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
-  const [showAlert, setShowAlert]=useState(false);
+  const [alertMessage,setAlertMessage]=useRecoilState(messageState);
+  const [showAlert, setShowAlert]=useRecoilState(alertState);
+  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+  const [surveyDummys,setSurveyDummys]=useRecoilState(listState);
+  const [currentId, setCurrentId]=useRecoilState(idState);
   const navigate = useNavigate();
-  const nickName="가나다";
+  const nickName="가나다라";
   const serverName="가나다";
   const currentPathname=window.location.pathname;
-  const { state } = useLocation();
+
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
   //surveyview1:메인화면에서 접속시 surveyview2:설문등록시
   //서버로부터 현재 접속자명 불러오기
   //서버로부터 글 작성자명 불러오기
   const ButtonClick=()=>{
-    if (nickName===serverName){
+    if (nickName===serverName || currentPathname === "/surveyview2"){
       setShowPopUp(true)
     }
   }
   useEffect(() => {
+    setShowPopUp(false)
     if (currentPathname==="/surveyview2") {
       setShowAlert(true);
+      
+    } else{
+      axios.get(`api/survey/${currentId}`)
+      //surveyview2일 때에는 다른 곳에서 id 받아오도록 수정
+      .then((response)=>{
+        setSurveyContent(response.data)
+      })
+      .catch((response)=>{
+        console.log("응답없음")
+        console.log(response)
+      })
+      .finally(()=>{
+        setShowAlert(false)
+      })
+    }
 
-    } 
+  }, [currentPathname, location]);
 
-  }, []);
+  const BackButtonClick=()=>{
+    if (currentPathname==="/surveyview2"){
+      navigate("/survey")
+    }
+    else{
+      navigate(-1)
+    }
+  }
+
+  const respondClick=()=>{
+    window.open(surveyContent.linkUrl)
+  }
   return (
     <Wrap>
       <TitleWrapper>
-        <Title>설문응답</Title>
-        <Back src={back} onClick={()=>{navigate("/survey")}}></Back>
+        <Title>설문조사</Title>
+        <Back src={back} onClick={BackButtonClick}></Back>
       </TitleWrapper>
       <Profile>
         <div>
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{nickName}</div>
-          <div>0000-00-00</div>
+          <div>{surveyContent.registrantName}</div>
+          <div>{surveyContent.createdAt}</div>
         </ProfileWrite>
         <ReportButton>
-          <img onClick={ButtonClick} src={nickName===serverName ? dot:''}></img>
+          <img onClick={ButtonClick} 
+          src={nickName===serverName || currentPathname==="/surveyview2"? dot:''}></img>
         </ReportButton>
       </Profile>
       <Hr></Hr>
       <Content>
-        <TitleFont>제목을 입력하세요(최대 몇자인지)</TitleFont>
+        <TitleFont>{surveyContent.title}</TitleFont>
         <br></br>
-        <div>내용을 입력하세요(최대 몇자인지)</div>
-        <br></br>
-        <div>1. 어떤 설문인가요?</div>
-        <div>2. 어디 소속인지 알려주세요!</div>
-        <div>3. 추가적인 경품이 있다면 기재해 주세요</div>
-        <div>4. 누구를 대상으로 진행하는 설문인가요?</div>
+        {surveyContent.description}
       </Content>
-      <NextButtonWrapper className={(nickName===serverName) ? "none" : ""}>
+      <NextButtonWrapper className={(nickName===serverName || currentPathname==="/surveyview2") ? "none" : ""}>
         <NextButton>
-          <ButtonText>설문 참여하기</ButtonText>
+          <ButtonText onClick={respondClick}>설문 응답</ButtonText>
         </NextButton>
       </NextButtonWrapper>
-      {showAlert&&<AlertWrapper className={nickName===serverName ? "" : "none"}>
+      {showAlert&&<AlertWrapper className={nickName===serverName || currentPathname==="/surveyview2"? "" : "none"}>
         <AlertPosition>
-        <SurveyAlert text="설문이 등록되었습니다"></SurveyAlert>
+        <SurveyAlert text={alertMessage}></SurveyAlert>
         </AlertPosition>
       </AlertWrapper>}
       {showPopUp&&<SurveyBottomPopUp initialData={{
@@ -83,7 +132,8 @@ export default function SurveyView() {
       line1: "등록된 게시글을 수정하거나",
       line2: "삭제할 수 있어요",
       button1: "삭제",
-      button2: "수정"
+      button2: "수정",
+      surveyId: surveyContent.surveyId,
     }}/>}
     </Wrap>
   );
@@ -130,6 +180,7 @@ const Content = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 21px */
+  white-space: pre-wrap;
 `;
 
 const TitleFont = styled.p`
