@@ -3,17 +3,38 @@ import { ButtonText, NextButton, NextSmallButton, SmallButtonText, Title, TitleW
 import styled, { css } from 'styled-components';
 import checkMessage from "../../assets/images/acheck_message.svg";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {messageState} from "./SurveyView";
 import { useRecoilState } from 'recoil';
+import { idState } from './Survey';
 
 export default function SurveyLink() {
-
     const [showAlert,setShowAlert]=useState(false);
     const [nextBtValid,setNextBtValid]=useState(false);
     const [notAllow,setNotAllow]=useState(true);
     const [alertMessage,setAlertMessage]=useRecoilState(messageState);
     const navigate=useNavigate();
-    const pointLink ="https://survey_Google_asdfasdf/asd..";
+    const surveyId= useRecoilState(idState);
+    const [pointLink, setPointLink] = useState("https://survey_Google_asdfasdf/asd..");
+
+    const getData = async()=>{
+        try{
+            const response = await axios.get(`https://survey-mate-api.jinhy.uk/survey/${surveyId}`);
+            setPointLink(response.data.rewardUrl);
+        } catch (error){
+            if (error.response) {
+                console.error('서버 응답 상태 코드:', error.response.status);
+                console.error('서버 응답 데이터:', error.response.data);
+            } else if (error.request) {
+                console.error('서버 응답 없음');
+            } else {
+                console.error('Axios 오류:', error.message);
+            }
+        }
+    };
+    useEffect(() => {
+        getData(); 
+    }, []);
 
     const handleCopy =async()=>{
         try{
