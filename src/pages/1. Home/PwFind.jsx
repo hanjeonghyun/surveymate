@@ -18,7 +18,9 @@ export default function PwFind() {
     const [code, setCode]=useState('');
 
     const [alertMessage, setAlertMessage]=useState({one:"",two:"",three:""})
-    const [color,setColor]=useState(false)
+    const [warningMessage, setWarningMessage]=useState({one:"",two:"",three:""})
+    const [pwType, setpwType] = useState({type: "password", visible: false});
+ 
 
     const onChangeEmail = (e) => {
         const currentEmail = e.target.value;
@@ -34,10 +36,11 @@ export default function PwFind() {
             .then((response)=>{
                 console.log(response);
                 setAlertMessage({...alertMessage, one:"인증메일이 발송되었습니다. 확인해주세요.", two:"3분 이내로 입력해주세요."})
-    
+                setWarningMessage({one:"",two:"",three:""})
             })
             .catch((response)=>{
                 console.log(response);
+
                 if (response.response.status===401){
                     alert('존재하지 않는 아이디입니다.')}
                 else{
@@ -48,7 +51,8 @@ export default function PwFind() {
     
 
     const onChangeCode=(e)=>{
-        setCode(e.target.value);
+        const currentCode = e.target.value;
+        setCode(currentCode);
     }
 
     const onClickCode=()=>{
@@ -67,10 +71,12 @@ export default function PwFind() {
         })
         .catch((response)=>{
             if (response.response.status===401){
-                setAlertMessage({...alertMessage, two:"인증코드를 잘못 입력하였습니다."})
-                setColor(true)
+                setWarningMessage({...warningMessage, two:"인증코드를 잘못 입력하였습니다."})
+                setAlertMessage({...warningMessage, two:""})
+    
             }else{
             alert("서버 통신 에러")
+
         }
         })
         
@@ -96,14 +102,23 @@ export default function PwFind() {
             .catch((response)=>{
                 console.log(response);
                 if(response.response.status===401){
-                    setAlertMessage({...alertMessage, three:"기존 비밀번호와 동일합니다."})
+                    setWarningMessage({...warningMessage, three:"기존 비밀번호와 동일합니다."})
                     setColor(true)
                 }else{
                     alert("서버 통신 오류")
-                    window.location.reload();
                 }
             })
         }
+    
+    const handlePasswordType = (e) => {
+        setpwType(() => {
+        if (!pwType.visible) {
+            return { type: "text", visible: true };
+        } else {
+            return { type: "password", visible: false };
+        }
+        });
+    };
 
     return(
         <>
@@ -119,33 +134,42 @@ export default function PwFind() {
                     name="email" 
                     value={email} 
                     onChange={onChangeEmail} />
-                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요"?"resend":""} onClick={onClickEmail}></BtnA>
+                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요."?"resend":""} onClick={onClickEmail}></BtnA>
             </Wrapper>
             <P>{alertMessage.one}</P>
+            <P className="red">{warningMessage.one}</P>
         </Content0>
         <Content>
             <C.InputLabel>인증코드 6자리</C.InputLabel>
             <Wrapper>
                 <AuthInput2 placeholder='000000' type='number'
-                id="code" name="code" value={code} onChange={onChangeCode}/>
-                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요"?"":"cant"} onClick={onClickCode}></BtnA>
+                id="code" name="code" value={code} onChange={onChangeCode}
+                className={token ? "gray" : ""}/>
+                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요."?"":"cant"} onClick={onClickCode}></BtnA>
             </Wrapper>
             <P>{alertMessage.two}</P>
+            <P className="red">{warningMessage.two}</P>
         </Content>
         <Content>
             <C.InputLabel>새로운 비밀번호</C.InputLabel>
             <Wrapper>
                 <AuthInput2 
-                    type='password' 
+                    type={pwType.type} 
                     placeholder='비밀번호를 입력해주세요'
                     id="password"
                     name="password"
                     value={password}
-                    onChange={onChangePassword} />
-                <BtnE type='button' onClick={onClickButton} ></BtnE>
+                    onChange={onChangePassword}
+                     />
+                <BtnE 
+                    type='button' 
+                    onClick={handlePasswordType}
+                    style={{ background: !pwType.visible ? "" : "url('src/assets/images/cEyeopen.svg')" }}
+                    ></BtnE>
             </Wrapper>
             <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
             <P>{alertMessage.three}</P>
+            <P className="red">{warningMessage.three}</P>
         </Content>
         <Blank></Blank>
 
@@ -179,6 +203,9 @@ const P = styled.p`
     font-weight: 400;
     color: #848383;
     margin-top: 1vh;
+    &.red{
+        color:red;
+    }
 `
 
 const BtnA = styled.input`
@@ -200,6 +227,9 @@ const BtnE = styled.input`
     width: 24px;
     height: 24px;
     border: none;
+    &.see{
+        background: url('src/assets/images/bEye.svg') no-repeat;
+    }
 `
 const AuthInput2 = styled.input`
     position:relative;
@@ -215,6 +245,9 @@ const AuthInput2 = styled.input`
     }
     &:focus {
         outline: none;
+    }
+    &.gray{
+        color:gray
     }
 `;
 
