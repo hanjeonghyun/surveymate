@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 
 export const TitleWrapper = styled.div`
   text-align: center;
@@ -37,7 +37,6 @@ export const AuthInput = styled.input`
   height: 3vh;
   padding: 5px;
   border: none;
-  margin-bottom: 10vh;
   margin-top: 2vh;
   border-bottom: 0.4px solid rgba(96, 70, 255, 0.3);
   &::placeholder {
@@ -60,13 +59,13 @@ export const NextButton = styled.button`
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  ${props=>
-  props.disabled &&
-  css`
-    background-color:#D9D9D9;
-    cursor:not-allowed;
-    box-shadow:none;
-  `}
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: #d9d9d9;
+      cursor: not-allowed;
+      box-shadow: none;
+    `}
 `;
 
 export const ButtonText = styled.p`

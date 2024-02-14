@@ -2,15 +2,20 @@ import styled from "styled-components";
 import * as C from "../../components/AuthComponents";
 import ddefaultProfile from "../../assets/images/ddefaultProfile.svg";
 import dfixButton from "../../assets/images/dfixButton.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { React, useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Profile() {
-  const [inputName, setInputName] = useState("");
+  let [nickname, setInputName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
+  const [exist, setExist] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  let { email, number, password } = location.state;
 
-  const [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
+  let [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
 
   const onUploadImage = (e) => {
     const file = e.target.files[0];
@@ -20,16 +25,51 @@ export default function Profile() {
 
   const handleName = (e) => {
     setInputName(e.target.value);
-    setNameValid(e.target.value.trim());
+    setNameValid(e.target.value.trim() !== "");
+    setNotAllow(false);
   };
 
   useEffect(() => {
-    if (nameValid) {
-      setNotAllow(false);
-      return;
+    setNotAllow(!(nameValid && !exist));
+  }, [nameValid, exist]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`api/auth/nickname/${nickname}`, {
+        headers: {
+          accept: "*/*",
+        },
+      });
+
+      if (res.data.nicknameExist) {
+        setExist(true);
+        return;
+      } else {
+        const formData = new FormData();
+        formData.append("memberId", email);
+        formData.append("nickname", nickname);
+        formData.append("password", password);
+        formData.append("emailToken", number);
+        formData.append("messageConsent", true);
+        formData.append("marketingConsent", true);
+
+        const resJoin = await axios.post(
+          `https://survey-mate-api.jinhy.uk/auth/join`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(resJoin.data);
+        navigate("/authrule");
+      }
+    } catch (error) {
+      console.error("요청 에러", error);
     }
-    setNotAllow(true);
-  }, [nameValid]);
+  };
 
   return (
     <>
@@ -54,17 +94,19 @@ export default function Profile() {
       <C.AuthInput
         placeholder='스트로베리 초코 생크림 케이크'
         name='nickname'
-        value={inputName}
+        value={nickname}
         onChange={handleName}
       ></C.AuthInput>
-      <Link to='/authrule'>
-        <C.NextButton
-          type='submit'
-          disabled={notAllow}
-        >
-          <C.ButtonText>다음</C.ButtonText>
-        </C.NextButton>
-      </Link>
+      {exist && <ErrorMsg>이미 사용 중인 닉네임입니다.</ErrorMsg>}
+      <SizedBox />
+      <SizedBox />
+      <C.NextButton
+        type='submit'
+        disabled={notAllow}
+        onClick={handleSubmit}
+      >
+        <C.ButtonText>다음</C.ButtonText>
+      </C.NextButton>
     </>
   );
 }
@@ -75,7 +117,7 @@ const FileInput = ({ onChange }) => {
       <ImgInput
         type='file'
         id='fileInput'
-        accept='images/*'
+        accept='image/*'
         onChange={onChange}
       />
       <Imglabel htmlFor='fileInput' />
@@ -132,4 +174,15 @@ const Imglabel = styled.label`
   height: 32px;
   display: inline-block;
   cursor: pointer;
+`;
+
+const ErrorMsg = styled.p`
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #ff0000;
+  margin: 8px 0;
 `;
