@@ -1,8 +1,8 @@
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
-import PoppinsBoldWoff from '../assets/fonts/PoppinsBold.woff'
-import PoppinsSemiBoldWoff from '../assets/fonts/PoppinsSemiBold.woff'
-import PoppinsMediumWoff from '../assets/fonts/PoppinsMedium.woff'
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+import PoppinsBoldWoff from "../assets/fonts/PoppinsBold.woff";
+import PoppinsSemiBoldWoff from "../assets/fonts/PoppinsSemiBold.woff";
+import PoppinsMediumWoff from "../assets/fonts/PoppinsMedium.woff";
 
 const GlobalStyle = createGlobalStyle`
     ${reset};
