@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import profileImg from "../../assets/images/aprofile_img.svg";
@@ -8,7 +8,32 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function MyPage() {
     const navigate = useNavigate();
     const nickName="닉네임";
-    const point= "12341";
+    const [point, setPoint]= useState(0);
+    async function getPoint(){
+        try{
+            const response = await axios.get("https://survey-mate-api.jinhy.uk/statement/total",{
+                headers: {
+                    "accept": "*/*"
+                  }
+            });
+            const data = response.data.totalAmount;
+            setPoint(data);
+            console.log(data);
+            return data;
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 상태 코드:', error.response.status);
+                console.error('서버 응답 데이터:', error.response.data);
+            } else if (error.request) {
+                console.error('서버 응답 없음');
+            } else {
+                console.error('Axios 오류:', error.message);
+            }
+        }
+    };
+    useEffect(() => {
+        getPoint(); 
+    }, []);
     const version="v1.1.1";
 
     const profileFix=()=>{
