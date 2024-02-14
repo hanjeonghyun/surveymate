@@ -12,8 +12,7 @@ export default function MarketPointComplete() {
     navigate(-1);
   };
 
-  let dataId = 1;
-
+  let dataId = 11;
   const handleDownload = async (e) => {
     e.preventDefault();
     try {
@@ -22,21 +21,11 @@ export default function MarketPointComplete() {
           accept: "*/*",
         },
       });
-      //    return res.data; 구현 안 할 시 아래 부분 삭제
-      const download = res.data;
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(download);
-
-      XLSX.utils.book_append_sheet(wb, ws, "sheet1");
-
-      XLSX.writeFile(wb, `Surveymate_${dataId}.xlsx`);
+      return (filedownload = res.data);
     } catch (error) {
       console.error("요청 에러", error);
     }
   };
-
-  //npm i --save https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz
-  // https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz  -> 패키지 설치 필요.
 
   return (
     <>
