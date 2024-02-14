@@ -3,32 +3,80 @@ import * as C from '../../components/SurveyComponents'
 import styled from 'styled-components'
 import { useNavigate} from 'react-router'
 import * as B from '../../components/BottomSheet'
+import axios from 'axios'
 
 export default function MyPoint() {
     const navigate = useNavigate();
-    const [selectedCategory, setSelectedCategory] = useState('total');
+    const [point, setPoint]= useState(0);
+    async function getPoint(){
+        try{
+            const response = await axios.get("https://survey-mate-api.jinhy.uk/statement/total",{
+                headers: {
+                    "accept": "*/*"
+                  }
+            });
+            const data = response.data.totalAmount;
+            setPoint(data);
+            console.log(data);
+            return data;
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 상태 코드:', error.response.status);
+                console.error('서버 응답 데이터:', error.response.data);
+            } else if (error.request) {
+                console.error('서버 응답 없음');
+            } else {
+                console.error('Axios 오류:', error.message);
+            }
+        }
+    };
+    useEffect(() => {
+        getPoint(); 
+    }, []);
 
-    const categoryDummys = {
-        total:[
-            {type: "plus", title: "설문조사 응답", time:"2024-01-24",point:"+30",balance:"잔액 80POINT", id:1},
-            {type: "minus", title: "설문조사 등록", time:"2024-01-24",point:"-30",balance:"잔액 50POINT", id:2}, 
-            {type: "plus", title: "설문조사 응답", time:"2024-01-25",point:"+30",balance:"잔액 80POINT", id:3},
-            {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:4},  
-            {type: "minus", title: "설문조사 등록", time:"2024-01-26",point:"-30",balance:"잔액 80POINT", id:5},
-            {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:6},
-            {type: "plus", title: "설문조사 응답", time:"2024-01-27",point:"+30",balance:"잔액 140POINT", id:7},
-            {type: "minus", title: "설문조사 등록", time:"2024-01-28",point:"-30",balance:"잔액 110POINT", id:8},
-            {type: "minus", title: "설문조사 등록", time:"2024-01-29",point:"-30",balance:"잔액 80POINT", id:9},
-            {type: "minus", title: "설문조사 등록", time:"2024-01-31",point:"-30",balance:"잔액 50POINT", id:10},
-            {type: "minus", title: "설문조사 등록", time:"2024-02-01",point:"-30",balance:"잔액 20POINT", id:11},
-        ],
+    const [selectedCategory, setSelectedCategory] = useState('total');
+    const [categoryDummys,setCategoryDummys]=useState({
+        total:[{description:"설문조사 등록",createAt:"2024-02-14",amount:20,balance:80},
+        {description:"설문조사 등록",createAt:"2024-02-15",amount:-30,balance:50}],
         plus:[],
         minus:[],
-    };
+    });
+    // const categoryDummys = {
+    //     total:[
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-24",point:"+30",balance:"잔액 80POINT", id:1},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-24",point:"-30",balance:"잔액 50POINT", id:2}, 
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-25",point:"+30",balance:"잔액 80POINT", id:3},
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:4},  
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-26",point:"-30",balance:"잔액 80POINT", id:5},
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:6},
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-27",point:"+30",balance:"잔액 140POINT", id:7},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-28",point:"-30",balance:"잔액 110POINT", id:8},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-29",point:"-30",balance:"잔액 80POINT", id:9},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-31",point:"-30",balance:"잔액 50POINT", id:10},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-02-01",point:"-30",balance:"잔액 20POINT", id:11},
+    //     ],
+    //     plus:[],
+    //     minus:[],
+    // };
 
-    const reversedArray = categoryDummys.total.reverse();
-    categoryDummys.plus = categoryDummys.total.filter(item => item.type === 'plus');
-    categoryDummys.minus = categoryDummys.total.filter(item => item.type === 'minus');
+    const getData = async()=>{
+        try{
+            const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list");
+            console.log(res.data);
+            setCategoryDummys(res.data);
+        }catch(error) {
+            if (error.response) {
+                console.error('서버 응답 상태 코드:', error.response.status);
+                console.error('서버 응답 데이터:', error.response.data);
+            } else if (error.request) {
+                console.error('서버 응답 없음');
+            } else {
+                console.error('Axios 오류:', error.message);
+            }
+        }
+    }
+    categoryDummys.plus = categoryDummys.total.filter(item => item.amount>0);
+    categoryDummys.minus = categoryDummys.total.filter(item => item.amount<0);
 
     const count = categoryDummys[selectedCategory].length;
 
@@ -43,6 +91,7 @@ export default function MyPoint() {
 
     useEffect(() => {
     console.log(selectedCategory);
+    getData();
     }, [selectedCategory]);
     
   return (
@@ -57,7 +106,7 @@ export default function MyPoint() {
         <B.InputLabel>보유 포인트</B.InputLabel> 
         <HoldPointWrapper>
             <HoldPoint>
-                123412 POINT
+                {point} POINT
             </HoldPoint>
         </HoldPointWrapper>
     </PointWrapper>
@@ -88,12 +137,12 @@ export default function MyPoint() {
             return(
                 <ListItem key={item.id}>
                     <TextTitle>
-                        <Font className="title">{item.title}</Font>
-                        <Font className="point" type={item.type}>{item.point}</Font>
+                        <Font className="title">{item.description}</Font>
+                        <Font className="point" amount ={item.amount}>{item.amount>0 ? `+${item.amount}` : item.amount}</Font>
                     </TextTitle>
                     <TextTitle>
-                        <Font className="time">{item.time}</Font>
-                        <Font className="balance">{item.balance}</Font>
+                        <Font className="time">{item.createAt}</Font>
+                        <Font className="balance">잔액 {item.balance}POINT</Font>
                     </TextTitle>
                 </ListItem>
             )
@@ -192,13 +241,15 @@ const ListWrapper = styled.div`
 
 const ListItem = styled.div`
     padding: 2vh 0;
-    gap:8px;
 `;
 
 const TextTitle=styled.div`
     display:flex;
     flex-direction:row;
     justify-content:space-between;
+    & > * + * {
+        margin-top: 8px;
+    }
 `;
 
 const Font=styled.p`
@@ -217,7 +268,7 @@ const Font=styled.p`
         font-weight: 400;
     }
     &.point{
-        color: ${(props) => (props.type==="plus" ? '#0148FF' : '#F00')};
+        color: ${(props) => (props.amount>0 ? '#0148FF' : '#F00')};
         font-size: 14px;
         font-weight: 500;
     }
