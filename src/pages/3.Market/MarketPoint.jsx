@@ -44,6 +44,7 @@ export default function MarketPoint() {
       }
     };
 
+    let dataId = 11; //데이터 아이디 리코일 생성 후 수정
     const fetchAmount = async () => {
       try {
         const resAmount = await axios.get(`/api/data/buy/${dataId}`, {
@@ -55,6 +56,7 @@ export default function MarketPoint() {
         setAmount(amountData);
       } catch (error) {
         console.error("요청 에러", error);
+        // alert("에러 발생");
       }
     };
 

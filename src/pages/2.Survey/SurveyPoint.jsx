@@ -4,6 +4,7 @@ import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 export default function SurveyPoint() {
   let [point, setPoint] = useState(0);
@@ -24,21 +25,18 @@ export default function SurveyPoint() {
     setSelectedDay(day);
   };
 
-  const handleSubmit = async () => {
-    navigate("/surveyview2");
-
-    //   e.preventDefault();
-    //   try {
-    //     const formData = new FormData();
-    //     formData.append("title", email);
-    //     formData.append("discription", nickname);
-    //     formData.append("linkUrl", pa);
-    //     formData.append("period", point);
-    //     const res = await axios.post(`/api/survey`, formData);
-    //     console.log(res.data);
-    //   } catch (error) {
-    //     console.error("요청 에러", error);
-    //   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`/api/data`, {
+        amount: point,
+      });
+      console.log(res.data);
+      navigate("/surveyview2");
+    } catch (e) {
+      // alert(`${e} 번 에러가 발생했습니다.`)
+      console.error("요청 에러", e);
+    }
   };
 
   const confirmPoint = (value) => {
@@ -58,10 +56,7 @@ export default function SurveyPoint() {
       <C.TitleWrapper>
         <BackBtn onClick={handleBack}></BackBtn>
         <C.Title>설문조사 등록</C.Title>
-        <ThisNextSmallButton
-          disabled={point === 0}
-          onClick={clickNext}
-        >
+        <ThisNextSmallButton onClick={clickNext}>
           <C.SmallButtonText>다음</C.SmallButtonText>
         </ThisNextSmallButton>
       </C.TitleWrapper>
