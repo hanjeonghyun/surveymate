@@ -57,7 +57,7 @@ export default function MyProfileFix() {
 
   const profileFix = async () => {
     try {
-      const res = await axios.get(`api/auth/nickname/${nickname}`, {
+      const res = await axios.get(`/api/auth/nickname/${nickname}`, {
         headers: {
           accept: "*/*",
         },
@@ -67,11 +67,26 @@ export default function MyProfileFix() {
         setExist(true);
         return;
       } else {
-        setShowAlert(true);
+        const resFix = await axios.patch(
+          `/api/auth/nickname`,
+          {
+            newNickname: nickname,
+          },
+          {
+            headers: {
+              accept: "*/*",
+              Authorization: "",
+              "Content-Type": "application/json",
+            },
+          },
+          setShowAlert(true)
+        );
       }
     } catch (error) {
-      console.error("요청 에러", error);
-      alert("에러 발생");
+      if (resFix.data.status === "NICKNAME409") {
+        alert("이미 등록된 닉네임입니다.");
+        console.error("요청 에러", error);
+      }
     }
   };
 
