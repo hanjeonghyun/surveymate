@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import defaultProfile from "../../assets/images/ddefaultProfile.svg";
+import next_icon from "../../assets/images/dicon_next.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function MyProfile() {
@@ -39,9 +40,20 @@ export default function MyProfile() {
       </ProfileWrapper>
       <MyText>스트로베리 초코 생크림 케이크</MyText>
       <Divideline />
-      <MenuBox onClick={profileFix}>프로필 변경</MenuBox>
-      <MenuBox onClick={pwFix}>비밀번호 변경</MenuBox>
-      <MenuBox onClick={withdrawal}>회원 탈퇴</MenuBox>
+      <MenuWrapper>
+        <MenuContainer>
+          <MenuBox onClick={profileFix}>프로필 변경</MenuBox>
+          <img src={next_icon}></img>
+        </MenuContainer>
+        <MenuContainer>
+          <MenuBox onClick={pwFix}>비밀번호 변경</MenuBox>
+          <img src={next_icon}></img>
+        </MenuContainer>
+        <MenuContainer>
+          <MenuBox onClick={withdrawal}>회원 탈퇴</MenuBox>
+          <img src={next_icon}></img>
+        </MenuContainer>
+      </MenuWrapper>
     </>
   );
 }
@@ -96,4 +108,22 @@ const Divideline = styled.div`
   margin-top: 2vh;
   background: #efedff;
   margin: 20px 0 10px 0;
+`;
+
+const MenuWrapper = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+`;
+
+const MenuContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-align: left;
+  height: 1vh;
+  padding: 3.125vh 0vw;
+  cursor: pointer;
 `;
