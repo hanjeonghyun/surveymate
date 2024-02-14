@@ -5,12 +5,43 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import profile from "../../assets/images/bGroup 34.svg";
 import back from "../../assets/images/bicon_back.svg";
 import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
+import axios from "axios";
+import { atom, useRecoilState, RecoilEnv } from 'recoil';
+import { useEffect } from 'react';
+import { pageState } from './MyList';
+
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+export const contentState=atom({
+  key:"contentState",
+  default:{surveyId:0, title:"없음",
+  description:"없음", createdAt:"없음"
+,registrantName:"없음",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
+})
+
+
 export default function MyView() {
-  const nickName="가나다";
-  const serverName="가나다";
   const navigate=useNavigate();
-  const location = useLocation();
-  const {  pageTitle, title, content } = location.state;
+  const [pageSend, setPageSend]=useRecoilState(pageState);
+  const {pageTitle, surveyId}=pageSend;
+  const [marketContent,setMarketContent]=useRecoilState(contentState);
+  useEffect(() => {
+    ///수정완료 시에도 setShowAlert 뜨게 해야 함 
+      axios.get(`api/survey/${surveyId}`)
+      .then((response)=>{
+        console.log(response)
+        if (response.data) {
+          setMarketContent(response.data);
+        } else {
+          console.log("응답 데이터가 null입니다.");
+        }
+      })
+      .catch((response)=>{
+        console.log("응답없음")
+        console.log(response)
+      })
+      
+  }, [surveyId]);
+
   return (
     <Wrap>
     <TitleWrapper>
@@ -22,18 +53,18 @@ export default function MyView() {
         <img src={profile}></img>
       </div>
       <ProfileWrite>
-        <div>{nickName}</div>
-        <div>0000-00-00</div>
+        <div>{marketContent.registrantName}</div>
+        <div>{marketContent.createdAt}</div>
       </ProfileWrite>
       <ReportButton>
-        <img  src={nickName===serverName ? dot:''}></img>
+        <img  src={pageTitle==="내가 등록한 설문조사"||pageTitle==="내가 판매 등록한 설문데이터"? dot:''}></img>
       </ReportButton>
     </Profile>
     <Hr></Hr>
     <Content>
-      <TitleFont>{title}</TitleFont>
+      <TitleFont>{marketContent.title}</TitleFont>
       <br></br>
-      {content}
+      {marketContent.description}
     </Content>
     </Wrap>
   )

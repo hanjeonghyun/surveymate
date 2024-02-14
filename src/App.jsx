@@ -1,12 +1,22 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import SideBar from "./components/SideBar";
+import MyList from "./pages/4. My/MyList";
+import My from "./pages/4. My/My";
+import MyView from "./pages/4. My/MyView";
+import MyPassword from "./pages/4. My/MyPassword";
+import MyPoint from "./pages/4. My/MyPoint";
+import MyPage from "./pages/4. My/MyPage";
+import MyProfileFix from "./pages/4. My/MyProfileFix";
+import MyProfile from "./pages/4. My/MyProfile";
+import MyOut from "./pages/4. My/MyOut";
 import Login from './pages/1.Home/Login'
 import Auth from './pages/1.Home/Auth'
 import AuthImg from './pages/1.Home/AuthImg'
 import AuthRule from './pages/1.Home/AuthRule'
 import PwFind from './pages/1.Home/PwFind';
 import Main from "./pages/2.Survey/Main";
-import SideBar from "./components/SideBar";
+import MainL from "./pages/2.Survey/MainL"
 import SurveyResult from "./pages/2.Survey/SurveyResult";
 import SurveyView from "./pages/2.Survey/SurveyView";
 import Survey from "./pages/2.Survey/Survey";
@@ -17,14 +27,9 @@ import SurveyFix from "./pages/2.Survey/SurveyFix";
 import Market from './pages/3.Market/Market'
 import MarketView from './pages/3.Market/MarketView';
 import MarketContent from './pages/3.Market/MarketContent';
-import MyList from './pages/4. My/MyList';
-import My from './pages/4. My/My'
-import MyView from './pages/4. My/MyView';
-import MyPassword from './pages/4. My/MyPassword';
 import MarketPoint from "./pages/3.Market/MarketPoint";
 import MarketPointComplete from "./pages/3.Market/MarketPointComplete";
 import MarketFix from "./pages/3.Market/MarketFix";
-import MainL from "./pages/2.Survey/MainL"
 
 function App() {
   return (

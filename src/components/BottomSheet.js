@@ -12,7 +12,7 @@ export const BackgroundBottomSheet = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: flex-end;
-  z-index: 1;
+  z-index: 2;
 `;
 
 //바텀시트

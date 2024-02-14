@@ -26,8 +26,8 @@ const GlobalStyle = createGlobalStyle`
 
     a {
         text-decoration: none;
+        color: inherit;
     }
-
 `;
 
 export default GlobalStyle;
