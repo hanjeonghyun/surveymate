@@ -128,6 +128,10 @@ function App() {
           element={<MarketContent />}
         />
         <Route
+          path='/'
+          element={<My />}
+        />
+        <Route
           path='/mylist1'
           element={<MyList />}
         />
@@ -150,6 +154,34 @@ function App() {
         <Route
           path='/mypassword'
           element={<MyPassword />}
+        />
+        <Route
+          path='/mypointtotal'
+          element={<MyPoint />}
+        />
+        <Route
+          path='/mypointplus'
+          element={<MyPoint />}
+        />
+        <Route
+          path='/mypointminus'
+          element={<MyPoint />}
+        />
+        <Route
+          path='/mypage'
+          element={<MyPage />}
+        />
+        <Route
+          path='/myprofile'
+          element={<MyProfile />}
+        />
+        <Route
+          path='/myprofilefix'
+          element={<MyProfileFix />}
+        />
+        <Route
+          path='/myout'
+          element={<MyOut />}
         />
       </Routes>
       <SideBar />

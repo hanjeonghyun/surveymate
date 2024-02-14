@@ -3,7 +3,7 @@ import styled from "styled-components";
 import plus from "../../assets/images/bGroup 45.svg";
 import marketPlus from "../../assets/images/bmarketupload.svg";
 import { useNavigate, Link } from "react-router-dom";
-import { useRecoilState } from 'recoil'
+import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { listState } from "../../components/RecoilDummys";
@@ -13,39 +13,44 @@ import { alertState } from "../../components/RecoilDummys";
 export default function Survey() {
   const navigate = useNavigate();
   const [survey, setSurvey] = useState(true);
-  const [showAlert, setShowAlert]=useRecoilState(alertState);
-  const [surveyDummys,setSurveyDummys]=useRecoilState(listState);
-  const [currentId, setCurrentId]=useRecoilState(idState);
+  const [showAlert, setShowAlert] = useRecoilState(alertState);
+  const [surveyDummys, setSurveyDummys] = useRecoilState(listState);
+  const [currentId, setCurrentId] = useRecoilState(idState);
+  const gotoMypage = () => {
+    navigate(`/mypage`);
+  };
+
   const surveyViewClick = (e) => {
-    setShowAlert(false)
+    setShowAlert(false);
     navigate(survey ? "/surveyview1" : "/marketview1");
-    setCurrentId(e.surveyId)
+    setCurrentId(e.surveyId);
   };
   useEffect(() => {
     if (window.location.pathname === "/survey") {
       setSurvey(true);
-      axios.get(`/api/survey?page=1`)
-      .then((response)=>{
-        console.log(response.data.surveys);
-        setSurveyDummys(response.data.surveys)
-      })
-      .catch((response)=>{
-        console.log(response)
-        console.log("응답없음")
-      })
-
+      axios
+        .get(`/api/survey?page=1`)
+        .then((response) => {
+          console.log(response.data.surveys);
+          setSurveyDummys(response.data.surveys);
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
     }
     if (window.location.pathname === "/market") {
       setSurvey(false);
-      axios.get(`/api/data/list`)
-      .then((response)=>{
-        console.log(response.data.surveys);
-        setSurveyDummys(response.data.surveys)
-      })
-      .catch((response)=>{
-        console.log(response)
-        console.log("응답없음")
-      })
+      axios
+        .get(`/api/data/list`)
+        .then((response) => {
+          console.log(response.data.surveys);
+          setSurveyDummys(response.data.surveys);
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
     }
   }, [window.location.pathname]);
 
@@ -54,7 +59,7 @@ export default function Survey() {
       <All>
         <Top>
           <Logo className={survey ? "survey" : "market"}></Logo>
-          <LBtn onClick={() => alert("프로필")}></LBtn>
+          <LBtn onClick={() => gotoMypage()}></LBtn>
         </Top>
         <ListWrapper>
           {surveyDummys.map((e) => {
@@ -65,7 +70,11 @@ export default function Survey() {
                 className={e.finished}
               >
                 <Title>
-                  <Font className='title'>{e.title.length > 15 ? `${e.title.substring(0, 14)}...` : e.title}</Font>
+                  <Font className='title'>
+                    {e.title.length > 15
+                      ? `${e.title.substring(0, 14)}...`
+                      : e.title}
+                  </Font>
                   <Font className='time'>{e.createdAt}</Font>
                 </Title>
                 <ContentWrapper>{e.description}</ContentWrapper>
@@ -186,23 +195,23 @@ const Font = styled.p`
     font-weight: 500;
   }
 `;
-const ContentWrapper=styled.div`
-    width:100%;
-    //331px
-    overflow:hidden;
-    height:auto;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    white-space: pre-line;
+const ContentWrapper = styled.div`
+  width: 100%;
+  //331px
+  overflow: hidden;
+  height: auto;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: pre-line;
 
-    display: -webkit-box;
-   -webkit-line-clamp: 3; // 원하는 라인수
-   -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; // 원하는 라인수
+  -webkit-box-orient: vertical;
 
-    color: #000;
-    font-family: Poppins;
-    font-style: normal;
-    line-height: normal;
-    font-size: 11px;
-    font-weight: 500;
-`
+  color: #000;
+  font-family: Poppins;
+  font-style: normal;
+  line-height: normal;
+  font-size: 11px;
+  font-weight: 500;
+`;
