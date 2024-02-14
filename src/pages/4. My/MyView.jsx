@@ -6,27 +6,20 @@ import profile from "../../assets/images/bGroup 34.svg";
 import back from "../../assets/images/bicon_back.svg";
 import dot from "../../assets/images/bocticon_kebab-horizontal-16.svg"
 import axios from "axios";
-import { atom, useRecoilState, RecoilEnv } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { pageState } from './MyList';
-
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-export const contentState=atom({
-  key:"contentState",
-  default:{surveyId:0, title:"없음",
-  description:"없음", createdAt:"없음"
-,registrantName:"없음",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
-})
-
+import { contentState} from "../../components/RecoilDummys"
+import { pageState } from '../../components/RecoilDummys';
+import { idState } from '../../components/RecoilDummys';
 
 export default function MyView() {
   const navigate=useNavigate();
-  const [pageSend, setPageSend]=useRecoilState(pageState);
-  const {pageTitle, surveyId}=pageSend;
+  const [pageTitle, setPageTitle]=useRecoilState(pageState);
   const [marketContent,setMarketContent]=useRecoilState(contentState);
+  const [currentId,setCurrentId]=useRecoilState(idState)
   useEffect(() => {
     ///수정완료 시에도 setShowAlert 뜨게 해야 함 
-      axios.get(`api/survey/${surveyId}`)
+      axios.get(`api/survey/${currentId}`)
       .then((response)=>{
         console.log(response)
         if (response.data) {
@@ -40,7 +33,7 @@ export default function MyView() {
         console.log(response)
       })
       
-  }, [surveyId]);
+  }, [currentId]);
 
   return (
     <Wrap>

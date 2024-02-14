@@ -16,6 +16,12 @@ export const idState=atom({
   key:"idState",
   default:10,
 })
+
+export const pageState=atom({
+  key:"pageState",
+  default:"",
+})
+
 export const showPopUpState=atom({
     key:"showPopUpState",
     default:false,

@@ -5,49 +5,46 @@ import styled from 'styled-components';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { RecoilEnv, atom} from "recoil";
-import { useRecoilState } from "recoil";
 
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-export const pageState=atom({
-  key:"pageState",
-  default:{pageTitle:"",surveyId:0}
-    });
+import { useRecoilState } from "recoil";
+import { idState } from "../../components/RecoilDummys";
+import {pageState} from "../../components/RecoilDummys";
 
 
 export default function MyList() {
   const currentPathname=window.location.pathname;
-  const [pageSend,setPageSend]=useRecoilState(pageState);
+  const [currentId, setCurrentId]=useRecoilState(idState);
+  const [pageTitle,setPageTitle]=useRecoilState(pageState);
   const [surveyDummys,setSurveyDummys]=useState([{surveyId:0,title:"데이터 없음",
   description:"데이터가 존재하지 않습니다.", createdAt: ""}]);
   const navigate = useNavigate();
   const myViewClick=(e)=>{
-    setPageSend({...pageSend,surveyId:e.surveyId})
+    setCurrentId(e.surveyId)
     navigate('/myview') 
     }
   const fetchData = async ()=>{
       //pathname에 따라 받아오는 api 다르게
       try{
       if (currentPathname==="/mylist1") {
-        setPageSend({pageTitle:"내가 응답한 설문조사"});
+        setPageTitle("내가 응답한 설문조사")
         const response= await axios.get('/api/survey/respondent');
         console.log(response.data)
         {response.data.surveys && setSurveyDummys(response.data.surveys)}
       } 
       else if (currentPathname==="/mylist2") {
-        setPageSend({pageTitle:"내가 판매 등록한 설문데이터"});
+        setPageTitle("내가 판매 등록한 설문데이터")
         const response= await axios.get('/api/data/list/seller');
         console.log(response.data)
         {response.data.surveys && setSurveyDummys(response.data.surveys)}
       } 
       else if (currentPathname==="/mylist3") {
-        setPageSend({pageTitle:"내가 구매한 설문데이터"});
+        setPageTitle("내가 구매한 설문데이터")
         const response= await axios.get('/api/data/list/buyer');
         console.log(response.data)
         {response.data.surveys && setSurveyDummys(response.data.surveys)}
       } 
       else if (currentPathname==="/mylist4") {
-        setPageSend({pageTitle:"내가 등록한 설문조사"});
+        setPageTitle("내가 등록한 설문조사")
         const response= await axios.get('/api/survey/registrant');
         console.log(response)
         {response.data.surveys && setSurveyDummys(response.data.surveys)};
@@ -67,7 +64,7 @@ export default function MyList() {
     <>
     <All>  
     <TitleWrapper>
-        <Title>{pageSend.pageTitle}</Title>
+        <Title>{pageTitle}</Title>
         <Back src={back} onClick={()=>{navigate(-1)}}></Back>
     </TitleWrapper>
     <br></br>
