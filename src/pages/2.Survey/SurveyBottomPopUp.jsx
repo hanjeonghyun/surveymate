@@ -4,7 +4,7 @@ import cancelImage from "../../assets/images/bpajamas_warning-solid.svg"
 import * as C from "../../components/SurveyComponents";
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { showPopUpState } from "./SurveyView";
+import { showPopUpState } from '../../components/RecoilDummys';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

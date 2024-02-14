@@ -6,10 +6,11 @@ import {TitleWrapper,Title} from "../../components/SurveyComponents";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { showPopUpState } from "./SurveyView";
-import { messageState } from "./SurveyView";
-import { alertState } from "./SurveyView";
-import { contentState } from './SurveyView';
+
+import { showPopUpState } from "../../components/RecoilDummys";
+import { messageState } from "../../components/RecoilDummys";
+import { alertState } from "../../components/RecoilDummys";
+import { contentState } from "../../components/RecoilDummys";
 
 export default function SurveyFix() {
     const nickName="가나다"

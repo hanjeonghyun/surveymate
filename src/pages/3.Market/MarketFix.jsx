@@ -6,10 +6,11 @@ import {TitleWrapper,Title} from "../../components/SurveyComponents";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { showPopUpState } from "../2.Survey/SurveyView";
-import { messageState } from "../2.Survey/SurveyView";
-import { alertState } from "../2.Survey/SurveyView";
-import { contentState } from '../2.Survey/SurveyView';
+
+import { showPopUpState } from "../../components/RecoilDummys";
+import { messageState } from "../../components/RecoilDummys";
+import { alertState } from "../../components/RecoilDummys";
+import { contentState } from "../../components/RecoilDummys";
 
 export default function MarketFix() {
     const nickName="가나다"

@@ -14,13 +14,13 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { atom,useRecoilState,RecoilEnv } from "recoil";
-import { showPopUpState } from "../2.Survey/SurveyView";
-import { alertState } from "../2.Survey/SurveyView";
-import { messageState } from "../2.Survey/SurveyView";
-import {contentState} from "../2.Survey/SurveyView";
-import { idState } from "../2.Survey/Survey";
 import axios from "axios";
 
+import { showPopUpState } from "../../components/RecoilDummys";
+import { messageState } from "../../components/RecoilDummys";
+import { alertState } from "../../components/RecoilDummys";
+import { contentState } from "../../components/RecoilDummys";
+import { idState } from "../../components/RecoilDummys";
 
 export default function MarketView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);

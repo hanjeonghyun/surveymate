@@ -10,32 +10,14 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
-import { listState } from "./Survey";
-import { idState } from "./Survey";
 
-//============recoil===============================================
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-export const showPopUpState=atom({
-    key:"showPopUpState",
-    default:false,
-});
-export const messageState=atom({
-    key:"messageState",
-    default:"설문이 등록되었습니다.",
-});
-export const alertState=atom({
-  key:"alertState",
-  default:false,
-});
-export const contentState=atom({
-  key:"contentState",
-  default:{surveyId:0, title:"설문조사",
-  description:`1.
-  입력
-  완료`, createdAt:"3일전"
-,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
-})
-//================================================================
+import { listState } from "../../components/RecoilDummys";
+import { idState } from "../../components/RecoilDummys";
+import { contentState } from "../../components/RecoilDummys";
+import { alertState } from "../../components/RecoilDummys";
+import { messageState } from "../../components/RecoilDummys";
+import { showPopUpState } from "../../components/RecoilDummys";
+
 
 export default function SurveyView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);

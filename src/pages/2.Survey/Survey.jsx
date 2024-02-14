@@ -3,25 +3,12 @@ import styled from "styled-components";
 import plus from "../../assets/images/bGroup 45.svg";
 import marketPlus from "../../assets/images/bmarketupload.svg";
 import { useNavigate, Link } from "react-router-dom";
-import { alertState } from './SurveyView'
 import { useRecoilState } from 'recoil'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { RecoilEnv, atom} from "recoil";
-
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-export const listState=atom({
-    key:"listState",
-    default:[{surveyId:8,
-      title:"설문조사 15자 넘으면 생략되도록",
-      description:`설문조사설명내용임.ㅁ나sdfsd
-      이마넝리마너ㅣㄹ아머닝라마ㅣㄴ어림ㄴㅇ.
-      asdfaㅁ니ㅏ얼미ㅏ넝리ㅏ머나ㅣ런미ㅏ러이ㅏㅁ니아럼니ㅏ어리ㅏㅓ`, createdAt: "3일전"}],
-});
-export const idState=atom({
-  key:"idState",
-  default:10,
-})
+import { listState } from "../../components/RecoilDummys";
+import { idState } from "../../components/RecoilDummys";
+import { alertState } from "../../components/RecoilDummys";
 
 export default function Survey() {
   const navigate = useNavigate();

@@ -4,9 +4,10 @@ import styled, { css } from 'styled-components';
 import checkMessage from "../../assets/images/acheck_message.svg";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {messageState} from "./SurveyView";
 import { useRecoilState } from 'recoil';
-import { idState } from './Survey';
+
+import { messageState } from '../../components/RecoilDummys';
+import { idState } from '../../components/RecoilDummys';
 
 export default function SurveyLink() {
     const [showAlert,setShowAlert]=useState(false);

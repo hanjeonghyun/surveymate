@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { contentState } from "./SurveyView";
+import { contentState } from "../../components/RecoilDummys";
 //survey/surveyId에서 reward값 가져오기:recoil로 저장해두기  
 
 export default function SurveyResult() {

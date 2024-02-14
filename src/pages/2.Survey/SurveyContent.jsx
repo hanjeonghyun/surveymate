@@ -6,7 +6,8 @@ import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/cLinkno.svg";
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { contentState } from './SurveyView';
+
+import { contentState } from '../../components/RecoilDummys';
 
 export default function SurveyContent() {
     const [title, setTitle] = useState();
