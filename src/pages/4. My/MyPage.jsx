@@ -4,6 +4,7 @@ import * as C from "../../components/SurveyComponents";
 import profileImg from "../../assets/images/aprofile_img.svg";
 import next_icon from "../../assets/images/anext_icon.svg";
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function MyPage() {
     const navigate = useNavigate();

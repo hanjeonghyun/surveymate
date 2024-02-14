@@ -36,7 +36,7 @@ export default function MyPoint() {
 
     const [selectedCategory, setSelectedCategory] = useState('total');
     const [categoryDummys,setCategoryDummys]=useState({
-        total:[{description:"설문조사 등록",createAt:"2024-02-14",amount:20,balance:80},
+        total:[{description:"설문조사 응답",createAt:"2024-02-14",amount:20,balance:80},
         {description:"설문조사 등록",createAt:"2024-02-15",amount:-30,balance:50}],
         plus:[],
         minus:[],
@@ -241,15 +241,17 @@ const ListWrapper = styled.div`
 
 const ListItem = styled.div`
     padding: 2vh 0;
+    & > * + * {
+        margin-top: 8px;
+    }
 `;
 
 const TextTitle=styled.div`
     display:flex;
     flex-direction:row;
+    align-items:center;
     justify-content:space-between;
-    & > * + * {
-        margin-top: 8px;
-    }
+
 `;
 
 const Font=styled.p`
