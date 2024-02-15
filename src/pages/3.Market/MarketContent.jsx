@@ -191,8 +191,8 @@ function PointBottom({ onCancel, point, onClickUpload }) {
           <B.BottomSheetInfo>
             <B.InputLabel>{point}포인트로 판매 등록 하시겠어요?</B.InputLabel>
             <B.ProcessExplain>
-              등록 후 가격 변경은 불가합니다.<br />
-              가격 변경 시 삭제 후 재등록해주세요.
+              등록 후 파일 변경과 가격 변경은 불가합니다.<br />
+              파일 변경과 가격 변경 시 삭제 후 재등록해주세요.
             </B.ProcessExplain>
             <img
               src={Upload}
