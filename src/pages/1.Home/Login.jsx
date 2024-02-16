@@ -51,8 +51,8 @@ export default function Login() {
                 id: inputId,
                 password: inputPw,
             });
-            //navigate('/mainL');
-            alert('로그인 성공!');
+            navigate('/main');
+            //alert('로그인 성공!');
             console.log('서버 응답:', response.data);
         }catch (error){
             setIsLogin(false);

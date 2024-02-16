@@ -118,7 +118,7 @@ export default function Auth() {
 
     const goToNext = () => {
       navigate("/authimg", {
-        state: { memberID: email, number: code, password: password },
+        state: { memberId: email, emailToken: token, password: password },
       });
     };
 
