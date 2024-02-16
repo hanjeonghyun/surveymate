@@ -4,6 +4,7 @@ import * as C from '../../components/SurveyComponents';
 import { useNavigate } from 'react-router-dom';
 import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/cLinkno.svg";
+import Upload from "../../assets/images/bpajamas_warning-solid.svg";
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 
@@ -14,7 +15,8 @@ export default function SurveyContent() {
     const [content, setContent] = useState();
     const [link, setLink] = useState();
     const [isLink, setIsLink] = useState(false);
-    const [showBottom, setBottom] = useState(false);
+    const [showLBottom, setLBottom] = useState(false);
+    const [showPBottom, setPBottom] = useState(false);
     const [surveyContent,setSurveyContent]=useRecoilState(contentState);
     const onChangeTitle = (e) => {
         const currentTitle = e.target.value;
@@ -37,7 +39,6 @@ export default function SurveyContent() {
 
     const navigate=useNavigate();
     const onClickNext=()=>{
-        const goToNext = () => {navigate('/surveypoint');};
         if (isLink){
             setSurveyContent({...surveyContent, title:title,description:content,linkUrl:link})
             console.log(surveyContent)
@@ -49,7 +50,8 @@ export default function SurveyContent() {
     };
 
     const clickCheck=()=>{
-        setBottom(false);
+        setLBottom(false);
+        setPBottom(false);
     };
 
     return(
@@ -81,16 +83,22 @@ export default function SurveyContent() {
                 value={link}
                 onChange={onChangeLink}
             ></Adress>
-            {showBottom && (
-                <PointBottom
+            {showLBottom && (
+                <LinkBottom
                     clickCheck={clickCheck}
+                />
+            )}
+            {showPBottom && (
+                <PointBottom
+                onCancel={clickCheck}
+                onClickUpload={clickNext}
                 />
             )}
         </div>
     );
 }
 
-function PointBottom({clickCheck}) {
+function LinkBottom({clickCheck}) {
     return (
         <>
         <B.BackgroundBottomSheet>
@@ -111,6 +119,36 @@ function PointBottom({clickCheck}) {
             </B.BottomButtonWrapper>
             </B.BottomSheetWrapper>
         </B.BackgroundBottomSheet>
+        </>
+    );
+}
+
+function PointBottom({ onCancel, clickNext }) {
+    return (
+        <>
+            <B.BackgroundBottomSheet>
+            <B.BottomSheetWrapper>
+                <B.BottomSheetInfo>
+                <B.InputLabel>해당 링크로 등록하시겠어요?</B.InputLabel>
+                <B.ProcessExplain>
+                    등록 후 링크 변경은 불가합니다.<br />
+                    링크 변경 시 삭제 후 재등록해주세요.
+                </B.ProcessExplain>
+                <img
+                    src={Upload}
+                    alt='Upload'
+                />
+                </B.BottomSheetInfo>
+                <B.BottomButtonWrapper>
+                <B.CancelButton onClick={onCancel}>
+                    <C.ButtonText>취소</C.ButtonText>
+                </B.CancelButton>
+                <B.ConfirmButton>
+                    <C.ButtonText onClick={clickNext}>확인</C.ButtonText>
+                </B.ConfirmButton>
+                </B.BottomButtonWrapper>
+            </B.BottomSheetWrapper>
+            </B.BackgroundBottomSheet>
         </>
     );
 }
@@ -151,6 +189,7 @@ const Title = styled.input`
     width: 90vw;
     margin-top: 4vh;
     padding-bottom: 0.5vh;
+    outline: none;
 `
 const Content = styled.textarea`
     width: 90vw;
@@ -168,6 +207,7 @@ const Content = styled.textarea`
     }
     margin-top: 3vh;
     border: none;
+    outline: none;
 `
 const Adress = styled.input`
     width: 70vw;

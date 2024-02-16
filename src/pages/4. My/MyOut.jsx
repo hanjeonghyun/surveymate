@@ -131,6 +131,7 @@ const AuthInput2 = styled.input`
     height: 3vh;
     padding: 5px;
     border: none;
+    outline: none;
     border-bottom: 0.4px solid rgba(96, 70, 255, 0.3);
     &::placeholder {
         color: #d6d6d6;
