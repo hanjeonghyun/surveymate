@@ -39,10 +39,10 @@ export default function SurveyContent() {
     var fileInfo = e.target.files[0].name;
     const currentFile = e.target.value;
     setFile(currentFile);
-    const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
-    const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
-    //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
-    //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
+    //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
+    //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
+    const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
+    const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
         if (!fileRegExp1.test(fileInfo)&&!fileRegExp2.test(fileInfo)) {
             setIsFile(false);
             setFBottom(true);
@@ -70,27 +70,39 @@ export default function SurveyContent() {
   };
 
   const onClickUpload=()=>{
+    const token = localStorage.getItem('token');
+    if (token){
     if(isFile){
-      axios.post("https://survey-mate-api.jinhy.uk/data",{
-        title: title,
-        description: content,
-        amount: point,
-        file: file
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', content);
+      formData.append('amount', point);
+      formData.append('file', file);
+      axios.post("https://survey-mate-api.jinhy.uk/data", formData, 
+      {
+        headers: {
+          'Authorization': token,
+//"Content-Type": "multipart/form-data",
+        },
       })
       .then((response)=>{
         console.log(response);
         navigate("/marketview2");
       })
       .catch((response)=>{
+        console.log
+        console.log(response)
           if (response.response.status===401){
             alert('401 error')
             console.log(response)
           }else{
       }
+    
     })
   }else{
     alert('404 error')
   }
+}
 }
 
   return (

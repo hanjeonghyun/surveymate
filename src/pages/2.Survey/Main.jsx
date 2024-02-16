@@ -11,7 +11,7 @@ export default function Main() {
     <All>
       <Top>
         <Logo></Logo>
-        <LBtn onClick={() => gotoMypage()}></LBtn>
+        <LBtn onClick={() => navigate("/mypage")}></LBtn>
       </Top>
       <Sset>
         <Stitle>

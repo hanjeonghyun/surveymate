@@ -48,3 +48,8 @@ export const contentState=atom({
   완료`, createdAt:"3일전"
 ,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
 })
+
+export const tokenState=atom({
+  key:"tokenState",
+  default:""
+})

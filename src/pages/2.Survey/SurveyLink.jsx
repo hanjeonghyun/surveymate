@@ -8,30 +8,35 @@ import { useRecoilState } from 'recoil';
 
 import { messageState } from '../../components/RecoilDummys';
 import { idState } from '../../components/RecoilDummys';
+import { useRecoilValue } from 'recoil';
 
 export default function SurveyLink() {
     const [showAlert,setShowAlert]=useState(false);
     const [nextBtValid,setNextBtValid]=useState(false);
     const [notAllow,setNotAllow]=useState(true);
     const [alertMessage,setAlertMessage]=useRecoilState(messageState);
+
     const navigate=useNavigate();
-    const surveyId= useRecoilState(idState);
-    const [pointLink, setPointLink] = useState("https://survey_Google_asdfasdf/asd..");
+    const surveyId= useRecoilValue(idState);
+    const [pointLink, setPointLink] = useState(``);
 
     const getData = async()=>{
+        const token = localStorage.getItem('token');
+        if (token){
         try{
-            const response = await axios.get(`https://survey-mate-api.jinhy.uk/survey/${surveyId}`);
-            setPointLink(response.data.rewardUrl);
-        } catch (error){
-            if (error.response) {
-                console.error('서버 응답 상태 코드:', error.response.status);
-                console.error('서버 응답 데이터:', error.response.data);
-            } else if (error.request) {
-                console.error('서버 응답 없음');
-            } else {
-                console.error('Axios 오류:', error.message);
-            }
+            //const response = await axios.get(`/api/survey/${surveyId}`);
+            
+            const response = await axios.get(`/api/survey/${surveyId}`,
+            {headers: {
+                'Authorization': token,
+            }});
+            console.log(response)
+            setPointLink(`/surveyresult/${response.data.data.rewardUrl}`);
+        } catch (res){
+            console.log(res)
+            
         }
+    }
     };
     useEffect(() => {
         getData(); 
@@ -87,7 +92,7 @@ export default function SurveyLink() {
             </CheckText>
             <PointLinkBox>
                 <PointLinkBoxText>
-                    {pointLink}   
+                       {pointLink}
                 </PointLinkBoxText>           
             </PointLinkBox>
         </CheckWrapper>

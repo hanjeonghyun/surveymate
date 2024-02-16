@@ -27,8 +27,8 @@ export default function SurveyView() {
   const [surveyDummys,setSurveyDummys]=useRecoilState(listState);
   const [currentId, setCurrentId]=useRecoilState(idState);
   const navigate = useNavigate();
-  const nickName="가나다라";
-  const serverName="가나다";
+  const nickName=surveyContent.registrantName;
+  const serverName="지은";
   const currentPathname=window.location.pathname;
 
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
@@ -45,20 +45,29 @@ export default function SurveyView() {
     if (currentPathname==="/surveyview2") {
       setShowAlert(true);
       
-    } else{
-      axios.get(`api/survey/${currentId}`)
+    } 
+      const token = localStorage.getItem('token');
+      if (token){
+      axios.get(`api/survey/${currentId}`,
+      {
+        headers: {
+          'Authorization': token,
+        },
+      })
       //surveyview2일 때에는 다른 곳에서 id 받아오도록 수정
       .then((response)=>{
-        setSurveyContent(response.data)
+        console.log(response)
+        setSurveyContent(response.data.data)
       })
       .catch((response)=>{
         console.log("응답없음")
         console.log(response)
       })
       .finally(()=>{
-        setShowAlert(false)
+        //setShowAlert(false)
       })
-    }
+    
+  }
 
   }, [currentPathname, location]);
 
@@ -86,7 +95,8 @@ export default function SurveyView() {
         </div>
         <ProfileWrite>
           <div>{surveyContent.registrantName}</div>
-          <div>{surveyContent.createdAt}</div>
+          <div>{surveyContent.createdAt ? `${surveyContent.createdAt.substring(0, 10)}` : ''}
+         </div>
         </ProfileWrite>
         <ReportButton>
           <img onClick={ButtonClick} 
@@ -104,7 +114,7 @@ export default function SurveyView() {
           <ButtonText onClick={respondClick}>설문 응답</ButtonText>
         </NextButton>
       </NextButtonWrapper>
-      {showAlert&&<AlertWrapper className={nickName===serverName || currentPathname==="/surveyview2"? "" : "none"}>
+      {showAlert&&<AlertWrapper>
         <AlertPosition>
         <SurveyAlert text={alertMessage}></SurveyAlert>
         </AlertPosition>

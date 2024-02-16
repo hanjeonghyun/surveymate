@@ -10,18 +10,27 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { contentState } from "../../components/RecoilDummys";
+import { useParams } from "react-router-dom";
 //survey/surveyId에서 reward값 가져오기:recoil로 저장해두기  
 
 export default function SurveyResult() {
+  const { url } = useParams();
   const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    axios.get(`/api/survey/answer/${surveyContent.reward}`)
+    if (token){
+    axios.get(`/api/survey/answer/${url}`,
+    {headers: {
+      'Authorization': token,
+  }})
     .then((response)=>{
       console.log(response)
     })
-    .catch(()=>{
+    .catch((response)=>{
+      console.log(response)
       console.log("에러발생")
     }) 
+  }
   }, []);
   const navigate = useNavigate();
   const logoClicked = () => {

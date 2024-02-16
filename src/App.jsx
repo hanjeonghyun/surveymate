@@ -68,7 +68,7 @@ function App() {
           element={<Survey />}
         />
         <Route
-          path='/surveyresult'
+          path='/surveyresult/:url'
           element={<SurveyResult />}
         />
         <Route

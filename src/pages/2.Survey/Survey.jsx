@@ -4,11 +4,13 @@ import plus from "../../assets/images/bGroup 45.svg";
 import marketPlus from "../../assets/images/bmarketupload.svg";
 import { useNavigate, Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { listState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
+
 
 export default function Survey() {
   const navigate = useNavigate();
@@ -16,6 +18,23 @@ export default function Survey() {
   const [showAlert, setShowAlert] = useRecoilState(alertState);
   const [surveyDummys, setSurveyDummys] = useRecoilState(listState);
   const [currentId, setCurrentId] = useRecoilState(idState);
+  
+  
+  const currentDate=(createdAt)=>{
+    const nowDate = detailDate(new Date(createdAt));
+    return nowDate;
+  }
+
+  const detailDate=(a)=>{
+    const milliSeconds = new Date() - a;
+    const seconds = milliSeconds / 1000;
+    const minutes = seconds / 60;
+    const hours = minutes / 60;
+    const days = hours / 24;
+    if (days<1) return `오늘`
+    else if (days < 7) return `${Math.floor(days)}일 전`;
+  }
+
   const gotoMypage = () => {
     navigate(`/mypage`);
   };
@@ -26,24 +45,41 @@ export default function Survey() {
     setCurrentId(e.surveyId);
   };
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log(token)
+    if (token){
     if (window.location.pathname === "/survey") {
       setSurvey(true);
       axios
-        .get(`/api/survey?page=1`)
+        .get(`/api/survey?page=0`,
+        {
+          headers: {
+            'Authorization': token,
+        },
+      })
         .then((response) => {
-          console.log(response.data.surveys);
-          setSurveyDummys(response.data.surveys);
+          console.log(response)
+          console.log(response.data.data.surveys);
+          setSurveyDummys(response.data.data.surveys);
         })
         .catch((response) => {
           console.log(response);
           console.log("응답없음");
         });
+      
     }
     if (window.location.pathname === "/market") {
       setSurvey(false);
       axios
-        .get(`/api/data/list`)
+        .get(`/api/data/list`,
+          {
+            headers: {
+              'Authorization': token
+            },
+          }
+        )
         .then((response) => {
+          console.log(response)
           console.log(response.data.surveys);
           setSurveyDummys(response.data.surveys);
         })
@@ -52,6 +88,7 @@ export default function Survey() {
           console.log("응답없음");
         });
     }
+  }
   }, [window.location.pathname]);
 
   return (
@@ -59,10 +96,10 @@ export default function Survey() {
       <All>
         <Top>
           <Logo className={survey ? "survey" : "market"}></Logo>
-          <LBtn onClick={() => gotoMypage()}></LBtn>
+          <LBtn onClick={() => navigate("/mypage")}></LBtn>
         </Top>
         <ListWrapper>
-          {surveyDummys.map((e) => {
+          {surveyDummys?.map((e) => {
             return (
               <EachListWrapper
                 key={e.surveyId}
@@ -75,7 +112,7 @@ export default function Survey() {
                       ? `${e.title.substring(0, 14)}...`
                       : e.title}
                   </Font>
-                  <Font className='time'>{e.createdAt}</Font>
+                  <Font className='time'>{currentDate(e.createdAt)}</Font>
                 </Title>
                 <ContentWrapper>{e.description}</ContentWrapper>
               </EachListWrapper>

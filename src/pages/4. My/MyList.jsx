@@ -9,6 +9,8 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { idState } from "../../components/RecoilDummys";
 import {pageState} from "../../components/RecoilDummys";
+import { tokenState } from "../../components/RecoilDummys";
+import { useRecoilValue } from "recoil";
 
 
 export default function MyList() {
@@ -17,42 +19,72 @@ export default function MyList() {
   const [pageTitle,setPageTitle]=useRecoilState(pageState);
   const [surveyDummys,setSurveyDummys]=useState([{surveyId:0,title:"데이터 없음",
   description:"데이터가 존재하지 않습니다.", createdAt: ""}]);
+  const currentToken=useRecoilValue(tokenState);
   const navigate = useNavigate();
+  const currentDate=(createdAt)=>{
+    const nowDate = detailDate(new Date(createdAt));
+    return nowDate;
+  }
+
+  const detailDate=(a)=>{
+    const milliSeconds = new Date() - a;
+    const seconds = milliSeconds / 1000;
+    const minutes = seconds / 60;
+    const hours = minutes / 60;
+    const days = hours / 24;
+    if (days<1) return `오늘`
+    else if (days < 7) return `${Math.floor(days)}일 전`;
+  }
   const myViewClick=(e)=>{
     setCurrentId(e.surveyId)
     navigate('/myview') 
     }
   const fetchData = async ()=>{
+    const token = localStorage.getItem('token');
+    if (token){
       //pathname에 따라 받아오는 api 다르게
       try{
       if (currentPathname==="/mylist1") {
         setPageTitle("내가 응답한 설문조사")
-        const response= await axios.get('/api/survey/respondent');
-        console.log(response.data)
-        {response.data.surveys && setSurveyDummys(response.data.surveys)}
+        const response= await axios.get('/api/survey/respondent',
+        {headers: {
+          'Authorization': token,
+      }}
+        );
+        console.log(response)
+        {response.data.data.surveys && setSurveyDummys(response.data.data.surveys)}
       } 
       else if (currentPathname==="/mylist2") {
         setPageTitle("내가 판매 등록한 설문데이터")
-        const response= await axios.get('/api/data/list/seller');
+        const response= await axios.get('/api/data/list/seller',
+        {headers: {
+          'Authorization': token,
+      }});
         console.log(response.data)
-        {response.data.surveys && setSurveyDummys(response.data.surveys)}
+        {response.data.data.surveys && setSurveyDummys(response.data.data.surveys)}
       } 
       else if (currentPathname==="/mylist3") {
         setPageTitle("내가 구매한 설문데이터")
-        const response= await axios.get('/api/data/list/buyer');
+        const response= await axios.get('/api/data/list/buyer',{headers: {
+          'Authorization': token,
+      }});
         console.log(response.data)
-        {response.data.surveys && setSurveyDummys(response.data.surveys)}
+        {response.data.data.surveys && setSurveyDummys(response.data.data.surveys)}
       } 
-      else if (currentPathname==="/mylist4") {
-        setPageTitle("내가 등록한 설문조사")
-        const response= await axios.get('/api/survey/registrant');
+      else if (currentPathname==="/mylist4"){
+        setPageTitle("내가 등록한 설문조사",)
+        const response= await axios.get('/api/survey/registrant',{headers: {
+          'Authorization': token,
+      }});
         console.log(response)
-        {response.data.surveys && setSurveyDummys(response.data.surveys)};
+        {response.data.data.surveys && setSurveyDummys(response.data.data.surveys)};
       } 
     }
+    
     catch(error){
       console.log("에러 발생", error)
     }
+  }
   };
    
   useEffect(() => {
@@ -75,7 +107,7 @@ export default function MyList() {
                    >
                     <TextTitle>
                         <Font className="title">{e.title.length > 15 ? `${e.title.substring(0, 14)}...` : e.title}</Font>
-                        <Font className="time">{e.createdAt}</Font>
+                        <Font className="time">{currentDate(e.createdAt)}</Font>
                     </TextTitle>
                     <ContentWrapper>
                       {e.description}

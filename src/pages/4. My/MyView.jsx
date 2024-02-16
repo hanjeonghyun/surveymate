@@ -18,12 +18,16 @@ export default function MyView() {
   const [marketContent,setMarketContent]=useRecoilState(contentState);
   const [currentId,setCurrentId]=useRecoilState(idState)
   useEffect(() => {
+    const token = localStorage.getItem('token');
     ///수정완료 시에도 setShowAlert 뜨게 해야 함 
-      axios.get(`api/survey/${currentId}`)
+    if (token){
+      axios.get(`api/survey/${currentId}`,{headers: {
+        'Authorization': token,
+    }})
       .then((response)=>{
         console.log(response)
         if (response.data) {
-          setMarketContent(response.data);
+          setMarketContent(response.data.data);
         } else {
           console.log("응답 데이터가 null입니다.");
         }
@@ -32,6 +36,7 @@ export default function MyView() {
         console.log("응답없음")
         console.log(response)
       })
+    }
       
   }, [currentId]);
 
@@ -47,7 +52,7 @@ export default function MyView() {
       </div>
       <ProfileWrite>
         <div>{marketContent.registrantName}</div>
-        <div>{marketContent.createdAt}</div>
+        <div>{marketContent.createdAt ? `${marketContent.createdAt.substring(0, 10)}` : ''}</div>
       </ProfileWrite>
       <ReportButton>
         <img  src={pageTitle==="내가 등록한 설문조사"||pageTitle==="내가 판매 등록한 설문데이터"? dot:''}></img>
@@ -103,6 +108,7 @@ const Content = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 21px */
+  white-space: pre-wrap;
 `;
 const Back=styled.img`
   margin-left:5vw;

@@ -88,7 +88,9 @@ export default function Auth() {
             code: code,
         })
         .then((response)=>{
+            console.log(response)
             const getToken=response.data.data.emailValidationToken
+            console.log(getToken)
             if (getToken){
                 setToken(getToken)
                 setNumberMessage("인증코드가 확인되었습니다.");
@@ -111,17 +113,24 @@ export default function Auth() {
     const navigate = useNavigate();
     const onClickButton = (e) => {
         e.preventDefault();
-
-        const goToNext = () => {navigate('/authimg');};
-
+    
+        const goToNext = () => {
+          navigate("/authimg", {
+            state: { memberID: email, number: code, password: password },
+          });
+        };
+    
         if (!isPassword ? true : false) {
-            setPasswordMessage("비밀번호를 잘못 입력했습니다. 입력 내용을 다시 확인해주세요.");
-        }  else if (!isEmail || !isNumber ? true : false) {
-            setPasswordMessage("");
+          setPasswordMessage(
+            "비밀번호를 잘못 입력했습니다. 입력 내용을 다시 확인해주세요."
+          );
+        } else if (!isEmail || !isNumber ? true : false) {
+          setPasswordMessage("");
         } else {
-            goToNext();
+          goToNext();
         }
-    };
+      };
+    
 
     const handlePasswordType = (e) => {
         setpwType(() => {

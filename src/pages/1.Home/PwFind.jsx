@@ -70,7 +70,7 @@ export default function PwFind() {
             }
         })
         .catch((response)=>{
-            if (response.response.status===401){
+            if (response.response.status===404){
                 setWarningMessage({...warningMessage, two:"인증코드를 잘못 입력하였습니다."})
                 setAlertMessage({...warningMessage, two:""})
     

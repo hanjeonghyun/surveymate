@@ -4,12 +4,18 @@ import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { contentState, tokenState } from "../../components/RecoilDummys";
+import { useRecoilState } from "recoil";
+import { idState } from "../../components/RecoilDummys";
 import axios from "axios";
+
 
 export default function SurveyPoint() {
   let [point, setPoint] = useState(0);
   const [showBottom, setBottom] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
+  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+  const [surveyId,setSurveyId]= useRecoilState(idState);
   const navigate = useNavigate();
   const today = new Date();
   const dueDate = selectedDay
@@ -26,17 +32,30 @@ export default function SurveyPoint() {
   };
 
   const handleSubmit = async (e) => {
+    const token = localStorage.getItem('token');
     e.preventDefault();
+    if (token){
     try {
-      const res = await axios.post(`/api/data`, {
-        amount: point,
+      const res = await axios.post(`/api/survey`, {
+        title:surveyContent.title,
+        description:surveyContent.description,
+        linkUrl:surveyContent.linkUrl,
+        period:selectedDay,
+      },{
+        headers: {
+          'Authorization': token,
+        },
       });
       console.log(res.data);
-      navigate("/surveyview2");
+      setSurveyId(res.data.data.surveyId);
+      navigate("/surveylink");
     } catch (e) {
       // alert(`${e} 번 에러가 발생했습니다.`)
+      console.log(e)
       console.error("요청 에러", e);
+      navigate("/surveylink");
     }
+  }
   };
 
   const confirmPoint = (value) => {

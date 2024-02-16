@@ -4,20 +4,29 @@ import styled from 'styled-components'
 import { useNavigate} from 'react-router'
 import * as B from '../../components/BottomSheet'
 import axios from 'axios'
+import { tokenState } from '../../components/RecoilDummys'
+import { useRecoilValue } from 'recoil'
+
+
 
 export default function MyPoint() {
     const navigate = useNavigate();
     const [point, setPoint]= useState(0);
+
     async function getPoint(){
+        const token = localStorage.getItem('token');
+        if (token){
         try{
             const response = await axios.get("https://survey-mate-api.jinhy.uk/statement/total",{
                 headers: {
-                    "accept": "*/*"
+                    "accept": "*/*",
+                    'Authorization': token,
                   }
             });
-            const data = response.data.totalAmount;
+            const data = response.data.data.totalAmount;
             setPoint(data);
             console.log(data);
+            console.log(response)
             return data;
         } catch (error) {
             if (error.response) {
@@ -29,6 +38,7 @@ export default function MyPoint() {
                 console.error('Axios 오류:', error.message);
             }
         }
+    }
     };
     useEffect(() => {
         getPoint(); 
@@ -61,7 +71,13 @@ export default function MyPoint() {
 
     const getData = async()=>{
         try{
-            const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list");
+           // const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list",{
+             //   headers: {
+               //     "accept": "*/*",
+                 //   'Authorization': currentToken,
+                 // }
+              //  })
+            const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list")
             console.log(res.data);
             setCategoryDummys(res.data);
         }catch(error) {

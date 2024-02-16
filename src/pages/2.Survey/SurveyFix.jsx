@@ -6,14 +6,15 @@ import {TitleWrapper,Title} from "../../components/SurveyComponents";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { useRecoilValue } from "recoil";
 
 import { showPopUpState } from "../../components/RecoilDummys";
 import { messageState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { contentState } from "../../components/RecoilDummys";
 
+
 export default function SurveyFix() {
-    const nickName="가나다"
     const navigate=useNavigate();
     const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
     const [alertMessage,setAlertMessage]=useRecoilState(messageState);
@@ -21,10 +22,16 @@ export default function SurveyFix() {
     const [surveyContent,setSurveyContent]=useRecoilState(contentState);
     const {surveyId, title,description,createdAt,registrantName,linkUrl}=surveyContent;
     const surveyFixClick=()=>{
+      const token = localStorage.getItem('token');
+      if (token){
         axios.patch(`api/survey/${surveyId}`,{
           title:title,
           description: description,
           linkUrl:linkUrl,
+        },{
+          headers: {
+            'Authorization': token,
+        },
         })
         .then((response)=>{
           setSurveyContent(response.data)
@@ -38,6 +45,7 @@ export default function SurveyFix() {
           setAlertMessage("수정내용이 저장되었습니다.")
           navigate(-1)
         })
+      }
       }
     
     const handleTitleChange=(e)=>{
@@ -64,7 +72,7 @@ export default function SurveyFix() {
         </div>
         <ProfileWrite>
           <div>{registrantName}</div>
-          <div>{createdAt}</div>
+          <div>{createdAt ? `${createdAt.substring(0, 10)}` : ''}</div>
         </ProfileWrite>
         <ReportButton>
           <img src={""}></img>

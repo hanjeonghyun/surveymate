@@ -27,11 +27,11 @@ export default function SurveyContent() {
     const onChangeLink = (e) => {
         const currentLink = e.target.value;
         setLink(currentLink);
-        const linkRegExp = /^[a-zA-Z0-9-]+\.+[g]+[l]+[e]$/;
-        if (!linkRegExp.test(currentLink)) {
-            setIsLink(false);
-        } else {
+        //const linkRegExp = /^[a-zA-Z0-9-]+\.+[g]+[l]+[e]$/;
+        if (currentLink.includes("https://docs.google.com/forms")) {
             setIsLink(true);
+        } else {
+            setIsLink(false);
         }
     };
 
@@ -39,29 +39,11 @@ export default function SurveyContent() {
     const onClickNext=()=>{
         const goToNext = () => {navigate('/surveypoint');};
         if (isLink){
-            axios.post("https://survey-mate-api.jinhy.uk/survey",{
-                title: title,
-                description: content,
-                linkUrl: link,
-            })
-            .then((response)=>{
-                //()=>navigate("/surveypoint")
-                console.log(response);
-                setSurveyContent({...surveyContent, title:title,description:content,linkUrl:link})
-                navigate("/surveypoint");
-                goToNext();
-            })
-            .catch((response)=>{
-                setSurveyContent({...surveyContent, title:title,description:content,linkUrl:link})
-                if (response.response.status===401){
-                    //alert('401 에러')
-                    console.log(response);
-                    navigate("/surveypoint");
-                }else{
-                    //alert('404 에러')
-                }
-            })
-        }else{
+            setSurveyContent({...surveyContent, title:title,description:content,linkUrl:link})
+            console.log(surveyContent)
+            goToNext();
+           }
+        else{
             setBottom(true);
         }
     };

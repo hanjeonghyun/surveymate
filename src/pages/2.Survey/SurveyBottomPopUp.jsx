@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { showPopUpState } from '../../components/RecoilDummys';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 
 export default function SurveyBottomPopUp({initialData}) {
@@ -42,10 +43,13 @@ export default function SurveyBottomPopUp({initialData}) {
       }
     }else{
       //삭제시
+      const token = localStorage.getItem('token');
       const url=(window.location.pathname==="/surveyview1"||window.location.pathname==="/surveyview2"?
       `/api/survey/${changeContent.surveyId}`:`/api/data/${changeContent.surveyId}`)
-
-      axios.delete(url)
+      if(token){
+      axios.delete(url,{headers: {
+        'Authorization': token,
+    }})
       .then((response)=>{
         console.log(response)
         setShowPopUp(false)
@@ -55,6 +59,7 @@ export default function SurveyBottomPopUp({initialData}) {
        alert("삭제 과정에서 오류가 발생했습니다.")
       })
       .finally(()=>{navigate("/main")})
+    }
     }
   }
   

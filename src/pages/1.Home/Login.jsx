@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { NextButton, TitleWrapper, Title , InputLabel, AuthInput, ButtonText} from '../../components/AuthComponents';
 import {Link, useNavigate} from 'react-router-dom'
 import coloredLogo from "../../assets/images/aColoredLogo.png"
+import { tokenState } from '../../components/RecoilDummys';
+import { useRecoilState } from 'recoil';
 import axios from 'axios'
 
 export default function Login() {
@@ -35,7 +37,9 @@ export default function Login() {
         });
     };
 
+
     useEffect(()=>{
+        localStorage.removeItem('token');
         if(idValid && pwValid){
             setNotAllow(false);
             return;
@@ -53,7 +57,14 @@ export default function Login() {
             });
             //navigate('/mainL');
             alert('로그인 성공!');
+            navigate('/main')
+            console.log(response)
             console.log('서버 응답:', response.data);
+            console.log(response.data.data.jwt);
+            if (response.data.data.jwt) {
+                localStorage.setItem("token", response.data.data.jwt);
+              }
+
         }catch (error){
             setIsLogin(false);
             if (error.response) {
