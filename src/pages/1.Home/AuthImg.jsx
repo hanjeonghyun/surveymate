@@ -13,7 +13,7 @@ export default function Profile() {
   const [exist, setExist] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  let { email, code, password } = location.state;
+  let { memberId, emailToken, password } = location.state;
 
   let [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
 
@@ -47,10 +47,10 @@ export default function Profile() {
         return;
       } else {
         const formData = new FormData();
-        formData.append("memberId", email);
+        formData.append("memberId", memberId);
         formData.append("nickname", nickname);
         formData.append("password", password);
-        formData.append("emailToken", code);
+        formData.append("emailToken", emailToken);
         formData.append("messageConsent", true);
         formData.append("marketingConsent", true);
 

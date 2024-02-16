@@ -70,6 +70,8 @@ export default function MyPoint() {
     // };
 
     const getData = async()=>{
+        const token = localStorage.getItem('token');
+        if (token){
         try{
            // const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list",{
              //   headers: {
@@ -77,9 +79,17 @@ export default function MyPoint() {
                  //   'Authorization': currentToken,
                  // }
               //  })
-            const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list")
-            console.log(res.data);
-            setCategoryDummys(res.data);
+            
+            const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list",{
+                headers: {
+                    "accept": "*/*",
+                    'Authorization': token,
+                  }
+            })
+        
+            console.log(res);
+            setCategoryDummys(res.data.data);
+        
         }catch(error) {
             if (error.response) {
                 console.error('서버 응답 상태 코드:', error.response.status);
@@ -90,7 +100,9 @@ export default function MyPoint() {
                 console.error('Axios 오류:', error.message);
             }
         }
+    
     }
+    };
     categoryDummys.plus = categoryDummys.total.filter(item => item.amount>0);
     categoryDummys.minus = categoryDummys.total.filter(item => item.amount<0);
 

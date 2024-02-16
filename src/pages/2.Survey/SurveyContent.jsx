@@ -29,12 +29,12 @@ export default function SurveyContent() {
     const onChangeLink = (e) => {
         const currentLink = e.target.value;
         setLink(currentLink);
-        //const linkRegExp = /^[a-zA-Z0-9-]+\.+[g]+[l]+[e]$/;
-        if (currentLink.includes("https://docs.google.com/forms")) {
-            setIsLink(true);
-        } else {
+        const linkRegExp = /[f]+[o]+[r]+[m]+[s]/;
+        if (!linkRegExp.test(currentLink)) {
             setIsLink(false);
-        }
+        } else {
+            setIsLink(true);
+        } 
     };
 
     const navigate=useNavigate();
@@ -42,7 +42,7 @@ export default function SurveyContent() {
         if (isLink){
             setSurveyContent({...surveyContent, title:title,description:content,linkUrl:link})
             console.log(surveyContent)
-            goToNext();
+            setPBottom(true);
            }
         else{
             setBottom(true);
@@ -53,6 +53,12 @@ export default function SurveyContent() {
         setLBottom(false);
         setPBottom(false);
     };
+
+    const clickNext=()=>{
+        setPBottom(false);
+        setLBottom(false);
+        navigate("/surveypoint");
+    }
 
     return(
         <div>

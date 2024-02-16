@@ -34,11 +34,13 @@ export default function SurveyContent() {
   const onChangeContent = (e) => {
     const currentContent = e.target.value;
     setContent(currentContent);
+    
   };
   const onChangeFile = (e) => {
     var fileInfo = e.target.files[0].name;
     const currentFile = e.target.value;
     setFile(currentFile);
+    console.log(file);
     //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
     //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
     const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
@@ -74,16 +76,15 @@ export default function SurveyContent() {
     if (token){
     if(isFile){
       const formData = new FormData();
-      axios.post("https://survey-mate-api.jinhy.uk/data", {
-        title:title,
-        description:content,
-        amount: point,
-        file:file,
-      }, 
+        formData.append("title", title);
+        formData.append("description", content);
+        formData.append("amount", point);
+        formData.append("file", file);
+      axios.post("https://survey-mate-api.jinhy.uk/data",formData,
       {
         headers: {
           'Authorization': token,
-//"Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response)=>{
