@@ -7,6 +7,9 @@ export default function Main() {
   const gotoMypage = () => {
     navigate(`/mypage`);
   };
+  const gotoSurvey = () => {
+    navigate(`/surveyview1`);
+  };
   return (
     <All>
       <Top>
@@ -19,7 +22,7 @@ export default function Main() {
         </Stitle>
         <Sone>
           <Stwo>
-            <Scontent onClick={() => alert("설문조사페이지")}>
+            <Scontent onClick={() => gotoSurvey()}>
               설문조사 제목 1
             </Scontent>
             <Scontent>설문조사 제목 2</Scontent>
@@ -29,6 +32,21 @@ export default function Main() {
             <Scontent>설문조사 제목 4</Scontent>
             <Scontent>설문조사 제목 5</Scontent>
             <Scontent>설문조사 제목 6</Scontent>
+          </Stwo>
+          <Stwo>
+            <Scontent>설문조사 제목 7</Scontent>
+            <Scontent>설문조사 제목 8</Scontent>
+            <Scontent>설문조사 제목 9</Scontent>
+          </Stwo>
+          <Stwo>
+            <Scontent>설문조사 제목 10</Scontent>
+            <Scontent>설문조사 제목 11</Scontent>
+            <Scontent>설문조사 제목 12</Scontent>
+          </Stwo>
+          <Stwo>
+            <Scontent>설문조사 제목 13</Scontent>
+            <Scontent>설문조사 제목 14</Scontent>
+            <Scontent>설문조사 제목 15</Scontent>
           </Stwo>
         </Sone>
       </Sset>
@@ -38,7 +56,7 @@ export default function Main() {
         </Stitle>
         <Sone>
           <Stwo>
-            <Scontent onClick={() => alert("설문조사페이지")}>
+            <Scontent onClick={() => gotoSurvey()}>
               설문조사 제목 1
             </Scontent>
             <Scontent>설문조사 제목 2</Scontent>
@@ -48,6 +66,21 @@ export default function Main() {
             <Scontent>설문조사 제목 4</Scontent>
             <Scontent>설문조사 제목 5</Scontent>
             <Scontent>설문조사 제목 6</Scontent>
+          </Stwo>
+          <Stwo>
+            <Scontent>설문조사 제목 7</Scontent>
+            <Scontent>설문조사 제목 8</Scontent>
+            <Scontent>설문조사 제목 9</Scontent>
+          </Stwo>
+          <Stwo>
+            <Scontent>설문조사 제목 10</Scontent>
+            <Scontent>설문조사 제목 11</Scontent>
+            <Scontent>설문조사 제목 12</Scontent>
+          </Stwo>
+          <Stwo>
+            <Scontent>설문조사 제목 13</Scontent>
+            <Scontent>설문조사 제목 14</Scontent>
+            <Scontent>설문조사 제목 15</Scontent>
           </Stwo>
         </Sone>
       </Sset>

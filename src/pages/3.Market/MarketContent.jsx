@@ -39,8 +39,8 @@ export default function SurveyContent() {
     var fileInfo = e.target.files[0].name;
     const currentFile = e.target.value;
     setFile(currentFile);
-    const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
-    const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
+    const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
+    const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
     //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
     //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
         if (!fileRegExp1.test(fileInfo)&&!fileRegExp2.test(fileInfo)) {
@@ -191,8 +191,8 @@ function PointBottom({ onCancel, point, onClickUpload }) {
           <B.BottomSheetInfo>
             <B.InputLabel>{point}포인트로 판매 등록 하시겠어요?</B.InputLabel>
             <B.ProcessExplain>
-              등록 후 가격 변경은 불가합니다.<br />
-              가격 변경 시 삭제 후 재등록해주세요.
+              등록 후 파일 변경과 가격 변경은 불가합니다.<br />
+              파일 변경과 가격 변경 시 삭제 후 재등록해주세요.
             </B.ProcessExplain>
             <img
               src={Upload}
@@ -249,6 +249,7 @@ const Title = styled.input`
   width: 90vw;
   margin-top: 4vh;
   padding-bottom: 0.5vh;
+  outline: none;
 `;
 const Content = styled.textarea`
   width: 90vw;
@@ -267,6 +268,7 @@ const Content = styled.textarea`
   margin-top: 3vh;
   border: none;
   overflow: hidden;
+  outline: none;
 `;
 const UploadBtn = styled.button`
   width: 320px;
@@ -321,6 +323,7 @@ const SellPoint = styled.input`
   border: 2px solid #cfc8ff;
   font-size: 16px;
   text-align: center;
+  outline: none;
   &::placeholder {
     font-size: 16px;
     font-weight: 500;
