@@ -20,7 +20,7 @@ export default function PwFind() {
     const [alertMessage, setAlertMessage]=useState({one:"",two:"",three:""})
     const [warningMessage, setWarningMessage]=useState({one:"",two:"",three:""})
     const [pwType, setpwType] = useState({type: "password", visible: false});
- 
+
 
     const onChangeEmail = (e) => {
         const currentEmail = e.target.value;
