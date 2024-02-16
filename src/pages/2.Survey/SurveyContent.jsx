@@ -29,7 +29,7 @@ export default function SurveyContent() {
     const onChangeLink = (e) => {
         const currentLink = e.target.value;
         setLink(currentLink);
-        const linkRegExp = /^[a-zA-Z0-9-]+\.+[g]+[l]+[e]$/;
+        const linkRegExp = /[f]+[o]+[r]+[m]+[s]/;
         if (!linkRegExp.test(currentLink)) {
             setIsLink(false);
         } else {
