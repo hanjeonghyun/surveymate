@@ -16,6 +16,7 @@ export default function PwFind() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [code, setCode]=useState('');
+    const [sendCode,setSendCode]=useState(false);
 
     const [alertMessage, setAlertMessage]=useState({one:"",two:"",three:""})
     const [warningMessage, setWarningMessage]=useState({one:"",two:"",three:""})
@@ -28,6 +29,7 @@ export default function PwFind() {
     };
 
     const onClickEmail=()=>{
+        console.log(email)
             axios.post(`/api/auth/password/certification-request`,{
                 receiver: email,
                 mailSubject: "[썰매 (Survey Mate)] 회원가입을 위한 인증 코드입니다.",
@@ -37,12 +39,13 @@ export default function PwFind() {
                 console.log(response);
                 setAlertMessage({...alertMessage, one:"인증메일이 발송되었습니다. 확인해주세요.", two:"3분 이내로 입력해주세요."})
                 setWarningMessage({one:"",two:"",three:""})
+                setSendCode(true);
             })
             .catch((response)=>{
                 console.log(response);
 
-                if (response.response.status===401){
-                    alert('존재하지 않는 아이디입니다.')}
+                if (response.response.status===404){
+                    setWarningMessage({one:"존재하지 않는 아이디입니다.",two:"",three:""})}
                 else{
                     alert('서버 통신 에러')
                 }
@@ -62,22 +65,21 @@ export default function PwFind() {
         })
         .then((response)=>{
             console.log(response);
-            const getToken=response.data.data.emailValidationToken
+            const getToken=response.data.data.passwordRestValidationToken
             if (getToken){
                 setToken(getToken)
-                alert("인증되었습니다.")
+                setWarningMessage({one:"",two:"",three:""})
+                setAlertMessage({...warningMessage, one:"", two:"인증되었습니다."})
                 console.log(token)
             }
         })
         .catch((response)=>{
-            if (response.response.status===404){
+
                 setWarningMessage({...warningMessage, two:"인증코드를 잘못 입력하였습니다."})
                 setAlertMessage({...warningMessage, two:""})
     
-            }else{
-            alert("서버 통신 에러")
 
-        }
+        
         })
         
     }
@@ -91,11 +93,13 @@ export default function PwFind() {
     const onClickButton = (e) => {
         e.preventDefault();
             axios.patch('/api/auth/password/reset',{
+                emailAddress:email,
                 passwordResetToken: token,
                 newPassword: password,
             })
             .then((response)=>{
                 console.log(response);
+                alert("변경되었습니다.")
                 navigate("/login");
                 
             })
@@ -105,7 +109,7 @@ export default function PwFind() {
                     setWarningMessage({...warningMessage, three:"기존 비밀번호와 동일합니다."})
                     setColor(true)
                 }else{
-                    alert("서버 통신 오류")
+                    setWarningMessage({...warningMessage, three:"다시 시도해주세요."})
                 }
             })
         }
@@ -145,7 +149,7 @@ export default function PwFind() {
                 <AuthInput2 placeholder='000000' type='number'
                 id="code" name="code" value={code} onChange={onChangeCode}
                 className={token ? "gray" : ""}/>
-                <BtnA type='button' className={alertMessage.two==="3분 이내로 입력해주세요."?"":"cant"} onClick={onClickCode}></BtnA>
+                <BtnA type='button' className={sendCode?"":"cant"} onClick={onClickCode}></BtnA>
             </Wrapper>
             <P>{alertMessage.two}</P>
             <P className="red">{warningMessage.two}</P>

@@ -10,6 +10,7 @@ import axios from "axios";
 import { listState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
+import { finishedState } from "../../components/RecoilDummys";
 
 
 export default function Survey() {
@@ -18,11 +19,20 @@ export default function Survey() {
   const [showAlert, setShowAlert] = useRecoilState(alertState);
   const [surveyDummys, setSurveyDummys] = useRecoilState(listState);
   const [currentId, setCurrentId] = useRecoilState(idState);
-  
+  const [finishedDummys,setFinishedDummys]=useState("");
+  const [finished,setFinished]=useRecoilState(finishedState);
   
   const currentDate=(createdAt)=>{
     const nowDate = detailDate(new Date(createdAt));
     return nowDate;
+  }
+
+  const isFinished=(e)=>{
+    for (let obj of finishedDummys){
+      if (obj.dataId===e || obj.surveyId===e){
+        return true;
+      }
+    }
   }
 
   const detailDate=(a)=>{
@@ -39,11 +49,14 @@ export default function Survey() {
     navigate(`/mypage`);
   };
 
-  const surveyViewClick = (e) => {
+  const surveyViewClick = (e, isFinished) => {
     setShowAlert(false);
     navigate(survey ? "/surveyview1" : "/marketview1");
     setCurrentId(e.surveyId?e.surveyId:e.dataId);
+    setFinished(isFinished);
   };
+
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token){
@@ -65,6 +78,24 @@ export default function Survey() {
           console.log(response);
           console.log("응답없음");
         });
+
+        axios
+        .get(`/api/survey/respondent`,
+        {
+          headers: {
+            'Authorization': token,
+        },
+      })
+        .then((response) => {
+          console.log(response)
+        
+          setFinishedDummys(response.data.data.surveys);
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
+
       
     }
     if (window.location.pathname === "/market") {
@@ -80,6 +111,23 @@ export default function Survey() {
         .then((response) => {
           console.log(response)
           setSurveyDummys(response.data.data.datas);
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
+
+        axios
+        .get(`/api/data/list/buyer`,
+        {
+          headers: {
+            'Authorization': token,
+        },
+      })
+        .then((response) => {
+          console.log(response)
+        
+          setFinishedDummys(response.data.data.datas);
         })
         .catch((response) => {
           console.log(response);
@@ -101,8 +149,8 @@ export default function Survey() {
             return (
               <EachListWrapper
                 key={e.surveyId?e.surveyId:e.dataId}
-                onClick={() => surveyViewClick(e)}
-                className={e.finished}
+                onClick={() => surveyViewClick(e, isFinished(e.surveyId?e.surveyId:e.dataId))}
+                className={isFinished(e.surveyId?e.surveyId:e.dataId)}
               >
                 <Title>
                   <Font className='title'>

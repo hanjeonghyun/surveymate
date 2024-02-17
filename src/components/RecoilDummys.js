@@ -44,10 +44,15 @@ export const contentState=atom({
   key:"contentState",
   default:{surveyId:0, title:"빈 데이터",
   description:`데이터가 존재하지 않습니다.`, createdAt:"0일전"
-,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
+,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:1, rewardUrl:"/surveyresult",isResponed:true, responded:true}
 })
 
 export const nicknameState=atom({
   key:"profileState",
   default:"",
+})
+
+export const finishedState=atom({
+  key:"finishedState",
+  default:false,
 })

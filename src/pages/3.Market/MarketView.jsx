@@ -112,8 +112,10 @@ export default function MarketView() {
     }
   }
   const nextButtonClick=()=>{
-    if (finished===false){
+    if (surveyContent.isPurchased===false){
       navigate("/marketpoint")
+    }else{
+      navigate("/marketpointcomplete")
     }
   }
   return (
@@ -158,7 +160,7 @@ export default function MarketView() {
         }
       >
           <NextButton onClick={nextButtonClick}>
-            <ButtonText>{finished? "데이터 파일 다운로드":"설문 응답 데이터 구매"}</ButtonText>
+            <ButtonText>{surveyContent.isPurchased? "데이터 파일 다운로드":"설문 응답 데이터 구매"}</ButtonText>
           </NextButton>
       </NextButtonWrapper>
       {showAlert && 

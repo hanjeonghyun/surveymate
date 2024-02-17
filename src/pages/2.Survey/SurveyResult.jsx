@@ -18,6 +18,7 @@ export default function SurveyResult() {
   const [surveyContent,setSurveyContent]=useRecoilState(contentState);
   const token = localStorage.getItem('token');
   useEffect(() => {
+    console.log(surveyContent)
     if (token){
     axios.get(`/api/survey/answer/${url}`,
     {headers: {

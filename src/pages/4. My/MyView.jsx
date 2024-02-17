@@ -11,17 +11,38 @@ import { useEffect } from 'react';
 import { contentState} from "../../components/RecoilDummys"
 import { pageState } from '../../components/RecoilDummys';
 import { idState } from '../../components/RecoilDummys';
+import { showPopUpState } from '../../components/RecoilDummys';
+import SurveyBottomPopUp from '../2.Survey/SurveyBottomPopUp';
 
 export default function MyView() {
   const navigate=useNavigate();
   const [pageTitle, setPageTitle]=useRecoilState(pageState);
   const [marketContent,setMarketContent]=useRecoilState(contentState);
-  const [currentId,setCurrentId]=useRecoilState(idState)
+  const [currentId,setCurrentId]=useRecoilState(idState);
+  const [showPopUp,setShowPopUp]=useRecoilState(showPopUpState);
+  
   useEffect(() => {
     const token = localStorage.getItem('token');
     ///수정완료 시에도 setShowAlert 뜨게 해야 함 
-    if (token){
+    if (pageTitle==="내가 등록한 설문조사"|| pageTitle==="내가 응답한 설문조사"){    
       axios.get(`api/survey/${currentId}`,{headers: {
+        'Authorization': token,
+    }})
+      .then((response)=>{
+        if (response.data) {
+          setMarketContent(response.data.data);
+          console.log(response)
+        } else {
+          console.log("응답 데이터가 null입니다.");
+        }
+      })
+      .catch((response)=>{
+        console.log("응답없음")
+        console.log(response)
+      })
+    }
+    else{
+      axios.get(`api/data/${currentId}`,{headers: {
         'Authorization': token,
     }})
       .then((response)=>{
@@ -40,6 +61,11 @@ export default function MyView() {
       
   }, [currentId]);
 
+  const buttonClick=()=>{
+    setShowPopUp(true);
+  }
+
+
   return (
     <Wrap>
     <TitleWrapper>
@@ -51,11 +77,11 @@ export default function MyView() {
         <img src={profile}></img>
       </div>
       <ProfileWrite>
-        <div>{marketContent.registrantName}</div>
+        <div>{marketContent.registrantName?marketContent.registrantName:marketContent.seller}</div>
         <div>{marketContent.createdAt ? `${marketContent.createdAt.substring(0, 10)}` : ''}</div>
       </ProfileWrite>
       <ReportButton>
-        <img  src={pageTitle==="내가 등록한 설문조사"||pageTitle==="내가 판매 등록한 설문데이터"? dot:''}></img>
+        <img onClick={buttonClick} src={pageTitle==="내가 등록한 설문조사"||pageTitle==="내가 판매 등록한 설문데이터"? dot:''}></img>
       </ReportButton>
     </Profile>
     <Hr></Hr>
@@ -64,6 +90,15 @@ export default function MyView() {
       <br></br>
       {marketContent.description}
     </Content>
+    {showPopUp && (
+        <SurveyBottomPopUp
+          initialData={{
+            title: "판매 등록 게시글 관리",
+            line1: "판매 등록된 게시글을 수정하거나",
+            line2: "삭제할 수 있어요",
+            button1: "삭제",
+            button2: "수정",
+          }}/> )}
     </Wrap>
   )
 }

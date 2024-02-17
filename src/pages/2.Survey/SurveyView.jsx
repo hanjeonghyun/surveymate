@@ -19,6 +19,7 @@ import { alertState } from "../../components/RecoilDummys";
 import { messageState } from "../../components/RecoilDummys";
 import { showPopUpState } from "../../components/RecoilDummys";
 import { nicknameState } from "../../components/RecoilDummys";
+import { finishedState } from "../../components/RecoilDummys";
 
 
 export default function SurveyView() {
@@ -28,6 +29,7 @@ export default function SurveyView() {
   const [surveyContent,setSurveyContent]=useRecoilState(contentState);
   const [surveyDummys,setSurveyDummys]=useRecoilState(listState);
   const [currentId, setCurrentId]=useRecoilState(idState);
+  const finished=useRecoilValue(finishedState);
   const navigate = useNavigate();
   const nickName=surveyContent.registrantName;
   const serverName=useRecoilValue(nicknameState);
@@ -111,7 +113,7 @@ export default function SurveyView() {
         <br></br>
         {surveyContent.description}
       </Content>
-      <NextButtonWrapper className={(nickName===serverName || currentPathname==="/surveyview2") ? "none" : ""}>
+      <NextButtonWrapper className={(nickName===serverName || currentPathname==="/surveyview2") || finished? "none" : ""}>
         <NextButton>
           <ButtonText onClick={respondClick}>설문 응답</ButtonText>
         </NextButton>

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { contentState } from '../../components/RecoilDummys';
 import { idState } from '../../components/RecoilDummys';
+import { pageState } from '../../components/RecoilDummys';
 
 import axios from 'axios';
 
@@ -17,6 +18,7 @@ export default function SurveyBottomPopUp({initialData}) {
   const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
   const [currentId, setCurrentId]=useRecoilState(idState);
   const [changeContent, setChangeContent]=useState(initialData);
+  const pageTitle=useRecoilValue(pageState);
   const surveyContent=useRecoilValue(contentState)
   const navigate=useNavigate();
   const backgroundClick=(e)=>{
@@ -41,7 +43,7 @@ export default function SurveyBottomPopUp({initialData}) {
   }
   const button2Click=()=>{
     if (changeContent.button2==="수정"){
-      if (window.location.pathname==="/surveyview1"||window.location.pathname==="/surveyview2"){
+      if (window.location.pathname==="/surveyview1"||window.location.pathname==="/surveyview2"||pageTitle==="내가 등록한 설문조사"){
       navigate("/surveyfix")}
       else{
         navigate("/marketfix")
