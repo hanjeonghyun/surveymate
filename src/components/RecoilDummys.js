@@ -14,7 +14,7 @@ export const listState=atom({
 //id 저장(market,survey 둘 다)
 export const idState=atom({
   key:"idState",
-  default:10,
+  default:0,
 })
 
 export const pageState=atom({
@@ -42,14 +42,12 @@ export const alertState=atom({
 //상세 내용 저장 용도 
 export const contentState=atom({
   key:"contentState",
-  default:{surveyId:0, title:"설문조사",
-  description:`1.
-  입력
-  완료`, createdAt:"3일전"
+  default:{surveyId:0, title:"빈 데이터",
+  description:`데이터가 존재하지 않습니다.`, createdAt:"0일전"
 ,registrantName:"등록자명",linkUrl:"https://docs.google.com/forms/d/e/1FAIpQLSeo5MSDPCQl88957cXsGBGDKU9243W0PFjkAEQ5ZFhfwdToyg/viewform", reward:5, rewardUrl:"/surveyresult",isResponed:true, responded:true}
 })
 
-export const tokenState=atom({
-  key:"tokenState",
-  default:""
+export const nicknameState=atom({
+  key:"profileState",
+  default:"",
 })

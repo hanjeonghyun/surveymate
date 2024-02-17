@@ -11,6 +11,8 @@ import { showPopUpState } from "../../components/RecoilDummys";
 import { messageState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { contentState } from "../../components/RecoilDummys";
+import { idState } from "../../components/RecoilDummys";
+import { useRecoilValue } from "recoil";
 
 export default function MarketFix() {
     const nickName="가나다"
@@ -19,18 +21,27 @@ export default function MarketFix() {
     const [alertMessage,setAlertMessage]=useRecoilState(messageState);
     const [showAlert, setShowAlert]=useRecoilState(alertState);
     const [surveyContent,setSurveyContent]=useRecoilState(contentState);
-    const {surveyId, title,description,createdAt,registrantName,amount,file}=surveyContent;
+    const currentId=useRecoilValue(idState);
+    const {title,description,createdAt,seller,price,fileUrl}=surveyContent;
     const surveyFixClick=()=>{
-        axios.patch(`api/data/${surveyId}`,{
+      const token = localStorage.getItem('token');
+      if (token){
+        axios.patch(`api/data/${currentId}`,{
           title:title,
           description: description,
-          amount:amount,
-          file:file
+          amount:price,
+          file:fileUrl,
+        },{
+          headers: {
+            'Authorization': token,
+            "Content-Type": "multipart/form-data",
+        },
         })
         .then((response)=>{
           setSurveyContent(response.data)
         })
-        .catch(()=>{
+        .catch((res)=>{
+          console.log(res)
           console.log("응답없음")
         })
         .finally(()=>{
@@ -39,6 +50,7 @@ export default function MarketFix() {
           setAlertMessage("수정내용이 저장되었습니다.")
           navigate(-1)
         })
+      }
       }
     
     const handleTitleChange=(e)=>{
@@ -64,8 +76,8 @@ export default function MarketFix() {
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{registrantName}</div>
-          <div>{createdAt}</div>
+          <div>{seller}</div>
+          <div>{createdAt ? `${createdAt.substring(0, 10)}` : ''}</div>
         </ProfileWrite>
         <ReportButton>
           <img src={""}></img>

@@ -7,6 +7,7 @@ import Warning from "../../assets/images/cLinkno.svg";
 import Upload from "../../assets/images/bpajamas_warning-solid.svg";
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
 
 import { contentState } from '../../components/RecoilDummys';
 
@@ -18,6 +19,7 @@ export default function SurveyContent() {
     const [showLBottom, setLBottom] = useState(false);
     const [showPBottom, setPBottom] = useState(false);
     const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+    const navigate=useNavigate();
     const onChangeTitle = (e) => {
         const currentTitle = e.target.value;
         setTitle(currentTitle);
@@ -37,7 +39,6 @@ export default function SurveyContent() {
         } 
     };
 
-    const navigate=useNavigate();
     const onClickNext=()=>{
         if (isLink){
             setSurveyContent({...surveyContent, title:title,description:content,linkUrl:link})
@@ -45,7 +46,7 @@ export default function SurveyContent() {
             setPBottom(true);
            }
         else{
-            setBottom(true);
+            setLBottom(true);
         }
     };
 
@@ -53,12 +54,11 @@ export default function SurveyContent() {
         setLBottom(false);
         setPBottom(false);
     };
-
     const clickNext=()=>{
-        setPBottom(false);
-        setLBottom(false);
-        navigate("/surveypoint");
+        navigate("/surveypoint")
     }
+
+
 
     return(
         <div>
@@ -97,7 +97,7 @@ export default function SurveyContent() {
             {showPBottom && (
                 <PointBottom
                 onCancel={clickCheck}
-                onClickUpload={clickNext}
+                clickNext={clickNext}
                 />
             )}
         </div>
@@ -105,6 +105,7 @@ export default function SurveyContent() {
 }
 
 function LinkBottom({clickCheck}) {
+
     return (
         <>
         <B.BackgroundBottomSheet>
@@ -116,7 +117,8 @@ function LinkBottom({clickCheck}) {
                 확인해주세요.
                 </B.ProcessExplain>
                 <img
-                src={Warning}></img>
+                src={Warning}
+                alt='warning'></img>
             </B.BottomSheetInfo>
             <B.BottomButtonWrapper>
                 <ConfirmButton>
@@ -129,7 +131,7 @@ function LinkBottom({clickCheck}) {
     );
 }
 
-function PointBottom({ onCancel, clickNext }) {
+function PointBottom({ onCancel, clickNext}) {
     return (
         <>
             <B.BackgroundBottomSheet>

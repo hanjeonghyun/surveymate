@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import { useNavigate} from 'react-router'
 import * as B from '../../components/BottomSheet'
 import axios from 'axios'
-import { tokenState } from '../../components/RecoilDummys'
-import { useRecoilValue } from 'recoil'
+
 
 
 

@@ -14,6 +14,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { atom,useRecoilState,RecoilEnv } from "recoil";
+import { useRecoilValue } from "recoil";
 import axios from "axios";
 
 import { showPopUpState } from "../../components/RecoilDummys";
@@ -21,6 +22,7 @@ import { messageState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { contentState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
+import { nicknameState } from "../../components/RecoilDummys";
 
 export default function MarketView() {
   const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
@@ -29,9 +31,9 @@ export default function MarketView() {
   const [surveyContent,setSurveyContent]=useRecoilState(contentState);
   const [finished, setFinished]=useState(false);
   const [currentId, setCurrentId]=useRecoilState(idState);
+  const [serverName,setServerName]=useRecoilState(nicknameState);
   const navigate = useNavigate();
-  const nickName = "가나다라";
-  const serverName = "가나다";
+  const nickName = surveyContent.seller?surveyContent.seller:"";
   const currentPathname = window.location.pathname;
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기
   //marketview1:메인화면에서 접속시 marketview2:설문등록시
@@ -43,14 +45,52 @@ export default function MarketView() {
     }
   };
   useEffect(() => {
+    const token = localStorage.getItem('token');
     setShowPopUp(false)
     if (currentPathname === "/marketview2") {
-      setShowAlert(true);
-    }else{
-      axios.get(`api/data/${currentId}`)
+      axios.get(`api/data/list/seller`,{
+        headers: {
+          'Authorization': token
+        },
+      })
+      .then((response)=>{
+        console.log(response)
+        setSurveyContent(response.data.data.datas[0])
+        setShowAlert(true);
+      })
+      .catch((response)=>{
+        console.log(response)
+      })
+
+      axios.get(`api/auth/profile`,
+      {
+        headers: {
+          'Authorization': token,
+        },
+      })
       //surveyview2일 때에는 다른 곳에서 id 받아오도록 수정
       .then((response)=>{
-        setSurveyContent(response.data)
+        setServerName(response.data.data.nickname)
+      })
+      .catch((response)=>{
+        console.log("응답없음")
+        console.log(response)
+      })
+      .finally(()=>{
+        //setShowAlert(false)
+      })
+
+    }else{
+      axios.get(`api/data/${currentId}`,
+      {
+        headers: {
+          'Authorization': token
+        },
+      })
+      //surveyview2일 때에는 다른 곳에서 id 받아오도록 수정
+      .then((response)=>{
+        console.log(response.data.data)
+        setSurveyContent(response.data.data)
       })
       .catch((response)=>{
         console.log("응답없음")
@@ -59,7 +99,6 @@ export default function MarketView() {
       .finally(()=>{
         setShowAlert(false)
       })
-
     }
   }, [currentPathname,location]);
 
@@ -90,8 +129,8 @@ export default function MarketView() {
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{surveyContent.registrantName}</div>
-          <div>{surveyContent.createdAt}</div>
+          <div>{currentPathname==="/marketview2"?serverName:surveyContent.seller}</div>
+          <div>{surveyContent.createdAt ? `${surveyContent.createdAt.substring(0, 10)}` : ''}</div>
         </ProfileWrite>
         <ReportButton>
           <img

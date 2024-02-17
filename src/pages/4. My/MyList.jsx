@@ -9,7 +9,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { idState } from "../../components/RecoilDummys";
 import {pageState} from "../../components/RecoilDummys";
-import { tokenState } from "../../components/RecoilDummys";
+
 import { useRecoilValue } from "recoil";
 
 
@@ -19,7 +19,7 @@ export default function MyList() {
   const [pageTitle,setPageTitle]=useRecoilState(pageState);
   const [surveyDummys,setSurveyDummys]=useState([{surveyId:0,title:"데이터 없음",
   description:"데이터가 존재하지 않습니다.", createdAt: ""}]);
-  const currentToken=useRecoilValue(tokenState);
+
   const navigate = useNavigate();
   const currentDate=(createdAt)=>{
     const nowDate = detailDate(new Date(createdAt));
@@ -36,7 +36,7 @@ export default function MyList() {
     else if (days < 7) return `${Math.floor(days)}일 전`;
   }
   const myViewClick=(e)=>{
-    setCurrentId(e.surveyId)
+    setCurrentId(e.surveyId?e.surveyId:e.dataId)
     navigate('/myview') 
     }
   const fetchData = async ()=>{
@@ -61,7 +61,7 @@ export default function MyList() {
           'Authorization': token,
       }});
         console.log(response.data)
-        {response.data.data.surveys && setSurveyDummys(response.data.data.surveys)}
+        {response.data.data.datas && setSurveyDummys(response.data.data.datas)}
       } 
       else if (currentPathname==="/mylist3") {
         setPageTitle("내가 구매한 설문데이터")
@@ -69,7 +69,7 @@ export default function MyList() {
           'Authorization': token,
       }});
         console.log(response.data)
-        {response.data.data.surveys && setSurveyDummys(response.data.data.surveys)}
+        {response.data.data.datas && setSurveyDummys(response.data.data.datas)}
       } 
       else if (currentPathname==="/mylist4"){
         setPageTitle("내가 등록한 설문조사",)
@@ -89,7 +89,6 @@ export default function MyList() {
    
   useEffect(() => {
     fetchData();
-    console.log(surveyDummys)
   }, [currentPathname]);
 
   return (
@@ -103,7 +102,7 @@ export default function MyList() {
     <ListWrapper>
       { surveyDummys.map((e)=>{
             return(
-                <EachListWrapper key={e.surveyId} onClick={()=>myViewClick(e)}
+                <EachListWrapper key={e.surveyId?e.surveyId:e.dataId} onClick={()=>myViewClick(e)}
                    >
                     <TextTitle>
                         <Font className="title">{e.title.length > 15 ? `${e.title.substring(0, 14)}...` : e.title}</Font>

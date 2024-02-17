@@ -4,7 +4,7 @@ import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { contentState, tokenState } from "../../components/RecoilDummys";
+import { contentState} from "../../components/RecoilDummys";
 import { useRecoilState } from "recoil";
 import { idState } from "../../components/RecoilDummys";
 import axios from "axios";
@@ -53,7 +53,6 @@ export default function SurveyPoint() {
       // alert(`${e} 번 에러가 발생했습니다.`)
       console.log(e)
       console.error("요청 에러", e);
-      navigate("/surveylink");
     }
   }
   };

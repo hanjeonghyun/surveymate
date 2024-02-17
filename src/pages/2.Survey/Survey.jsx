@@ -42,11 +42,10 @@ export default function Survey() {
   const surveyViewClick = (e) => {
     setShowAlert(false);
     navigate(survey ? "/surveyview1" : "/marketview1");
-    setCurrentId(e.surveyId);
+    setCurrentId(e.surveyId?e.surveyId:e.dataId);
   };
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token)
     if (token){
     if (window.location.pathname === "/survey") {
       setSurvey(true);
@@ -59,7 +58,7 @@ export default function Survey() {
       })
         .then((response) => {
           console.log(response)
-          console.log(response.data.data.surveys);
+        
           setSurveyDummys(response.data.data.surveys);
         })
         .catch((response) => {
@@ -80,8 +79,7 @@ export default function Survey() {
         )
         .then((response) => {
           console.log(response)
-          console.log(response.data.surveys);
-          setSurveyDummys(response.data.surveys);
+          setSurveyDummys(response.data.data.datas);
         })
         .catch((response) => {
           console.log(response);
@@ -102,7 +100,7 @@ export default function Survey() {
           {surveyDummys?.map((e) => {
             return (
               <EachListWrapper
-                key={e.surveyId}
+                key={e.surveyId?e.surveyId:e.dataId}
                 onClick={() => surveyViewClick(e)}
                 className={e.finished}
               >

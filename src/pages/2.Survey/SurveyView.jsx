@@ -10,6 +10,7 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { atom, useRecoilState, RecoilEnv } from 'recoil';
+import { useRecoilValue } from "recoil";
 
 import { listState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
@@ -17,6 +18,7 @@ import { contentState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { messageState } from "../../components/RecoilDummys";
 import { showPopUpState } from "../../components/RecoilDummys";
+import { nicknameState } from "../../components/RecoilDummys";
 
 
 export default function SurveyView() {
@@ -28,7 +30,7 @@ export default function SurveyView() {
   const [currentId, setCurrentId]=useRecoilState(idState);
   const navigate = useNavigate();
   const nickName=surveyContent.registrantName;
-  const serverName="지은";
+  const serverName=useRecoilValue(nicknameState);
   const currentPathname=window.location.pathname;
 
   //화면의 닉네임과 현재 접속자명이 동일한지 판단해서 화면 다르게 띄우기

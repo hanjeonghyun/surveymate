@@ -5,20 +5,45 @@ import Warning from "../../assets/images/dwarning.svg";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { contentState } from "../../components/RecoilDummys";
+import { useRecoilState } from "recoil";
+import { idState } from "../../components/RecoilDummys";
 
 export default function MarketPoint() {
   const [amount, setAmount] = useState(0);
   const [showBottom, setBottom] = useState(false);
   const [totalPoint, setTotalPoint] = useState(0);
+  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
+  const currentId=useRecoilState(idState);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleSubmit = () => {
-    navigate("/marketpointcomplete");
-  };
+  
+    const handleSubmit = async () => {
+      try {
+        const resAmount = await axios.post(`/api/data/buy/1`, {
+          headers: {
+            accept: "*/*",
+            'Authorization': token
+          }
+        });
+        console.log(resAmount)
+        //const amountData = resAmount.data.data;
+        //setAmount(amountData);
+        //navigate("/marketpointcomplete");
+      } catch (error) {
+        console.error("요청 에러", error);
+        console.log(token)
+        // alert("에러 발생");
+      }
+    
+    };
+
+  
 
   const clickConfirm = () => {
     setBottom(true);
@@ -34,34 +59,20 @@ export default function MarketPoint() {
         const res = await axios.get(`/api/statement/total`, {
           headers: {
             accept: "*/*",
+            'Authorization': token
           },
         });
-        const totalPointData = res.data;
+        console.log(res)
+        const totalPointData = res.data.data.totalAmount;
         setTotalPoint(totalPointData);
       } catch (error) {
         console.error("요청 에러", error);
         // alert("에러 발생");
       }
     };
-
-    let dataId = 11; //데이터 아이디 리코일 생성 후 수정
-    const fetchAmount = async () => {
-      try {
-        const resAmount = await axios.get(`/api/data/buy/${dataId}`, {
-          headers: {
-            accept: "*/*",
-          },
-        });
-        const amountData = resAmount.data;
-        setAmount(amountData);
-      } catch (error) {
-        console.error("요청 에러", error);
-        // alert("에러 발생");
-      }
-    };
-
+   
     fetchData();
-    fetchAmount();
+
   }, []);
 
   return (
@@ -73,9 +84,9 @@ export default function MarketPoint() {
       <ProcessTitle>포인트 차감 내용</ProcessTitle>
       <B.InputLabel>차감 포인트</B.InputLabel>
       <NotifyBox>
-        <DayButtonText>{amount} POINT</DayButtonText>
+        <DayButtonText>{surveyContent.price} POINT</DayButtonText>
       </NotifyBox>
-      <HavingPoint>보유 포인트 {totalPoint} POINT</HavingPoint>
+      <HavingPoint>보유 포인트 {totalPoint}POINT</HavingPoint>
       <SizedBox />
       <C.NextButton onClick={clickConfirm}>구매 확인</C.NextButton>
       {showBottom && (
@@ -83,6 +94,7 @@ export default function MarketPoint() {
           onCancel={clickCancel}
           amountt={amount}
           handleSubmit={handleSubmit}
+          token={token}
         />
       )}
     </>
@@ -90,7 +102,7 @@ export default function MarketPoint() {
 }
 
 //설문등록 확인 바텀시트
-function PointBottom({ onCancel, amount, handleSubmit }) {
+function PointBottom({ onCancel, amount, handleSubmit, token }) {
   return (
     <>
       <B.BackgroundBottomSheet>
@@ -111,7 +123,7 @@ function PointBottom({ onCancel, amount, handleSubmit }) {
               <C.ButtonText>취소</C.ButtonText>
             </B.CancelButton>
             <B.ConfirmButton>
-              <C.ButtonText onClick={handleSubmit}>구매</C.ButtonText>
+              <C.ButtonText onClick={token &&handleSubmit}>구매</C.ButtonText>
             </B.ConfirmButton>
           </B.BottomButtonWrapper>
         </B.BottomSheetWrapper>

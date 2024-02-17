@@ -7,6 +7,8 @@ import { useState } from "react";
 import axios from 'axios'
 import Upload from "../../assets/images/cUpload.svg";
 import Notfile from "../../assets/images/cNotfile.svg";
+import { useRecoilState } from "recoil";
+import { contentState } from "../../components/RecoilDummys";
 
 export default function SurveyContent() {
   const navigate = useNavigate();
@@ -21,6 +23,8 @@ export default function SurveyContent() {
   const [isMessage, setIsMessage] = useState(
     "판매 데이터 업로드 (CSV, XLSX 만 가능)"
   );
+
+  const [surveyContent,setSurveyContent]=useRecoilState(contentState)
 
   const fileInput = React.useRef(null);
   const handleButtonClick = (e) => {
@@ -38,7 +42,9 @@ export default function SurveyContent() {
   };
   const onChangeFile = (e) => {
     var fileInfo = e.target.files[0].name;
-    const currentFile = e.target.value;
+    if (e.target.files == null)
+      return;
+    const currentFile = e.target.files[0];
     setFile(currentFile);
     console.log(file);
     //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
@@ -89,10 +95,10 @@ export default function SurveyContent() {
       })
       .then((response)=>{
         console.log(response);
+        
         navigate("/marketview2");
       })
       .catch((response)=>{
-        console.log
         console.log(response)
           if (response.response.status===401){
             alert('401 error')
@@ -139,8 +145,7 @@ export default function SurveyContent() {
       <UploadFile
         type="file"
         id="file" 
-        name="file" 
-        value={file} 
+        name="file"  
         onChange={onChangeFile}
         ref={fileInput}
       ></UploadFile>

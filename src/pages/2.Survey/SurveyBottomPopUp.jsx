@@ -7,12 +7,17 @@ import { useRecoilState } from 'recoil';
 import { showPopUpState } from '../../components/RecoilDummys';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { contentState } from '../../components/RecoilDummys';
+import { idState } from '../../components/RecoilDummys';
 
 import axios from 'axios';
 
 export default function SurveyBottomPopUp({initialData}) {
   const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
+  const [currentId, setCurrentId]=useRecoilState(idState);
   const [changeContent, setChangeContent]=useState(initialData);
+  const surveyContent=useRecoilValue(contentState)
   const navigate=useNavigate();
   const backgroundClick=(e)=>{
     if (e.target === e.currentTarget) {
@@ -42,10 +47,11 @@ export default function SurveyBottomPopUp({initialData}) {
         navigate("/marketfix")
       }
     }else{
+      console.log(surveyContent)
       //삭제시
       const token = localStorage.getItem('token');
       const url=(window.location.pathname==="/surveyview1"||window.location.pathname==="/surveyview2"?
-      `/api/survey/${changeContent.surveyId}`:`/api/data/${changeContent.surveyId}`)
+      `/api/survey/${currentId}`:`/api/data/${currentId}`)
       if(token){
       axios.delete(url,{headers: {
         'Authorization': token,

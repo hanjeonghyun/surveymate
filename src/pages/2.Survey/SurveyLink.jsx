@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil';
 
 import { messageState } from '../../components/RecoilDummys';
 import { idState } from '../../components/RecoilDummys';
+import { contentState } from '../../components/RecoilDummys';
 import { useRecoilValue } from 'recoil';
 
 export default function SurveyLink() {
@@ -15,7 +16,7 @@ export default function SurveyLink() {
     const [nextBtValid,setNextBtValid]=useState(false);
     const [notAllow,setNotAllow]=useState(true);
     const [alertMessage,setAlertMessage]=useRecoilState(messageState);
-
+    const [surveyContent,setSurveyContent]=useRecoilState(contentState);
     const navigate=useNavigate();
     const surveyId= useRecoilValue(idState);
     const [pointLink, setPointLink] = useState(``);
@@ -31,6 +32,7 @@ export default function SurveyLink() {
                 'Authorization': token,
             }});
             console.log(response)
+            setSurveyContent(response.data.data)
             setPointLink(`/surveyresult/${response.data.data.rewardUrl}`);
         } catch (res){
             console.log(res)

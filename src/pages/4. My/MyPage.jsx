@@ -5,12 +5,14 @@ import profileImg from "../../assets/images/aprofile_img.svg";
 import next_icon from "../../assets/images/anext_icon.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { nicknameState } from '../../components/RecoilDummys';
+import { useRecoilValue } from 'recoil';
 
 
 export default function MyPage() {
     const navigate = useNavigate();
-    const nickName="닉네임";
     const [point, setPoint]= useState(0);
+    const nickName=useRecoilValue(nicknameState);
     
     async function getPoint(){
         const token = localStorage.getItem('token');

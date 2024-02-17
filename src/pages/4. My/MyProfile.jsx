@@ -4,9 +4,12 @@ import * as C from "../../components/SurveyComponents";
 import defaultProfile from "../../assets/images/ddefaultProfile.svg";
 import next_icon from "../../assets/images/dicon_next.svg";
 import { useNavigate } from "react-router-dom";
+import { nicknameState } from "../../components/RecoilDummys";
+import { useRecoilValue } from "recoil";
 
 export default function MyProfile() {
   const navigate = useNavigate();
+  const nickName=useRecoilValue(nicknameState);
 
   const handleBack = () => {
     navigate(-1);
@@ -38,7 +41,7 @@ export default function MyProfile() {
           />
         </DefaultProfile>
       </ProfileWrapper>
-      <MyText>스트로베리 초코 생크림 케이크</MyText>
+      <MyText>{nickName}</MyText>
       <Divideline />
       <MenuWrapper>
         <MenuContainer>
