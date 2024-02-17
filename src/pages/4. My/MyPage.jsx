@@ -6,13 +6,14 @@ import next_icon from "../../assets/images/anext_icon.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { nicknameState } from '../../components/RecoilDummys';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 
 export default function MyPage() {
     const navigate = useNavigate();
     const [point, setPoint]= useState(0);
-    const nickName=useRecoilValue(nicknameState);
+    const [nickName,setNickName]=useRecoilState(nicknameState);
+
     
     async function getPoint(){
         const token = localStorage.getItem('token');
@@ -43,6 +44,24 @@ export default function MyPage() {
     }
     };
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        axios.get(`api/auth/profile`,
+      {
+        headers: {
+          'Authorization': token,
+        },
+      })
+      //surveyview2일 때에는 다른 곳에서 id 받아오도록 수정
+      .then((response)=>{
+        setNickName(response.data.data.nickname)
+      })
+      .catch((response)=>{
+        console.log("응답없음")
+        console.log(response)
+      })
+      .finally(()=>{
+        //setShowAlert(false)
+      })
         getPoint(); 
     }, []);
     const version="v1.1.1";

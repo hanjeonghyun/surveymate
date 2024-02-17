@@ -4,28 +4,20 @@ import complete from "../../assets/images/dcomplete.svg";
 import completelogo from "../../assets/images/dcompletelogo.svg";
 import styled from "styled-components";
 import axios from "axios";
+import { contentState } from "../../components/RecoilDummys";
+import { useRecoilValue } from "recoil";
 
 export default function MarketPointComplete() {
   const navigate = useNavigate();
+  const surveyContent=useRecoilValue(contentState);
 
   const handleBack = () => {
-    navigate(-1);
+    navigate("/market");
   };
 
-  let dataId = 11;
-  const handleDownload = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.get(`/api/data/${dataId}`, {
-        headers: {
-          accept: "*/*",
-        },
-      });
-      return (filedownload = res.data);
-    } catch (error) {
-      console.error("요청 에러", error);
-    }
-  };
+  const handleDownload = ()=>{
+    window.open(surveyContent.fileUrl)
+  }
 
   return (
     <>

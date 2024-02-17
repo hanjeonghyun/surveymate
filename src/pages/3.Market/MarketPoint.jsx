@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { contentState } from "../../components/RecoilDummys";
+import { useRecoilValue } from "recoil";
 import { useRecoilState } from "recoil";
 import { idState } from "../../components/RecoilDummys";
 
@@ -14,7 +15,7 @@ export default function MarketPoint() {
   const [showBottom, setBottom] = useState(false);
   const [totalPoint, setTotalPoint] = useState(0);
   const [surveyContent,setSurveyContent]=useRecoilState(contentState);
-  const currentId=useRecoilState(idState);
+  const currentId=useRecoilValue(idState);
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
@@ -25,19 +26,17 @@ export default function MarketPoint() {
   
     const handleSubmit = async () => {
       try {
-        const resAmount = await axios.post(`/api/data/buy/1`, {
+        const resAmount = await axios.post(`/api/data/buy/${currentId}`, {}, {
           headers: {
-            accept: "*/*",
-            'Authorization': token
+            'Authorization': token,
           }
         });
         console.log(resAmount)
         //const amountData = resAmount.data.data;
         //setAmount(amountData);
-        //navigate("/marketpointcomplete");
+        navigate("/marketpointcomplete");
       } catch (error) {
         console.error("요청 에러", error);
-        console.log(token)
         // alert("에러 발생");
       }
     
