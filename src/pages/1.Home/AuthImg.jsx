@@ -55,7 +55,7 @@ export default function Profile() {
         formData.append("marketingConsent", true);
 
         const resJoin = await axios.post(
-          `https://survey-mate-api.jinhy.uk/auth/join`,
+          `https://sleigh.college/api/auth/join`,
           formData,
           {
             headers: {

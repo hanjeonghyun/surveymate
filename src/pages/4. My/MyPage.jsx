@@ -19,7 +19,7 @@ export default function MyPage() {
         const token = localStorage.getItem('token');
         if (token){
         try{
-            const response = await axios.get("https://survey-mate-api.jinhy.uk/statement/total",{
+            const response = await axios.get("https://sleigh.college/api/statement/total",{
                 headers: {
                     "accept": "*/*",
                     'Authorization': token,

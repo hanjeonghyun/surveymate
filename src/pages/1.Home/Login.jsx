@@ -50,7 +50,7 @@ export default function Login() {
     const navigate = useNavigate();
     const handleSubmit =async()=>{
         try{
-            const response = await axios.post("https://survey-mate-api.jinhy.uk/auth/login",{
+            const response = await axios.post("https://sleigh.college/api/auth/login",{
                 id: inputId,
                 password: inputPw,
             });
