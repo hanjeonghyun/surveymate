@@ -28,7 +28,7 @@ export default function MyOut() {
 
     const onClickButton=()=>{
         if (isPassword){
-            axios.delete("https://survey-mate-api.jinhy.uk/auth/account",{
+            axios.delete("https://sleigh.college/auth/account",{
                 currentPassword: password,
             })
             .then((response)=>{

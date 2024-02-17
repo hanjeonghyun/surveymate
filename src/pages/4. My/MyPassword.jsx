@@ -60,7 +60,7 @@ export default function MyPassword() {
 
     const onClickButton=()=>{
         if (isNPassword){
-            axios.patch("https://survey-mate-api.jinhy.uk/auth/password/update",{
+            axios.patch("https://sleigh.college/auth/password/update",{
                 currentPassword: Cpassword,
                 newPassword: Npassword,
             })

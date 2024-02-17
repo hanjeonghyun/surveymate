@@ -16,7 +16,7 @@ export default function MyPoint() {
         const token = localStorage.getItem('token');
         if (token){
         try{
-            const response = await axios.get("https://survey-mate-api.jinhy.uk/statement/total",{
+            const response = await axios.get("https://sleigh.college/statement/total",{
                 headers: {
                     "accept": "*/*",
                     'Authorization': token,
@@ -79,7 +79,7 @@ export default function MyPoint() {
                  // }
               //  })
             
-            const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list",{
+            const res = await axios.get("https://sleigh.college/statement/list",{
                 headers: {
                     "accept": "*/*",
                     'Authorization': token,

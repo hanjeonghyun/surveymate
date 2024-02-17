@@ -94,7 +94,7 @@ export default function SurveyContent() {
         formData.append("description", content);
         formData.append("amount", point);
         formData.append("file", file);
-      axios.post("https://survey-mate-api.jinhy.uk/data",formData,
+      axios.post("https://sleigh.college/data",formData,
       {
         headers: {
           'Authorization': token,
