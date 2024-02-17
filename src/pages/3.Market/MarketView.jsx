@@ -56,6 +56,7 @@ export default function MarketView() {
       .then((response)=>{
         console.log(response)
         setSurveyContent(response.data.data.datas[0])
+        setCurrentId(response.data.data.datas[0].dataId)
         setShowAlert(true);
       })
       .catch((response)=>{

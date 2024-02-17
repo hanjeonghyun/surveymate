@@ -7,12 +7,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import { showPopUpState } from "../../components/RecoilDummys";
+import { nicknameState, showPopUpState } from "../../components/RecoilDummys";
 import { messageState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { contentState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { useRecoilValue } from "recoil";
+
 
 export default function MarketFix() {
     const nickName="가나다"
@@ -22,16 +23,17 @@ export default function MarketFix() {
     const [showAlert, setShowAlert]=useRecoilState(alertState);
     const [surveyContent,setSurveyContent]=useRecoilState(contentState);
     const currentId=useRecoilValue(idState);
+    const serverName=useRecoilValue(nicknameState)
     const {title,description,createdAt,seller,price,fileUrl}=surveyContent;
     const surveyFixClick=()=>{
       const token = localStorage.getItem('token');
       if (token){
-        axios.patch(`api/data/${currentId}`,{
-          title:title,
-          description: description,
-          amount:price,
-          file:fileUrl,
-        },{
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        //formData.append("amount", price);
+        //formData.append("file", fileUrl);
+        axios.patch(`api/data/${currentId}`,formData,{
           headers: {
             'Authorization': token,
             "Content-Type": "multipart/form-data",
@@ -76,7 +78,7 @@ export default function MarketFix() {
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{seller}</div>
+          <div>{seller ? seller: serverName}</div>
           <div>{createdAt ? `${createdAt.substring(0, 10)}` : ''}</div>
         </ProfileWrite>
         <ReportButton>

@@ -47,10 +47,12 @@ export default function SurveyContent() {
     const currentFile = e.target.files[0];
     setFile(currentFile);
     console.log(file);
+    const fileRegExp1 = /^[가-힣a-zA-Z0-9\s+-.]+\.(csv)$/i;
+    const fileRegExp2 = /^[가-힣a-zA-Z0-9\s+-.]+\.(xlsx)$/i;
     //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[j]+[s]+[x]/i;
     //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
-    const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
-    const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
+    //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
+    //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
         if (!fileRegExp1.test(fileInfo)&&!fileRegExp2.test(fileInfo)) {
             setIsFile(false);
             setFBottom(true);
@@ -70,7 +72,11 @@ export default function SurveyContent() {
   };
 
   const clickNext = () => {
+    if(isFile){
     setPBottom(true);
+    }else{
+      setFBottom(true);
+    }
   };
   const clickCancel = () => {
     setPBottom(false);
@@ -78,9 +84,11 @@ export default function SurveyContent() {
   };
 
   const onClickUpload=()=>{
+    console.log(isFile)
     const token = localStorage.getItem('token');
     if (token){
     if(isFile){
+
       const formData = new FormData();
         formData.append("title", title);
         formData.append("description", content);
@@ -94,8 +102,7 @@ export default function SurveyContent() {
         },
       })
       .then((response)=>{
-        console.log(response);
-        
+        console.log(response);  
         navigate("/marketview2");
       })
       .catch((response)=>{
@@ -103,12 +110,11 @@ export default function SurveyContent() {
           if (response.response.status===401){
             alert('401 error')
             console.log(response)
-          }else{
-      }
-    
+          }
     })
-  }else{
-    alert('404 error')
+  }
+  else{
+
   }
 }
 }
