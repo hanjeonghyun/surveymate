@@ -32,14 +32,6 @@ export default function MyPage() {
             return data;
         } catch (response) {
             console.log(response)
-            //if (error.response) {
-              //  console.error('서버 응답 상태 코드:', error.response.status);
-              //  console.error('서버 응답 데이터:', error.response.data);
-            //} else if (error.request) {
-              //  console.error('서버 응답 없음');
-            //} else {
-              //  console.error('Axios 오류:', error.message);
-            //}
         }
     }
     };

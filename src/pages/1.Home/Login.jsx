@@ -54,12 +54,13 @@ export default function Login() {
                 id: inputId,
                 password: inputPw,
             });
-            navigate('/main');
-            //alert('로그인 성공!');
-            console.log('서버 응답:', response);
-            console.log(response.data.data.jwt);
-            localStorage.setItem("token", response.data.data.jwt);
-
+            if (response.data.success){
+                navigate('/main');
+                console.log('서버 응답:', response);
+                console.log(response.data.data.jwt);
+                localStorage.setItem("token", response.data.data.jwt);
+            }
+           
         }catch (error){
             setIsLogin(false);
             if (error.response) {
