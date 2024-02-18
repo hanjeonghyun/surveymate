@@ -99,10 +99,10 @@ export default function MainL() {
     );
 }
 const All = styled.div`
-    overflow-x: hidden;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-`
+  overflow-x: hidden;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+`;
 const Top = styled.div`
     width: 90vw;
     height: 41px;
@@ -118,13 +118,13 @@ const Logo = styled.img`
     display: inline-block;
 `
 const Login = styled.div`
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    margin-top: -15px;
-    right: 0%;
-    margin-right: -10px;
-`
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  right: 0%;
+  margin-right: -10px;
+`;
 const LBtn = styled.button`
     font-size: 12px;
     font-weight: 600;
@@ -135,44 +135,44 @@ const LBtn = styled.button`
     height: 30px;
 `
 const Sset = styled.div`
-    padding-top: 4vh;
-    width: 100vw;
-`
+  padding-top: 4vh;
+  width: 100vw;
+`;
 const Stitle = styled.p`
-    font-size: 16px;
-    font-weight: 500; 
-    margin-bottom: 2vh;
-    margin-left: 6vw;
-`
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 2vh;
+  margin-left: 6vw;
+`;
 const B = styled.span`
-    font-size: 16px;
-    font-weight: 700; 
-    color: #6046FF;
-`
+  font-size: 16px;
+  font-weight: 700;
+  color: #6046ff;
+`;
 const Sone = styled.div`
-    display: flex;
-    overflow-y: hidden;
-    padding: 8px;
-    margin-left: 3vw;
-    &::-webkit-scrollbar {
-        display: none;
-    }
-`
+  display: flex;
+  overflow-y: hidden;
+  padding: 8px;
+  margin-left: 3vw;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 const Stwo = styled.div`
-    padding-right: 3vw;
-`
+  padding-right: 3vw;
+`;
 const Scontent = styled.div`
-    font-size: 14px;
-    font-weight: 500; 
-    box-shadow: 0px 2px 11px 0px #00000033;
-    width: 310px;
-    height: 60px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    padding-left: 5vw;
-    margin-bottom: 2vh;
-`
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0px 2px 11px 0px #00000033;
+  width: 310px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding-left: 5vw;
+  margin-bottom: 2vh;
+`;
 const BarWrapper = styled.div`
   position: fixed;
   bottom: 0;

@@ -6,10 +6,11 @@ import next_icon from "../../assets/images/dicon_next.svg";
 import { useNavigate } from "react-router-dom";
 import { nicknameState } from "../../components/RecoilDummys";
 import { useRecoilValue } from "recoil";
+import cBack from "../../assets/images/cBack.svg";
 
 export default function MyProfile() {
   const navigate = useNavigate();
-  const nickName=useRecoilValue(nicknameState);
+  const nickName = useRecoilValue(nicknameState);
 
   const handleBack = () => {
     navigate(-1);
@@ -62,7 +63,7 @@ export default function MyProfile() {
 }
 
 const BackBtn = styled.button`
-  background: url("src/assets/images/dicon_back.svg") no-repeat;
+  background: url(${cBack}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;

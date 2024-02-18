@@ -9,40 +9,41 @@ import { contentState } from "../../components/RecoilDummys";
 import { useRecoilValue } from "recoil";
 import { useRecoilState } from "recoil";
 import { idState } from "../../components/RecoilDummys";
+import cBack from "../../assets/images/cBack.svg";
 
 export default function MarketPoint() {
   const [amount, setAmount] = useState(0);
   const [showBottom, setBottom] = useState(false);
   const [totalPoint, setTotalPoint] = useState(0);
-  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
-  const currentId=useRecoilValue(idState);
+  const [surveyContent, setSurveyContent] = useRecoilState(contentState);
+  const currentId = useRecoilValue(idState);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  
-    const handleSubmit = async () => {
-      try {
-        const resAmount = await axios.post(`/api/data/buy/${currentId}`, {}, {
+  const handleSubmit = async () => {
+    try {
+      const resAmount = await axios.post(
+        `/api/data/buy/${currentId}`,
+        {},
+        {
           headers: {
-            'Authorization': token,
-          }
-        });
-        console.log(resAmount)
-        //const amountData = resAmount.data.data;
-        //setAmount(amountData);
-        navigate("/marketpointcomplete");
-      } catch (error) {
-        console.error("요청 에러", error);
-        // alert("에러 발생");
-      }
-    
-    };
-
-  
+            Authorization: token,
+          },
+        }
+      );
+      console.log(resAmount);
+      //const amountData = resAmount.data.data;
+      //setAmount(amountData);
+      navigate("/marketpointcomplete");
+    } catch (error) {
+      console.error("요청 에러", error);
+      // alert("에러 발생");
+    }
+  };
 
   const clickConfirm = () => {
     setBottom(true);
@@ -58,10 +59,10 @@ export default function MarketPoint() {
         const res = await axios.get(`/api/statement/total`, {
           headers: {
             accept: "*/*",
-            'Authorization': token
+            Authorization: token,
           },
         });
-        console.log(res)
+        console.log(res);
         const totalPointData = res.data.data.totalAmount;
         setTotalPoint(totalPointData);
       } catch (error) {
@@ -69,9 +70,8 @@ export default function MarketPoint() {
         // alert("에러 발생");
       }
     };
-   
-    fetchData();
 
+    fetchData();
   }, []);
 
   return (
@@ -122,7 +122,7 @@ function PointBottom({ onCancel, amount, handleSubmit, token }) {
               <C.ButtonText>취소</C.ButtonText>
             </B.CancelButton>
             <B.ConfirmButton>
-              <C.ButtonText onClick={token &&handleSubmit}>구매</C.ButtonText>
+              <C.ButtonText onClick={token && handleSubmit}>구매</C.ButtonText>
             </B.ConfirmButton>
           </B.BottomButtonWrapper>
         </B.BottomSheetWrapper>
@@ -132,7 +132,7 @@ function PointBottom({ onCancel, amount, handleSubmit, token }) {
 }
 
 const BackBtn = styled.button`
-  background: url("src/assets/images/dicon_back.svg") no-repeat;
+  background: url(${cBack}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;

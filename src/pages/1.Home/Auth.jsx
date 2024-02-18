@@ -4,7 +4,9 @@ import styled from "styled-components";
 import * as C from "../../components/AuthComponents";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import Arrow from "../../assets/images/cArrow.svg";
+import Resend from "../../assets/images/cResend.svg";
+import Eye from "../../assets/images/cEye.svg";
 export default function Auth() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
@@ -273,18 +275,18 @@ const P = styled.p`
   margin-top: 1vh;
 `;
 const BtnA = styled.input`
-  background: url("src/assets/images/cArrow.svg") no-repeat;
+  background: url(${Arrow}) no-repeat;
   width: 32px;
   height: 32px;
   border: none;
   &.resend {
-    background: url("src/assets/images/cResend.svg") no-repeat;
+    background: url(${Resend}) no-repeat;
     width: 58px;
     height: 32px;
   }
 `;
 const BtnE = styled.input`
-  background: url("src/assets/images/cEye.svg") no-repeat;
+  background: url(${Eye}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;

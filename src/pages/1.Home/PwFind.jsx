@@ -4,14 +4,15 @@ import styled from "styled-components";
 import * as C from "../../components/AuthComponents";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Arrow from "../../assets/images/cArrow.svg";
+import Resend from "../../assets/images/cResend.svg";
+import Eye from "../../assets/images/cEye.svg";
 
 export default function Auth() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
 
-  const [emailMessage, setEmailMessage] = useState(
-    ""
-  );
+  const [emailMessage, setEmailMessage] = useState("");
   const [numberMessage, setNumberMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
 
@@ -87,19 +88,19 @@ export default function Auth() {
   };
 
   const onClickCode = () => {
-    axios.
-        post("/api/auth/password/certification", {
-            emailAddress: email,
-            code: code,
+    axios
+      .post("/api/auth/password/certification", {
+        emailAddress: email,
+        code: code,
       })
       .then((response) => {
         const getToken = response.data.data.passwordRestValidationToken;
         if (getToken) {
-            setToken(getToken);
-            setNumberMessage("인증코드가 확인되었습니다.");
-            setIsNumber(true);
-            setSendNumber(true);
-            console.log(token);
+          setToken(getToken);
+          setNumberMessage("인증코드가 확인되었습니다.");
+          setIsNumber(true);
+          setSendNumber(true);
+          console.log(token);
         }
       })
       .catch((response) => {
@@ -117,21 +118,20 @@ export default function Auth() {
     e.preventDefault();
 
     const goToNext = () => {
-    axios.
-        patch("/api/auth/password/reset", {
-            emailAddress: email,
-            passwordResetToken: token,
-            newPassword: password,
-      })
-      .then((response) => {
-        navigate("/login")
-      })
-      .catch((response) => {
-        if (response.response.status === 401) {
-        } else {
-          
-        }
-      });
+      axios
+        .patch("/api/auth/password/reset", {
+          emailAddress: email,
+          passwordResetToken: token,
+          newPassword: password,
+        })
+        .then((response) => {
+          navigate("/login");
+        })
+        .catch((response) => {
+          if (response.response.status === 401) {
+          } else {
+          }
+        });
     };
 
     if (!isPassword ? true : false) {
@@ -285,18 +285,18 @@ const P = styled.p`
   margin-top: 1vh;
 `;
 const BtnA = styled.input`
-  background: url("src/assets/images/cArrow.svg") no-repeat;
+  background: url(${Arrow}) no-repeat;
   width: 32px;
   height: 32px;
   border: none;
   &.resend {
-    background: url("src/assets/images/cResend.svg") no-repeat;
+    background: url(${Resend}) no-repeat;
     width: 58px;
     height: 32px;
   }
 `;
 const BtnE = styled.input`
-  background: url("src/assets/images/cEye.svg") no-repeat;
+  background: url(${Eye}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;

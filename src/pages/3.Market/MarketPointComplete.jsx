@@ -6,18 +6,19 @@ import styled from "styled-components";
 import axios from "axios";
 import { contentState } from "../../components/RecoilDummys";
 import { useRecoilValue } from "recoil";
+import cBack from "../../assets/images/cBack.svg";
 
 export default function MarketPointComplete() {
   const navigate = useNavigate();
-  const surveyContent=useRecoilValue(contentState);
+  const surveyContent = useRecoilValue(contentState);
 
   const handleBack = () => {
     navigate("/market");
   };
 
-  const handleDownload = ()=>{
-    window.open(surveyContent.fileUrl)
-  }
+  const handleDownload = () => {
+    window.open(surveyContent.fileUrl);
+  };
 
   return (
     <>
@@ -45,7 +46,7 @@ export default function MarketPointComplete() {
 }
 
 const BackBtn = styled.button`
-  background: url("src/assets/images/dicon_back.svg") no-repeat;
+  background: url(${cBack}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;
