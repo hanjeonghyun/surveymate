@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
-import cBack from "../../assets/images/cBack.svg";
-import Eye from "../../assets/images/cEye.svg";
-import EyeOpen from "../../assets/images/cEyeopen.svg"
+import back from "../../assets/images/aback_icon.svg";
+import EyeClose from "../../assets/images/cEye.svg";
+import EyeOpen from "../../assets/images/cEyeopen.svg";
 import axios from "axios";
 
 export default function MyPassword() {
@@ -97,7 +97,7 @@ export default function MyPassword() {
   return (
     <>
       <C.TitleWrapper>
-        <BackBtn onClick={handleBack}></BackBtn>
+        <BackBtn src={back} onClick={handleBack}></BackBtn>
         <C.Title>비밀번호 변경</C.Title>
       </C.TitleWrapper>
 
@@ -134,7 +134,7 @@ export default function MyPassword() {
             <BtnE
               type='button'
               onClick={handlePasswordType2}
-              className={!pwType2.visible ? "Eye": "EyeOpen"}
+              src={pwType.visible ? EyeOpen : EyeClose}
             ></BtnE>
           </Wrapper>
           <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
@@ -158,13 +158,10 @@ export default function MyPassword() {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
-  width: 24px;
-  height: 24px;
-  border: none;
-  position: absolute;
-  left: 5vw;
+const BackBtn = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0; 
 `;
 const Content0 = styled.div`
   margin-left: 2vw;
@@ -217,16 +214,11 @@ const PA = styled.p`
     display: inline;
   }
 `;
-const BtnE = styled.input`
-  &.Eye{
-    background: url(${Eye}) no-repeat;
-  }
-  &.EyeOpen{
-    background: url(${EyeOpen}) no-repeat;
-  }
-  width: 24px;
-  height: 24px;
+
+const BtnE = styled.img`
+  position:absolute;
   border: none;
+  right:0;
 `;
 const Blank = styled.p`
   margin-top: 8vh;

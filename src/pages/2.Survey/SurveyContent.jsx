@@ -8,7 +8,7 @@ import Upload from "../../assets/images/bpajamas_warning-solid.svg";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import cBack from "../../assets/images/cBack.svg";
+import back from "../../assets/images/cBack.svg";
 
 import { contentState } from "../../components/RecoilDummys";
 
@@ -66,7 +66,7 @@ export default function SurveyContent() {
   return (
     <div>
       <C.TitleWrapper>
-        <BackBtn onClick={() => navigate(-1)}></BackBtn>
+        <BackBtn src={back} onClick={() => navigate(-1)}></BackBtn>
         <C.Title>설문조사 등록</C.Title>
         <NextBtn onClick={onClickNext}>다음</NextBtn>
       </C.TitleWrapper>
@@ -162,14 +162,13 @@ function PointBottom({ onCancel, clickNext }) {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
-  width: 24px;
-  height: 24px;
-  border: none;
-  position: absolute;
-  left: 5vw;
+
+const BackBtn = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0; 
 `;
+
 const NextBtn = styled.button`
   width: 39px;
   height: 26px;

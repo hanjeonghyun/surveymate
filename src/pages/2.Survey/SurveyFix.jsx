@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import profile from "../../assets/images/bGroup 34.svg";
-import cBack from "../../assets/images/cBack.svg";
+import back from "../../assets/images/cBack.svg";
 import axios from "axios";
 import { TitleWrapper, Title } from "../../components/SurveyComponents";
 import { useState, useEffect } from "react";
@@ -65,7 +65,7 @@ export default function SurveyFix() {
   return (
     <>
       <TitleWrapper>
-        <BackBtn onClick={() => navigate(-1)}></BackBtn>
+        <BackBtn src={back} onClick={() => navigate(-1)}></BackBtn>
         <Title>게시글 수정</Title>
         <NextBtn onClick={surveyFixClick}>저장</NextBtn>
       </TitleWrapper>
@@ -98,13 +98,11 @@ export default function SurveyFix() {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
-  width: 24px;
-  height: 24px;
-  border: none;
-  position: absolute;
-  left: 5vw;
+
+const BackBtn = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0; 
 `;
 const NextBtn = styled.button`
   width: 39px;

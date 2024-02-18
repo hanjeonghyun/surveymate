@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import Upload from "../../assets/images/cUpload.svg";
 import Notfile from "../../assets/images/cNotfile.svg";
-import cBack from "../../assets/images/cBack.svg";
+import back from "../../assets/images/cBack.svg";
 import cVector from "../../assets/images/cVector.svg";
 import cCheck from "../../assets/images/cCheck.svg";
 import { useRecoilState } from "recoil";
@@ -120,7 +120,7 @@ export default function SurveyContent() {
   return (
     <div>
       <C.TitleWrapper>
-        <BackBtn onClick={() => navigate(-1)}></BackBtn>
+        <BackBtn src={back} onClick={() => navigate(-1)}></BackBtn>
         <C.Title>설문데이터 판매 등록</C.Title>
         <NextBtn onClick={clickNext}>다음</NextBtn>
       </C.TitleWrapper>
@@ -234,13 +234,11 @@ function PointBottom({ onCancel, point, onClickUpload }) {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
-  width: 24px;
-  height: 24px;
-  border: none;
-  position: absolute;
-  left: 5vw;
+
+const BackBtn = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0; 
 `;
 const NextBtn = styled.button`
   width: 39px;
