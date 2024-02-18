@@ -8,6 +8,8 @@ import dchangeProfile from "../../assets/images/dchangeprofile.svg";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { nicknameState } from "../../components/RecoilDummys";
+import { useRecoilValue } from "recoil";
 
 export default function MyProfileFix() {
   const [nickname, setNickname] = useState("");
@@ -17,6 +19,7 @@ export default function MyProfileFix() {
   const [showAlert, setShowAlert] = useState(false);
   const [showBottom, setShowBottom] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(ddefaultProfile);
+  const nickName = useRecoilValue(nicknameState);
 
   const navigate = useNavigate();
 
@@ -56,35 +59,15 @@ export default function MyProfileFix() {
   }, [nameValid, exist]);
 
   const profileFix = async () => {
+    let resFix;
     try {
-      const res = await axios.get(`/api/auth/nickname/${nickname}`, {
-        headers: {
-          accept: "*/*",
-        },
+      resFix = await axios.patch(`/api/auth/nickname`, {
+        newNickname: nickname,
       });
-
-      if (res.data.nicknameExist) {
-        setExist(true);
-        return;
-      } else {
-        const resFix = await axios.patch(
-          `/api/auth/nickname`,
-          {
-            newNickname: nickname,
-          },
-          {
-            headers: {
-              accept: "*/*",
-              Authorization: "",
-              "Content-Type": "application/json",
-            },
-          },
-          setShowAlert(true)
-        );
-      }
+      setShowAlert(true);
     } catch (error) {
-      if (resFix.data.status === "NICKNAME409") {
-        alert("이미 등록된 닉네임입니다.");
+      if (resFix && resFix.data.status === "NICKNAME409") {
+        setExist(true);
         console.error("요청 에러", error);
       }
     }
@@ -116,7 +99,7 @@ export default function MyProfileFix() {
       <SizedBox></SizedBox>
       <InputLabel>닉네임</InputLabel>
       <AuthInput
-        placeholder='스트로베리 초코 생크림 케이크'
+        placeholder={nickName}
         name='nickname'
         value={nickname}
         onChange={handleName}

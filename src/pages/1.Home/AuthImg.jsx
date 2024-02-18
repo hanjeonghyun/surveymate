@@ -33,12 +33,11 @@ export default function Profile() {
     setNotAllow(!(nameValid && !exist));
   }, [nameValid, exist]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
-      const res = await axios.get(`api/auth/nickname/${nickname}`, {
+      const res = await axios.get(`/api/auth/nickname/${nickname}`, {
         headers: {
-          accept: "*/*",
+          "Content-Type": "application/json",
         },
       });
 
@@ -54,15 +53,11 @@ export default function Profile() {
         formData.append("messageConsent", true);
         formData.append("marketingConsent", true);
 
-        const resJoin = await axios.post(
-          `https://sleigh.college/api/auth/join`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const resJoin = await axios.post(`/api/auth/join`, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         console.log(resJoin.data);
         navigate("/authrule");
       }
