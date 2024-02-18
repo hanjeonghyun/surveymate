@@ -2,20 +2,20 @@ import { styled, css } from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
+import dBack from "../../assets/images/dicon_back.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { contentState} from "../../components/RecoilDummys";
+import { contentState } from "../../components/RecoilDummys";
 import { useRecoilState } from "recoil";
 import { idState } from "../../components/RecoilDummys";
 import axios from "axios";
-
 
 export default function SurveyPoint() {
   let [point, setPoint] = useState(0);
   const [showBottom, setBottom] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
-  const [surveyContent,setSurveyContent]=useRecoilState(contentState);
-  const [surveyId,setSurveyId]= useRecoilState(idState);
+  const [surveyContent, setSurveyContent] = useRecoilState(contentState);
+  const [surveyId, setSurveyId] = useRecoilState(idState);
   const navigate = useNavigate();
   const today = new Date();
   const dueDate = selectedDay
@@ -32,29 +32,33 @@ export default function SurveyPoint() {
   };
 
   const handleSubmit = async (e) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     e.preventDefault();
-    if (token){
-    try {
-      const res = await axios.post(`/api/survey`, {
-        title:surveyContent.title,
-        description:surveyContent.description,
-        linkUrl:surveyContent.linkUrl,
-        period:selectedDay,
-      },{
-        headers: {
-          'Authorization': token,
-        },
-      });
-      console.log(res.data);
-      setSurveyId(res.data.data.surveyId);
-      navigate("/surveylink");
-    } catch (e) {
-      // alert(`${e} 번 에러가 발생했습니다.`)
-      console.log(e)
-      console.error("요청 에러", e);
+    if (token) {
+      try {
+        const res = await axios.post(
+          `/api/survey`,
+          {
+            title: surveyContent.title,
+            description: surveyContent.description,
+            linkUrl: surveyContent.linkUrl,
+            period: selectedDay,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        console.log(res.data);
+        setSurveyId(res.data.data.surveyId);
+        navigate("/surveylink");
+      } catch (e) {
+        // alert(`${e} 번 에러가 발생했습니다.`)
+        console.log(e);
+        console.error("요청 에러", e);
+      }
     }
-  }
   };
 
   const confirmPoint = (value) => {

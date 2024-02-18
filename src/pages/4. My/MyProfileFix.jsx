@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import * as B from "../../components/BottomSheet";
-
+import cBack from "../../assets/images/cBack.svg";
 import ddefaultProfile from "../../assets/images/ddefaultProfile.svg";
 import dfixButton from "../../assets/images/dfixButton.svg";
 import dchangeProfile from "../../assets/images/dchangeprofile.svg";
@@ -59,11 +59,21 @@ export default function MyProfileFix() {
   }, [nameValid, exist]);
 
   const profileFix = async () => {
+    const token = localStorage.getItem("token");
+
     let resFix;
     try {
-      resFix = await axios.patch(`/api/auth/nickname`, {
-        newNickname: nickname,
-      });
+      resFix = await axios.patch(
+        `/api/auth/nickname`,
+        {
+          newNickname: nickname,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       setShowAlert(true);
     } catch (error) {
       if (resFix && resFix.data.status === "NICKNAME409") {
@@ -175,7 +185,7 @@ function FileInput({ onUploadImage }) {
 }
 
 const BackBtn = styled.button`
-  background: url("src/assets/images/dicon_back.svg") no-repeat;
+  background: url(${cBack}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;

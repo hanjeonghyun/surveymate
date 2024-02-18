@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import profile from "../../assets/images/bGroup 34.svg";
-import axios from 'axios';
-import {TitleWrapper,Title} from "../../components/SurveyComponents";
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import cBack from "../../assets/images/cBack.svg";
+
+import axios from "axios";
+import { TitleWrapper, Title } from "../../components/SurveyComponents";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 import { nicknameState, showPopUpState } from "../../components/RecoilDummys";
 import { messageState } from "../../components/RecoilDummys";
@@ -14,57 +16,55 @@ import { contentState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { useRecoilValue } from "recoil";
 
-
 export default function MarketFix() {
-    const nickName="가나다"
-    const navigate=useNavigate();
-    const [showPopUp,setShowPopUp] = useRecoilState(showPopUpState);
-    const [alertMessage,setAlertMessage]=useRecoilState(messageState);
-    const [showAlert, setShowAlert]=useRecoilState(alertState);
-    const [surveyContent,setSurveyContent]=useRecoilState(contentState);
-    const currentId=useRecoilValue(idState);
-    const serverName=useRecoilValue(nicknameState)
-    const {title,description,createdAt,seller,price,fileUrl}=surveyContent;
-    const surveyFixClick=()=>{
-      const token = localStorage.getItem('token');
-      if (token){
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("description", description);
-        //formData.append("amount", price);
-        //formData.append("file", fileUrl);
-        axios.patch(`api/data/${currentId}`,formData,{
+  const nickName = "가나다";
+  const navigate = useNavigate();
+  const [showPopUp, setShowPopUp] = useRecoilState(showPopUpState);
+  const [alertMessage, setAlertMessage] = useRecoilState(messageState);
+  const [showAlert, setShowAlert] = useRecoilState(alertState);
+  const [surveyContent, setSurveyContent] = useRecoilState(contentState);
+  const currentId = useRecoilValue(idState);
+  const serverName = useRecoilValue(nicknameState);
+  const { title, description, createdAt, seller, price, fileUrl } =
+    surveyContent;
+  const surveyFixClick = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      //formData.append("amount", price);
+      //formData.append("file", fileUrl);
+      axios
+        .patch(`api/data/${currentId}`, formData, {
           headers: {
-            'Authorization': token,
+            Authorization: token,
             "Content-Type": "multipart/form-data",
-        },
+          },
         })
-        .then((response)=>{
-          setSurveyContent(response.data)
+        .then((response) => {
+          setSurveyContent(response.data);
         })
-        .catch((res)=>{
-          console.log(res)
-          console.log("응답없음")
+        .catch((res) => {
+          console.log(res);
+          console.log("응답없음");
         })
-        .finally(()=>{
-          setShowPopUp(false)
-          setShowAlert(true)
-          setAlertMessage("수정내용이 저장되었습니다.")
-          navigate(-1)
-        })
-      }
-      }
-    
-    const handleTitleChange=(e)=>{
-        const {name,value}=e.target;
-        setSurveyContent((prevInputValue)=>({
-            ...prevInputValue,
-            [name]:value,
-        })
-        );
+        .finally(() => {
+          setShowPopUp(false);
+          setShowAlert(true);
+          setAlertMessage("수정내용이 저장되었습니다.");
+          navigate(-1);
+        });
     }
+  };
 
-    
+  const handleTitleChange = (e) => {
+    const { name, value } = e.target;
+    setSurveyContent((prevInputValue) => ({
+      ...prevInputValue,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
@@ -78,30 +78,32 @@ export default function MarketFix() {
           <img src={profile}></img>
         </div>
         <ProfileWrite>
-          <div>{seller ? seller: serverName}</div>
-          <div>{createdAt ? `${createdAt.substring(0, 10)}` : ''}</div>
+          <div>{seller ? seller : serverName}</div>
+          <div>{createdAt ? `${createdAt.substring(0, 10)}` : ""}</div>
         </ProfileWrite>
         <ReportButton>
           <img src={""}></img>
         </ReportButton>
       </Profile>
       <Hr></Hr>
-      <ContentTitle placeholder='제목을 입력하세요(최대 몇자인지)' 
-        name="title"
-        value={title} 
-        onChange={handleTitleChange}>
-      </ContentTitle>
-        <Content placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1.어떤 설문인가요?&#13;&#10;2.어디 소속인지 알려주세요!&#13;&#10;3.추가적인 경품이 있다면 기재해 주세요&#13;&#10;4.누구를 대상으로 진행하는 설문인가요?'
-        name="description"
+      <ContentTitle
+        placeholder='제목을 입력하세요(최대 몇자인지)'
+        name='title'
+        value={title}
+        onChange={handleTitleChange}
+      ></ContentTitle>
+      <Content
+        placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1.어떤 설문인가요?&#13;&#10;2.어디 소속인지 알려주세요!&#13;&#10;3.추가적인 경품이 있다면 기재해 주세요&#13;&#10;4.누구를 대상으로 진행하는 설문인가요?'
+        name='description'
         value={description}
-        onChange={handleTitleChange} >
-      </Content>
+        onChange={handleTitleChange}
+      ></Content>
     </>
   );
 }
 
 const BackBtn = styled.button`
-  background: url("src/assets/images/cBack.svg") no-repeat;
+  background: url(${cBack}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;

@@ -4,9 +4,12 @@ import * as C from "../../components/SurveyComponents";
 import * as B from "../../components/BottomSheet";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from 'axios'
+import axios from "axios";
 import Upload from "../../assets/images/cUpload.svg";
 import Notfile from "../../assets/images/cNotfile.svg";
+import cBack from "../../assets/images/cBack.svg";
+import cVector from "../../assets/images/cVector.svg";
+import cCheck from "../../assets/images/cCheck.svg";
 import { useRecoilState } from "recoil";
 import { contentState } from "../../components/RecoilDummys";
 
@@ -24,7 +27,7 @@ export default function SurveyContent() {
     "판매 데이터 업로드 (CSV, XLSX 만 가능)"
   );
 
-  const [surveyContent,setSurveyContent]=useRecoilState(contentState)
+  const [surveyContent, setSurveyContent] = useRecoilState(contentState);
 
   const fileInput = React.useRef(null);
   const handleButtonClick = (e) => {
@@ -38,12 +41,10 @@ export default function SurveyContent() {
   const onChangeContent = (e) => {
     const currentContent = e.target.value;
     setContent(currentContent);
-    
   };
   const onChangeFile = (e) => {
     var fileInfo = e.target.files[0].name;
-    if (e.target.files == null)
-      return;
+    if (e.target.files == null) return;
     const currentFile = e.target.files[0];
     setFile(currentFile);
     console.log(file);
@@ -53,18 +54,18 @@ export default function SurveyContent() {
     //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[s]+[v]+[g]/i;
     //const fileRegExp1 = /^[a-zA-Z0-9+-_.]+\.+[c]+[s]+[v]/i;
     //const fileRegExp2 = /^[a-zA-Z0-9+-_.]+\.+[x]+[l]+[s]+[x]/i;
-        if (!fileRegExp1.test(fileInfo)&&!fileRegExp2.test(fileInfo)) {
-            setIsFile(false);
-            setFBottom(true);
-            setUpload(false);
-            setIsMessage("판매 데이터 업로드 (CSV, XLSX 만 가능)");
-            console.log(fileInfo);
-        } else {
-            setIsFile(true);
-            setUpload(true);
-            setIsMessage("업로드 완료");
-            console.log(fileInfo);
-        }
+    if (!fileRegExp1.test(fileInfo) && !fileRegExp2.test(fileInfo)) {
+      setIsFile(false);
+      setFBottom(true);
+      setUpload(false);
+      setIsMessage("판매 데이터 업로드 (CSV, XLSX 만 가능)");
+      console.log(fileInfo);
+    } else {
+      setIsFile(true);
+      setUpload(true);
+      setIsMessage("업로드 완료");
+      console.log(fileInfo);
+    }
   };
   const onChangePoint = (e) => {
     const currentPoint = e.target.value;
@@ -72,9 +73,9 @@ export default function SurveyContent() {
   };
 
   const clickNext = () => {
-    if(isFile){
-    setPBottom(true);
-    }else{
+    if (isFile) {
+      setPBottom(true);
+    } else {
       setFBottom(true);
     }
   };
@@ -83,41 +84,38 @@ export default function SurveyContent() {
     setFBottom(false);
   };
 
-  const onClickUpload=()=>{
-    console.log(isFile)
-    const token = localStorage.getItem('token');
-    if (token){
-    if(isFile){
-
-      const formData = new FormData();
+  const onClickUpload = () => {
+    console.log(isFile);
+    const token = localStorage.getItem("token");
+    if (token) {
+      if (isFile) {
+        const formData = new FormData();
         formData.append("title", title);
         formData.append("description", content);
         formData.append("amount", point);
         formData.append("file", file);
-      axios.post("https://sleigh.college/api/data",formData,
-      {
-        headers: {
-          'Authorization': token,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response)=>{
-        console.log(response);  
-        navigate("/marketview2");
-      })
-      .catch((response)=>{
-        console.log(response)
-          if (response.response.status===401){
-            alert('401 error')
-            console.log(response)
-          }
-    })
-  }
-  else{
-
-  }
-}
-}
+        axios
+          .post("https://sleigh.college/api/data", formData, {
+            headers: {
+              Authorization: token,
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            navigate("/marketview2");
+          })
+          .catch((response) => {
+            console.log(response);
+            if (response.response.status === 401) {
+              alert("401 error");
+              console.log(response);
+            }
+          });
+      } else {
+      }
+    }
+  };
 
   return (
     <div>
@@ -127,18 +125,18 @@ export default function SurveyContent() {
         <NextBtn onClick={clickNext}>다음</NextBtn>
       </C.TitleWrapper>
 
-      <Title 
+      <Title
         placeholder='제목을 입력하세요(최대 몇자인지)'
-        id="title" 
-        name="title" 
-        value={title} 
+        id='title'
+        name='title'
+        value={title}
         onChange={onChangeTitle}
       ></Title>
       <Content
         placeholder='내용을 입력하세요(최대 몇자인지)&#13;&#10;&#13;&#10;1. 소속이 어디인가요?&#13;&#10;2. 주제가 무엇인가요?&#13;&#10;3. 대상은 누구인가요?&#13;&#10;4. 응답 소요 시간은 얼마나 되나요?'
-        id="content" 
-        name="content" 
-        value={content} 
+        id='content'
+        name='content'
+        value={content}
         onChange={onChangeContent}
       ></Content>
       <UploadBtn
@@ -149,19 +147,19 @@ export default function SurveyContent() {
         <UploadText>{isMessage}</UploadText>
       </UploadBtn>
       <UploadFile
-        type="file"
-        id="file" 
-        name="file"  
+        type='file'
+        id='file'
+        name='file'
         onChange={onChangeFile}
         ref={fileInput}
       ></UploadFile>
       <Line></Line>
       <Sell>판매가 설정</Sell>
-      <SellPoint 
+      <SellPoint
         placeholder='판매희망 포인트를 입력해주세요'
         type='number'
-        id="point" 
-        name="point" 
+        id='point'
+        name='point'
         value={point}
         onChange={onChangePoint}
       ></SellPoint>
@@ -172,11 +170,7 @@ export default function SurveyContent() {
           onClickUpload={onClickUpload}
         />
       )}
-      {showFBottom && (
-        <FileBottom
-          onCancel={clickCancel}
-        />
-      )}
+      {showFBottom && <FileBottom onCancel={clickCancel} />}
     </div>
   );
 }
@@ -189,7 +183,8 @@ function FileBottom({ onCancel }) {
           <B.BottomSheetInfo>
             <B.InputLabel>유효하지 않은 파일이 등록되었어요</B.InputLabel>
             <B.ProcessExplain>
-              업로드한 파일의 확장자가 CSV,XLSX인지<br />
+              업로드한 파일의 확장자가 CSV,XLSX인지
+              <br />
               확인해주세요.
             </B.ProcessExplain>
             <img
@@ -216,7 +211,8 @@ function PointBottom({ onCancel, point, onClickUpload }) {
           <B.BottomSheetInfo>
             <B.InputLabel>{point}포인트로 판매 등록 하시겠어요?</B.InputLabel>
             <B.ProcessExplain>
-              등록 후 파일 변경과 가격 변경은 불가합니다.<br />
+              등록 후 파일 변경과 가격 변경은 불가합니다.
+              <br />
               파일 변경과 가격 변경 시 삭제 후 재등록해주세요.
             </B.ProcessExplain>
             <img
@@ -239,7 +235,7 @@ function PointBottom({ onCancel, point, onClickUpload }) {
 }
 
 const BackBtn = styled.button`
-  background: url("src/assets/images/cBack.svg") no-repeat;
+  background: url(${cBack}) no-repeat;
   width: 24px;
   height: 24px;
   border: none;
@@ -316,11 +312,11 @@ const UploadBtn = styled.button`
 const UploadImg = styled.p`
   margin-right: 3vw;
   margin-left: 1vw;
-  background: url("src/assets/images/cVector.svg") no-repeat;
+  background: url(${cVector}) no-repeat;
   width: 18.75px;
   height: 18.75px;
   &.finish {
-    background: url("src/assets/images/cCheck.svg") no-repeat;
+    background: url(${cCheck}) no-repeat;
     width: 24px;
     height: 24px;
   }

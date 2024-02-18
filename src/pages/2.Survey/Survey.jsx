@@ -11,7 +11,9 @@ import { listState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { finishedState } from "../../components/RecoilDummys";
-
+import bFrame from "../../assets/images/bFrame 16.svg";
+import bsurveyShop from "../../assets/images/bFrame 16.svg";
+import cIcon from "../../assets/images/cIcon.svg";
 
 export default function Survey() {
   const navigate = useNavigate();
@@ -19,31 +21,31 @@ export default function Survey() {
   const [showAlert, setShowAlert] = useRecoilState(alertState);
   const [surveyDummys, setSurveyDummys] = useRecoilState(listState);
   const [currentId, setCurrentId] = useRecoilState(idState);
-  const [finishedDummys,setFinishedDummys]=useState("");
-  const [finished,setFinished]=useRecoilState(finishedState);
-  
-  const currentDate=(createdAt)=>{
+  const [finishedDummys, setFinishedDummys] = useState("");
+  const [finished, setFinished] = useRecoilState(finishedState);
+
+  const currentDate = (createdAt) => {
     const nowDate = detailDate(new Date(createdAt));
     return nowDate;
-  }
+  };
 
-  const isFinished=(e)=>{
-    for (let obj of finishedDummys){
-      if (obj.dataId===e || obj.surveyId===e){
+  const isFinished = (e) => {
+    for (let obj of finishedDummys) {
+      if (obj.dataId === e || obj.surveyId === e) {
         return true;
       }
     }
-  }
+  };
 
-  const detailDate=(a)=>{
+  const detailDate = (a) => {
     const milliSeconds = new Date() - a;
     const seconds = milliSeconds / 1000;
     const minutes = seconds / 60;
     const hours = minutes / 60;
     const days = hours / 24;
-    if (days<1) return `오늘`
+    if (days < 1) return `오늘`;
     else if (days < 7) return `${Math.floor(days)}일 전`;
-  }
+  };
 
   const gotoMypage = () => {
     navigate(`/mypage`);
@@ -52,89 +54,81 @@ export default function Survey() {
   const surveyViewClick = (e, isFinished) => {
     setShowAlert(false);
     navigate(survey ? "/surveyview1" : "/marketview1");
-    setCurrentId(e.surveyId?e.surveyId:e.dataId);
+    setCurrentId(e.surveyId ? e.surveyId : e.dataId);
     setFinished(isFinished);
   };
 
-
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token){
-    if (window.location.pathname === "/survey") {
-      setSurvey(true);
-      axios
-        .get(`/api/survey?page=0`,
-        {
-          headers: {
-            'Authorization': token,
-        },
-      })
-        .then((response) => {
-          console.log(response)
-        
-          setSurveyDummys(response.data.data.surveys);
-        })
-        .catch((response) => {
-          console.log(response);
-          console.log("응답없음");
-        });
-
+    const token = localStorage.getItem("token");
+    if (token) {
+      if (window.location.pathname === "/survey") {
+        setSurvey(true);
         axios
-        .get(`/api/survey/respondent`,
-        {
-          headers: {
-            'Authorization': token,
-        },
-      })
-        .then((response) => {
-          console.log(response)
-        
-          setFinishedDummys(response.data.data.surveys);
-        })
-        .catch((response) => {
-          console.log(response);
-          console.log("응답없음");
-        });
-
-      
-    }
-    if (window.location.pathname === "/market") {
-      setSurvey(false);
-      axios
-        .get(`/api/data/list`,
-          {
+          .get(`/api/survey?page=0`, {
             headers: {
-              'Authorization': token
+              Authorization: token,
             },
-          }
-        )
-        .then((response) => {
-          console.log(response)
-          setSurveyDummys(response.data.data.datas);
-        })
-        .catch((response) => {
-          console.log(response);
-          console.log("응답없음");
-        });
+          })
+          .then((response) => {
+            console.log(response);
+
+            setSurveyDummys(response.data.data.surveys);
+          })
+          .catch((response) => {
+            console.log(response);
+            console.log("응답없음");
+          });
 
         axios
-        .get(`/api/data/list/buyer`,
-        {
-          headers: {
-            'Authorization': token,
-        },
-      })
-        .then((response) => {
-          console.log(response)
-        
-          setFinishedDummys(response.data.data.datas);
-        })
-        .catch((response) => {
-          console.log(response);
-          console.log("응답없음");
-        });
+          .get(`/api/survey/respondent`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+
+            setFinishedDummys(response.data.data.surveys);
+          })
+          .catch((response) => {
+            console.log(response);
+            console.log("응답없음");
+          });
+      }
+      if (window.location.pathname === "/market") {
+        setSurvey(false);
+        axios
+          .get(`/api/data/list`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            setSurveyDummys(response.data.data.datas);
+          })
+          .catch((response) => {
+            console.log(response);
+            console.log("응답없음");
+          });
+
+        axios
+          .get(`/api/data/list/buyer`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+
+            setFinishedDummys(response.data.data.datas);
+          })
+          .catch((response) => {
+            console.log(response);
+            console.log("응답없음");
+          });
+      }
     }
-  }
   }, [window.location.pathname]);
 
   return (
@@ -148,9 +142,14 @@ export default function Survey() {
           {surveyDummys?.map((e) => {
             return (
               <EachListWrapper
-                key={e.surveyId?e.surveyId:e.dataId}
-                onClick={() => surveyViewClick(e, isFinished(e.surveyId?e.surveyId:e.dataId))}
-                className={isFinished(e.surveyId?e.surveyId:e.dataId)}
+                key={e.surveyId ? e.surveyId : e.dataId}
+                onClick={() =>
+                  surveyViewClick(
+                    e,
+                    isFinished(e.surveyId ? e.surveyId : e.dataId)
+                  )
+                }
+                className={isFinished(e.surveyId ? e.surveyId : e.dataId)}
               >
                 <Title>
                   <Font className='title'>
@@ -203,10 +202,10 @@ const Top = styled.div`
 
 const Logo = styled.div`
   &.survey {
-    background: url("src/assets/images/bFrame 16.svg") no-repeat;
+    background: url(${bFrame}) no-repeat;
   }
   &.market {
-    background: url("src/assets/images/bsurveyshop.svg") no-repeat;
+    background: url(${bsurveyShop}) no-repeat;
   }
   width: 240px;
   height: 41px;
@@ -219,7 +218,7 @@ const LBtn = styled.button`
   top: 50%;
   margin-top: -15px;
   right: 0%;
-  background: url("src/assets/images/bGroup 34 (2).svg") no-repeat;
+  background: url(${cIcon}) no-repeat;
   width: 32px;
   height: 32px;
   border: none;
