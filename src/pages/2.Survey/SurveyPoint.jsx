@@ -2,7 +2,7 @@ import { styled, css } from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import * as B from "../../components/BottomSheet";
 import Warning from "../../assets/images/dwarning.svg";
-import dBack from "../../assets/images/dicon_back.svg";
+import back from "../../assets/images/dicon_back.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { contentState } from "../../components/RecoilDummys";
@@ -76,7 +76,7 @@ export default function SurveyPoint() {
   return (
     <>
       <C.TitleWrapper>
-        <BackBtn onClick={handleBack}></BackBtn>
+        <BackBtn src={back} onClick={handleBack}></BackBtn>
         <C.Title>설문조사 등록</C.Title>
         <ThisNextSmallButton onClick={clickNext}>
           <C.SmallButtonText>다음</C.SmallButtonText>
@@ -160,14 +160,13 @@ function PointBottom({ onCancel, point, handleSubmit }) {
   );
 }
 
-const BackBtn = styled.button`
-  background: url("src/assets/images/dicon_back.svg") no-repeat;
-  width: 24px;
-  height: 24px;
-  border: none;
-  position: absolute;
-  left: 5vw;
+
+const BackBtn = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0; 
 `;
+
 const ThisNextSmallButton = styled(C.NextSmallButton)`
   position: absolute;
   right: 5vw;
