@@ -37,6 +37,7 @@ export const NextSmallButton = styled.button`
 
 export const SmallButtonText = styled.p`
   text-align: center;
+  white-space: nowrap;
   font-family: Poppins;
   font-size: 12px;
   font-style: normal;

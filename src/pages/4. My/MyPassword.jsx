@@ -68,6 +68,10 @@ export default function MyPassword() {
         .patch("https://sleigh.college/api/auth/password/update", {
           currentPassword: Cpassword,
           newPassword: Npassword,
+        },{
+          headers: {
+              'Authorization': token,
+          },
         })
         .then((response) => {
           navigate("/myprofile");

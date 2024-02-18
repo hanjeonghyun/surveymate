@@ -181,6 +181,7 @@ const NextBtn = styled.button`
   right: 5vw;
   font-size: 12px;
   font-weight: 500;
+  white-space: nowrap;
 `;
 const Title = styled.input`
   &::placeholder {

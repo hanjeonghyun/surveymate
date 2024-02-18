@@ -251,6 +251,7 @@ const LBtn = styled.img`
   display: inline-block;
   position: absolute;
   top: 50%;
+  white-space: nowrap;
   margin-top: -15px;
   right: 0%;
  // background: url("src/assets/images/cIcon.svg") no-repeat;

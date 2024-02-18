@@ -251,6 +251,7 @@ const NextBtn = styled.button`
   color: #ffffff;
   position: absolute;
   right: 5vw;
+  white-space: nowrap;
   font-size: 12px;
   font-weight: 500;
 `;
