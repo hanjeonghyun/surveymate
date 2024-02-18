@@ -67,6 +67,23 @@ export default function Survey() {
       if (window.location.pathname === "/survey") {
         setSurvey(true);
         axios
+        .get(`/api/survey?page=0`,
+        {
+          headers: {
+            'Authorization': token,
+        },
+      })
+        .then((response) => {
+          console.log(response)
+        
+          setSurveyDummys(response.data.data.surveys);
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
+
+        axios
         .get(`/api/survey/respondent`,
         {
           headers: {
@@ -92,6 +109,7 @@ export default function Survey() {
       })
         .then((response) => {
           console.log(response)
+          setIsStudent(response.data.data.studentAccount)
       
         })
         .catch((response) => {
