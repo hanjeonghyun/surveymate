@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import homeBt from "../../assets/images/bocticon_home-24.svg";
 import surveyBt from "../../assets/images/bmajesticons_paper-fold-line (1).svg";
-import marketBt from "../../assets/images/bclarity_coin-bag-line (1).svg";
+import marketBt from "../../assets/images/bclarity_coin-bag-line-dHFmXY.svg";
 
 export default function MainL() {
     const navigate=useNavigate();
