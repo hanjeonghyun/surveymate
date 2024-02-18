@@ -11,6 +11,7 @@ import { listState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { finishedState } from "../../components/RecoilDummys";
+import not from "../../assets/images/bNotStudent.svg";
 
 import img1 from "../../assets/images/bFrame16.svg";
 import img2 from "../../assets/images/bsurveyshop.svg";
@@ -60,6 +61,15 @@ export default function Survey() {
     setCurrentId(e.surveyId ? e.surveyId : e.dataId);
     setFinished(isFinished);
   };
+
+  const plusClick=()=>{
+    if (survey){
+      {isStudent&&navigate("/surveycontent")}
+    }
+    else{
+      navigate("/marketcontent")
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -225,9 +235,8 @@ export default function Survey() {
         </ListWrapper>
       </All>
       <PlusWrapper>
-        <Link to={survey ? "/surveycontent" : "/marketcontent"}>
-          <Plus src={survey ? plus : marketPlus}></Plus>
-        </Link>
+          <Plus src={survey ? (isStudent ? plus : not) : marketPlus}
+          onClick={plusClick}></Plus>
       </PlusWrapper>
     </>
   );
