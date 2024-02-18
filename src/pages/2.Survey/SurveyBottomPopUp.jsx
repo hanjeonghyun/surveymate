@@ -171,6 +171,7 @@ const ConfirmButton = styled.button`
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  margin-bottom:7vh;
 `;
 
 const InputLabel = styled.p`
@@ -181,6 +182,7 @@ const InputLabel = styled.p`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+  margin-bottom:7vh;
 `;
 
 const ProcessExplain = styled.p`
