@@ -68,7 +68,9 @@ export default function SurveyContent() {
       <C.TitleWrapper>
         <BackBtn src={back} onClick={() => navigate(-1)}></BackBtn>
         <C.Title>설문조사 등록</C.Title>
-        <NextBtn onClick={onClickNext}>다음</NextBtn>
+        <ThisNextSmallButton onClick={onClickNext}>
+          <C.SmallButtonText>다음</C.SmallButtonText>
+        </ThisNextSmallButton>
       </C.TitleWrapper>
 
       <Title
@@ -249,4 +251,16 @@ export const ConfirmButton = styled.button`
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+`;
+
+const ThisNextSmallButton = styled(C.NextSmallButton)`
+  position: absolute;
+  right: 5vw;
+  cursor: pointer;
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: #d9d9d9;
+      pointer-events: none;
+    `}
 `;

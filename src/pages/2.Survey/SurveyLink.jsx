@@ -42,7 +42,7 @@ export default function SurveyLink() {
         });
         console.log(response);
         setSurveyContent(response.data.data);
-        setPointLink(`/surveyresult/${response.data.data.rewardUrl}`);
+        setPointLink(`https://sleigh.college/surveyresult/${response.data.data.rewardUrl}`);
       } catch (res) {
         console.log(res);
       }
