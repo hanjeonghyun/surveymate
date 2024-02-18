@@ -41,7 +41,7 @@ export default function MarketPointComplete() {
           alt='logo'
         />
         <C.NextButton onClick={handleDownload}>
-          데이터 파일 다운로드
+          <C.ButtonText>데이터 파일 다운로드</C.ButtonText>
         </C.NextButton>
       </ContentsWrapper>
     </>

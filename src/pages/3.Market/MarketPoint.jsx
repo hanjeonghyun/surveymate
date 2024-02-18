@@ -90,7 +90,9 @@ export default function MarketPoint() {
       </NotifyBox>
       <HavingPoint>보유 포인트 {totalPoint}POINT</HavingPoint>
       <SizedBox />
-      <C.NextButton onClick={clickConfirm}>구매 확인</C.NextButton>
+      <C.NextButton onClick={clickConfirm}>
+        <C.ButtonText>구매 확인</C.ButtonText>
+      </C.NextButton>
       {showBottom && (
         <PointBottom
           onCancel={clickCancel}
