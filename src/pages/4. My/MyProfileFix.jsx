@@ -217,7 +217,7 @@ const DefaultProfile = styled.div`
   object-fit: cover;
 `;
 
-const FixButton = styled.img`
+const FixButton = styled.div`
   position: absolute;
   left: 65%;
   top: 85%;
