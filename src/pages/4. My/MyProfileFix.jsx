@@ -76,10 +76,8 @@ export default function MyProfileFix() {
       );
       setShowAlert(true);
     } catch (error) {
-      if (resFix && resFix.data.status === "NICKNAME409") {
-        setExist(true);
-        console.error("요청 에러", error);
-      }
+      setExist(true);
+      console.error("요청 에러", error);
     }
   };
 
