@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import cBack from "../../assets/images/cBack.svg";
-import cEye from "../../assets/images/cEye.svg";
+import Eye from "../../assets/images/cEye.svg";
+import EyeOpen from "../../assets/images/cEyeopen.svg"
 import axios from "axios";
 
 export default function MyPassword() {
@@ -115,11 +116,7 @@ export default function MyPassword() {
             <BtnE
               type='button'
               onClick={handlePasswordType1}
-              style={{
-                background: !pwType1.visible
-                  ? ""
-                  : "url('src/assets/images/cEyeopen.svg')",
-              }}
+              className={!pwType1.visible ? "Eye": "EyeOpen"}
             ></BtnE>
           </Wrapper>
         </Content>
@@ -137,11 +134,7 @@ export default function MyPassword() {
             <BtnE
               type='button'
               onClick={handlePasswordType2}
-              style={{
-                background: !pwType2.visible
-                  ? ""
-                  : "url('src/assets/images/cEyeopen.svg')",
-              }}
+              className={!pwType2.visible ? "Eye": "EyeOpen"}
             ></BtnE>
           </Wrapper>
           <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
@@ -225,7 +218,12 @@ const PA = styled.p`
   }
 `;
 const BtnE = styled.input`
-  background: url(${cEye}) no-repeat;
+  &.Eye{
+    background: url(${Eye}) no-repeat;
+  }
+  &.EyeOpen{
+    background: url(${EyeOpen}) no-repeat;
+  }
   width: 24px;
   height: 24px;
   border: none;

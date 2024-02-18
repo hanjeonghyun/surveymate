@@ -5,8 +5,10 @@ import * as C from "../../components/AuthComponents";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Arrow from "../../assets/images/cArrow.svg";
+import GArrow from "../../assets/images/cArrowgray.svg"
 import Resend from "../../assets/images/cResend.svg";
 import Eye from "../../assets/images/cEye.svg";
+import EyeOpen from "../../assets/images/cEyeopen.svg"
 export default function Auth() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
@@ -183,11 +185,7 @@ export default function Auth() {
           <BtnA
             type='button'
             onClick={onClickCode}
-            style={{
-              background: !sendEmail
-                ? "url('src/assets/images/cArrowgray.svg')"
-                : "",
-            }}
+            className={!sendEmail ? "Arrow" : ""}
           ></BtnA>
         </Wrapper>
         <PA
@@ -211,11 +209,7 @@ export default function Auth() {
           <BtnE
             type='button'
             onClick={handlePasswordType}
-            style={{
-              background: !pwType.visible
-                ? ""
-                : "url('src/assets/images/cEyeopen.svg')",
-            }}
+            className={!pwType.visible ? "Eye": "EyeOpen"}
           ></BtnE>
         </Wrapper>
         <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
@@ -275,6 +269,11 @@ const P = styled.p`
   margin-top: 1vh;
 `;
 const BtnA = styled.input`
+  &.Arrow {
+    background: url(${GArrow}) no-repeat;
+    width: 32px;
+    height: 32px;
+  }
   background: url(${Arrow}) no-repeat;
   width: 32px;
   height: 32px;
@@ -286,7 +285,12 @@ const BtnA = styled.input`
   }
 `;
 const BtnE = styled.input`
-  background: url(${Eye}) no-repeat;
+  &.Eye{
+    background: url(${Eye}) no-repeat;
+  }
+  &.EyeOpen{
+    background: url(${EyeOpen}) no-repeat;
+  }
   width: 24px;
   height: 24px;
   border: none;
