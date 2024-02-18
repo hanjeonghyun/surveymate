@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import * as B from "../../components/BottomSheet";
 import axios from "axios";
-import cBack from "../../assets/images/cBack.svg";
+import back from "../../assets/images/cBack.svg";
 
 export default function MyPoint() {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ export default function MyPoint() {
   return (
     <>
       <C.TitleWrapper>
-        <BackButton onClick={handleBackBtnClick}></BackButton>
+        <BackButton src={back} onClick={handleBackBtnClick}></BackButton>
         <C.Title>마이포인트</C.Title>
       </C.TitleWrapper>
       <PointWrapper>
@@ -150,14 +150,10 @@ export default function MyPoint() {
   );
 }
 
-const BackButton = styled.button`
-  background: url(${cBack}) no-repeat;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  left: 5vw;
-  border: none;
+const BackButton = styled.img`
+    margin-left:5vw;
+    position:absolute;
+    left:0;  
 `;
 
 const PointWrapper = styled.div`
