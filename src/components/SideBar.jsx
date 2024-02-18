@@ -10,7 +10,6 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function SideBar() {
   const [selected, setSelected] = useState("main");
-  const [mainL, setMainL] = useState(false);
   const navigate = useNavigate();
   const onButtonClick = (type) => {
     setSelected(type);
@@ -25,24 +24,24 @@ export default function SideBar() {
       setSelected("survey");
     } else if (pathname==="/market") {
       setSelected("market");
-    } else if (pathname==="/") {
-      setMainL("true");
-    }
+    } 
       // 다른 페이지에 따라 필요한 로직 추가
     
   }, [location.pathname]);
 
-  if (['/login', '/auth', '/authimg', '/authrule', '/pwfind'].includes(window.location.pathname)) return null;
+  if (['/login', '/auth', '/authimg', '/authrule', '/pwfind', '/'].includes(window.location.pathname)) return null;
   return (
     <BarWrapper>
-      <Bar onClick={() => onButtonClick("main")} selected={selected === "main"} className={!mainL ? "" : "mainL"}>
+      <Bar 
+        onClick={() => onButtonClick("main")} 
+        selected={selected === "main"} 
+      >
         <img src={selected === "main" ? clickedHome : homeBt} alt="홈" />
         <Text selected={selected === "main"}>홈</Text>
       </Bar>
       <Bar
         onClick={() => onButtonClick("survey")}
         selected={selected === "survey"}
-        className={!mainL ? "" : "mainL"}
       >
         <img
           src={selected === "survey" ? clickedSurvey : surveyBt}
@@ -53,7 +52,6 @@ export default function SideBar() {
       <Bar
         onClick={() => onButtonClick("market")}
         selected={selected === "market"}
-        className={!mainL ? "" : "mainL"}
       >
         <img
           src={selected === "market" ? clickedMarket : marketBt}
@@ -82,9 +80,6 @@ const BarWrapper = styled.div`
 const Bar = styled.div`
   margin-left: 30px;
   margin-right: 30px;
-  &.mainL {
-    pointer-events : none;
-  }
 `;
 
 const Text = styled.p`
