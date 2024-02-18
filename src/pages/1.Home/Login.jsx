@@ -10,7 +10,9 @@ import {
 } from "../../components/AuthComponents";
 import { Link, useNavigate } from "react-router-dom";
 import coloredLogo from "../../assets/images/aColoredLogo.png";
-import Eye from "../../assets/images/cEye.svg";
+import EyeClose from "../../assets/images/cEye.svg";
+import EyeOpen from "../../assets/images/cEyeopen.svg";
+
 import axios from "axios";
 
 export default function Login() {
@@ -117,12 +119,8 @@ export default function Login() {
           ></LoginInput>
           <BtnE
             type='button'
+            src={pwType.visible ? EyeOpen : EyeClose}
             onClick={handlePasswordType}
-            style={{
-              background: !pwType.visible
-                ? ""
-                : "url('src/assets/images/cEyeopen.svg')",
-            }}
           ></BtnE>
         </Wrapper>
         <ErrorMessageWrap className={!isLogin ? "Alert" : ""}>
@@ -182,12 +180,10 @@ const LoginInput = styled(AuthInput)`
   margin-top: 0vh;
 `;
 
-const BtnE = styled.button`
-  background: url(${Eye}) no-repeat;
-  width: 24px;
-  height: 24px;
-  border: none;
-  background-size: cover;
+const BtnE = styled.img`
+    position:absolute;
+    border: none;
+    right:0;
 `;
 const ErrorMessageWrap = styled.div`
   font-size: 10px;

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { nicknameState } from "../../components/RecoilDummys";
 import { useRecoilState } from "recoil";
-import cBack from "../../assets/images/cBack.svg";
+import back from "../../assets/images/cBack.svg";
 
 export default function MyPage() {
   const navigate = useNavigate();
@@ -71,6 +71,7 @@ export default function MyPage() {
     <>
       <C.TitleWrapper>
         <BackButton
+            src={back}
           onClick={() => {
             navigate(-1);
           }}
@@ -134,14 +135,10 @@ export default function MyPage() {
   );
 }
 
-const BackButton = styled.button`
-  background: url(${cBack}) no-repeat;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  left: 5vw;
-  border: none;
+const BackButton = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0;  
 `;
 
 const Profile = styled.div`

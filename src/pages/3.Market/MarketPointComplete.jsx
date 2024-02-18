@@ -23,7 +23,10 @@ export default function MarketPointComplete() {
   return (
     <>
       <C.TitleWrapper>
-        <BackBtn onClick={handleBack}></BackBtn>
+        <BackBtn
+          src={cBack}
+          onClick={handleBack}
+        ></BackBtn>
         <C.Title>데이터 구매 완료</C.Title>
       </C.TitleWrapper>
       <ContentsWrapper>
@@ -45,8 +48,7 @@ export default function MarketPointComplete() {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
+const BackBtn = styled.img`
   width: 24px;
   height: 24px;
   border: none;
