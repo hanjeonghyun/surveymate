@@ -28,26 +28,34 @@ export default function MyOut() {
     setIsPassword(true);
   };
 
-  const onClickButton = () => {
-    if (isPassword) {
-      axios
-        .delete("https://sleigh.college/api/auth/account", {
-          currentPassword: password,
-        })
-        .then((response) => {
-          navigate("/");
-        })
-        .catch((response) => {
-          if (response.response.status === 401) {
-            alert("401 error");
-            console.log(response);
-          } else {
-            alert("404 error");
-          }
-        });
-    } else {
+  const onClickButton=()=>{
+        const token = localStorage.getItem('token');
+        if (isPassword){
+            axios.post("https://sleigh.college/api/auth/account",{
+                currentPassword: password,
+            },{
+                headers: {
+                    'Authorization': token,
+                },
+            })
+            .then((response)=>{
+                navigate("/")
+            })
+            .catch((response)=>{
+                if (response.response.status===401){
+                    //alert('401 error')
+                    console.log(response)
+                    console.log(token)
+                }else{
+                    //alert('404 error')
+                    console.log(response)
+                    console.log(password)
+            }
+            })
+        }else{
+
+        }
     }
-  };
 
   return (
     <>

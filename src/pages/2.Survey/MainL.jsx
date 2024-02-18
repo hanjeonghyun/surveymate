@@ -127,6 +127,7 @@ const Login = styled.div`
 `;
 const LBtn = styled.button`
     font-size: 12px;
+    white-space: nowrap;
     font-weight: 600;
     color: #6046FF;
     border: none;
