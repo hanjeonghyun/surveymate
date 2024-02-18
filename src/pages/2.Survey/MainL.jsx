@@ -3,18 +3,21 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+import homeBt from "../../assets/images/bocticon_home-24.svg";
+import surveyBt from "../../assets/images/bmajesticons_paper-fold-line (1).svg";
+import marketBt from "../../assets/images/bclarity_coin-bag-line (1).svg";
 
 export default function MainL() {
     const navigate=useNavigate();
     return(
-        <All>
+        <All onClick={()=>navigate("/login")}>
             <Top>
                 <Logo></Logo>
-                <Login><LBtn onClick={()=>navigate("/login")}>로그인</LBtn></Login>
+                <Login><LBtn>로그인</LBtn></Login>
             </Top>
             <Sset>
                 <Stitle><B>신규 등록</B> 설문조사</Stitle>
-                <Sone onClick={()=>navigate("/login")}>
+                <Sone>
                 <Stwo>
                     <Scontent>설문조사 제목 1</Scontent>
                     <Scontent>설문조사 제목 2</Scontent>
@@ -44,7 +47,7 @@ export default function MainL() {
             </Sset>
             <Sset>
                 <Stitle><B>신규 판매 등록</B> 설문조사</Stitle>
-                <Sone onClick={()=>navigate("/login")}>
+                <Sone>
                 <Stwo>
                     <Scontent>설문조사 제목 1</Scontent>
                     <Scontent>설문조사 제목 2</Scontent>
@@ -72,7 +75,26 @@ export default function MainL() {
                 </Stwo>
                 </Sone>
             </Sset>
+            <BarWrapper>
+                <Bar >
+                    <img src={homeBt} />
+                    <Text>홈</Text>
+                </Bar>
+                <Bar>
+                    <img
+                    src={surveyBt}
+                    />
+                    <Text>설문조사</Text>
+                </Bar>
+                <Bar>
+                    <img
+                    src={marketBt}
+                    />
+                    <Text>설문장터</Text>
+                </Bar>
+            </BarWrapper>
         </All>
+        
     );
 }
 const All = styled.div`
@@ -150,3 +172,31 @@ const Scontent = styled.div`
     padding-left: 5vw;
     margin-bottom: 2vh;
 `
+const BarWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 11vh;
+  width: 100vw;
+  left: 0;
+  background: var(--white, #fff);
+  box-shadow: 0px -2px 11px 0px rgba(0, 0, 0, 0.25);
+`;
+const Bar = styled.div`
+  margin-left: 30px;
+  margin-right: 30px;
+`;
+
+const Text = styled.p`
+  color: #000000
+  text-align: center;
+  font-family: Poppins;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  pointer-events: none;
+`;
