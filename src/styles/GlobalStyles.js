@@ -22,6 +22,10 @@ const GlobalStyle = createGlobalStyle`
     body{
         margin: 0vw 5vw;
         font-family: PoppinsMedium, sans-serif; 
+        min-height: 100vh;
+        @supports (-webkit-appearance:none) and (stroke-color: transparent) {
+        min-height: -webkit-fill-available;
+}
     }
 
     a {
