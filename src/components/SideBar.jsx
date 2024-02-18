@@ -5,7 +5,7 @@ import homeBt from "../assets/images/bocticon_home-24 (1).svg";
 import clickedSurvey from "../assets/images/bmajesticons_paper-fold-line.svg";
 import surveyBt from "../assets/images/bmajesticons_paper-fold-line (1).svg";
 import clickedMarket from "../assets/images/bclarity_coin-bag-line.svg";
-import marketBt from "../assets/images/bclarity_coin-bag-line (1).svg";
+import marketBt from "../assets/images/bclarity_coin-bag-line-dHFmXY.svg";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function SideBar() {
