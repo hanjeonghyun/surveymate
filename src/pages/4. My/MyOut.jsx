@@ -4,7 +4,8 @@ import styled from "styled-components";
 import * as C from "../../components/SurveyComponents";
 import axios from "axios";
 import cBack from "../../assets/images/cBack.svg";
-import cEye from "../../assets/images/cEye.svg";
+import Eye from "../../assets/images/cEye.svg";
+import EyeOpen from "../../assets/images/cEyeopen.svg"
 
 export default function MyOut() {
   const navigate = useNavigate();
@@ -88,11 +89,7 @@ export default function MyOut() {
             <BtnE
               type='button'
               onClick={handlePasswordType1}
-              style={{
-                background: !pwType1.visible
-                  ? ""
-                  : "url('src/assets/images/cEyeopen.svg')",
-              }}
+              className={!pwType1.visible ? "Eye": "EyeOpen"}
             ></BtnE>
           </Wrapper>
           <P>
@@ -168,7 +165,12 @@ const P = styled.p`
   margin-top: 1vh;
 `;
 const BtnE = styled.input`
-  background: url(${cEye}) no-repeat;
+  &.Eye{
+    background: url(${Eye}) no-repeat;
+  }
+  &.EyeOpen{
+    background: url(${EyeOpen}) no-repeat;
+  }
   width: 24px;
   height: 24px;
   border: none;
