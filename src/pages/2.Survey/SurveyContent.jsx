@@ -225,6 +225,7 @@ const Adress = styled.input`
     border-radius: 999px;
     padding: 13px 5vw;
     font-size: 12px;
+    outline: none;
     font-weight: 500;
     &::placeholder {
         color: #A7A7A7;

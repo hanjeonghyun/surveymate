@@ -25,6 +25,21 @@ export default function MainL() {
                     <Scontent>설문조사 제목 5</Scontent>
                     <Scontent>설문조사 제목 6</Scontent>
                 </Stwo>
+                <Stwo>
+                    <Scontent>설문조사 제목 7</Scontent>
+                    <Scontent>설문조사 제목 8</Scontent>
+                    <Scontent>설문조사 제목 9</Scontent>
+                </Stwo>
+                <Stwo>
+                    <Scontent>설문조사 제목 10</Scontent>
+                    <Scontent>설문조사 제목 11</Scontent>
+                    <Scontent>설문조사 제목 12</Scontent>
+                </Stwo>
+                <Stwo>
+                    <Scontent>설문조사 제목 13</Scontent>
+                    <Scontent>설문조사 제목 14</Scontent>
+                    <Scontent>설문조사 제목 15</Scontent>
+                </Stwo>
                 </Sone>
             </Sset>
             <Sset>
@@ -39,6 +54,21 @@ export default function MainL() {
                     <Scontent>설문조사 제목 4</Scontent>
                     <Scontent>설문조사 제목 5</Scontent>
                     <Scontent>설문조사 제목 6</Scontent>
+                </Stwo>
+                <Stwo>
+                    <Scontent>설문조사 제목 7</Scontent>
+                    <Scontent>설문조사 제목 8</Scontent>
+                    <Scontent>설문조사 제목 9</Scontent>
+                </Stwo>
+                <Stwo>
+                    <Scontent>설문조사 제목 10</Scontent>
+                    <Scontent>설문조사 제목 11</Scontent>
+                    <Scontent>설문조사 제목 12</Scontent>
+                </Stwo>
+                <Stwo>
+                    <Scontent>설문조사 제목 13</Scontent>
+                    <Scontent>설문조사 제목 14</Scontent>
+                    <Scontent>설문조사 제목 15</Scontent>
                 </Stwo>
                 </Sone>
             </Sset>
