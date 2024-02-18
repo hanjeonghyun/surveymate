@@ -4,6 +4,7 @@ import { NextButton, TitleWrapper, Title , InputLabel, AuthInput, ButtonText} fr
 import {Link, useNavigate} from 'react-router-dom'
 import coloredLogo from "../../assets/images/aColoredLogo.png"
 
+
 import axios from 'axios'
 
 export default function Login() {

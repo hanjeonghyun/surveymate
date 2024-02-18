@@ -24,15 +24,18 @@ export default function SideBar() {
       setSelected("survey");
     } else if (pathname==="/market") {
       setSelected("market");
-    }
+    } 
       // 다른 페이지에 따라 필요한 로직 추가
     
   }, [location.pathname]);
 
-  if (['/login', '/auth', '/authimg', '/authrule', '/pwfind'].includes(window.location.pathname)) return null;
+  if (['/login', '/auth', '/authimg', '/authrule', '/pwfind', '/'].includes(window.location.pathname)) return null;
   return (
     <BarWrapper>
-      <Bar onClick={() => onButtonClick("main")} selected={selected === "main"}>
+      <Bar 
+        onClick={() => onButtonClick("main")} 
+        selected={selected === "main"} 
+      >
         <img src={selected === "main" ? clickedHome : homeBt} alt="홈" />
         <Text selected={selected === "main"}>홈</Text>
       </Bar>
