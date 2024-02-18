@@ -12,7 +12,7 @@ import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { finishedState } from "../../components/RecoilDummys";
 
-import img1 from "../../assets/images/bFrame 16.svg";
+import img1 from "../../assets/images/bFrame16.svg";
 import img2 from "../../assets/images/bsurveyshop.svg";
 import face from "../../assets/images/cIcon.svg";
 
@@ -25,6 +25,7 @@ export default function Survey() {
   const [currentId, setCurrentId] = useRecoilState(idState);
   const [finishedDummys,setFinishedDummys]=useState("");
   const [finished,setFinished]=useRecoilState(finishedState);
+  const [isStudent, setIsStudent]=useState("");
   
   const currentDate=(createdAt)=>{
     const nowDate = detailDate(new Date(createdAt));
@@ -100,7 +101,22 @@ export default function Survey() {
           console.log("응답없음");
         });
 
+        axios
+        .get(`/api/auth/account/isStudent`,
+        {
+          headers: {
+            'Authorization': token,
+        },
+      })
+        .then((response) => {
+          console.log(response)
       
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
+
     }
     if (window.location.pathname === "/market") {
       setSurvey(false);

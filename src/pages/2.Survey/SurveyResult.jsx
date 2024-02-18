@@ -1,7 +1,7 @@
 import React from "react";
 import { TitleWrapper, Title } from "../../components/SurveyComponents";
 import getPoint from "../../assets/images/bGroup.svg";
-import logo from "../../assets/images/bFrame 16 (1).svg";
+import logo from "../../assets/images/bFrame16 (1).svg";
 import back from "../../assets/images/bicon_back.svg";
 import SurveyAlert from "./SurveyAlert";
 import styled from "styled-components";
