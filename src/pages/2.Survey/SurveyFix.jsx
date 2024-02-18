@@ -4,6 +4,7 @@ import profile from "../../assets/images/bGroup 34.svg";
 import back from "../../assets/images/cBack.svg";
 import axios from "axios";
 import { TitleWrapper, Title } from "../../components/SurveyComponents";
+import { SmallButtonText,NextSmallButton } from "../../components/SurveyComponents";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -67,7 +68,9 @@ export default function SurveyFix() {
       <TitleWrapper>
         <BackBtn src={back} onClick={() => navigate(-1)}></BackBtn>
         <Title>게시글 수정</Title>
-        <NextBtn onClick={surveyFixClick}>저장</NextBtn>
+        <ThisNextSmallButton onClick={surveyFixClick}>
+          <SmallButtonText>저장</SmallButtonText>
+        </ThisNextSmallButton>
       </TitleWrapper>
       <Profile>
         <div>
@@ -115,6 +118,7 @@ const NextBtn = styled.button`
   right: 5vw;
   font-size: 12px;
   font-weight: 500;
+  white-space:nowrap;
 `;
 const Profile = styled.div`
   display: flex;
@@ -189,4 +193,16 @@ const Content = styled.textarea`
   }
   margin-top: 3vh;
   border: none;
+`;
+
+const ThisNextSmallButton = styled(NextSmallButton)`
+  position: absolute;
+  right: 5vw;
+  cursor: pointer;
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: #d9d9d9;
+      pointer-events: none;
+    `}
 `;

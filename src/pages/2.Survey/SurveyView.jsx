@@ -114,8 +114,8 @@ export default function SurveyView() {
         {surveyContent.description}
       </Content>
       <NextButtonWrapper className={(nickName===serverName || currentPathname==="/surveyview2") || finished? "none" : ""}>
-        <NextButton>
-          <ButtonText onClick={respondClick}>설문 응답</ButtonText>
+        <NextButton onClick={respondClick}>
+          <ButtonText>설문 응답</ButtonText>
         </NextButton>
       </NextButtonWrapper>
       {showAlert&&<AlertWrapper>

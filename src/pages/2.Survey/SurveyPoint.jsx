@@ -62,7 +62,7 @@ export default function SurveyPoint() {
   };
 
   const confirmPoint = (value) => {
-    setPoint(value * 10);
+    setPoint(value === 1 ? 10 : 10 + (value - 1) * 5);
   };
 
   const clickNext = () => {

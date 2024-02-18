@@ -4,6 +4,7 @@ import react from "file:///Users/sujin/Desktop/UMC%E1%84%91%E1%85%B3%E1%84%85%E1
 var vite_config_default = defineConfig({
   plugins: [react()],
   server: {
+    historyApiFallback:true,
     proxy: {
       "/api": {
         target: "https://survey-mate-api.jinhy.uk",

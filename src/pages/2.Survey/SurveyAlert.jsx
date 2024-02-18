@@ -6,6 +6,7 @@ export default function SurveyAlert({text}) {
   )
 }
 const Alert = styled.div`
+  margin-bottom:7vh;
   width: 280px;
   height: 30px;
   flex-shrink: 0;
