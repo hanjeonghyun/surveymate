@@ -64,6 +64,7 @@ export default function MyPassword() {
 
   const onClickButton = () => {
     if (isNPassword) {
+      const token = localStorage.getItem('token');
       axios
         .patch("https://sleigh.college/api/auth/password/update", {
           currentPassword: Cpassword,
