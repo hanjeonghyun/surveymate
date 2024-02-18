@@ -94,11 +94,7 @@ export default function SurveyContent() {
         formData.append("description", content);
         formData.append("amount", point);
         formData.append("file", file);
-<<<<<<< HEAD
       axios.post("https://sleigh.college/api/data",formData,
-=======
-      axios.post("https://sleigh.college/data",formData,
->>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
       {
         headers: {
           'Authorization': token,

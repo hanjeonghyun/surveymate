@@ -50,11 +50,7 @@ export default function Login() {
     const navigate = useNavigate();
     const handleSubmit =async()=>{
         try{
-<<<<<<< HEAD
             const response = await axios.post("https://sleigh.college/api/auth/login",{
-=======
-            const response = await axios.post("/api/auth/login",{
->>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
                 id: inputId,
                 password: inputPw,
             });

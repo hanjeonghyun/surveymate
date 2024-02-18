@@ -55,11 +55,7 @@ export default function Profile() {
         formData.append("marketingConsent", true);
 
         const resJoin = await axios.post(
-<<<<<<< HEAD
           `https://sleigh.college/api/auth/join`,
-=======
-          `https://sleigh.college/auth/join`,
->>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
           formData,
           {
             headers: {

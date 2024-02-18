@@ -60,11 +60,7 @@ export default function MyPassword() {
 
     const onClickButton=()=>{
         if (isNPassword){
-<<<<<<< HEAD
             axios.patch("https://sleigh.college/api/auth/password/update",{
-=======
-            axios.patch("https://sleigh.college/auth/password/update",{
->>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
                 currentPassword: Cpassword,
                 newPassword: Npassword,
             })
