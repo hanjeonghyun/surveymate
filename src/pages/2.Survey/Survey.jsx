@@ -128,7 +128,7 @@ export default function Survey() {
         });
 
     }
-    if (window.location.pathname === "/market") {
+    else if (window.location.pathname === "/market") {
       setSurvey(false);
       axios
         .get(`/api/data/list`,

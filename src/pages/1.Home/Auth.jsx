@@ -167,6 +167,7 @@ export default function Auth() {
 
             onClick={onClickEmail}
             src={!sendEmail ? Arrow : Resend}
+            style={sendEmail ? { width: '50px', height: '30px' } : null}
           ></BtnA>
         </Wrapper>
         <PA className={!color ? "AlertR" : "AlertG"}>{emailMessage}</PA>
@@ -184,7 +185,7 @@ export default function Auth() {
           />
           <BtnA
 
-          onClick={onClickEmail}
+          onClick={onClickCode}
           src={!sendEmail ? GArrow : Arrow}
           ></BtnA>
           
