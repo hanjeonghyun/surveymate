@@ -12,6 +12,10 @@ import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { finishedState } from "../../components/RecoilDummys";
 
+import img1 from "../../assets/images/bFrame 16.svg";
+import img2 from "../../assets/images/bsurveyshop.svg";
+import face from "../../assets/images/cIcon.svg";
+
 
 export default function Survey() {
   const navigate = useNavigate();
@@ -141,8 +145,8 @@ export default function Survey() {
     <>
       <All>
         <Top>
-          <Logo className={survey ? "survey" : "market"}></Logo>
-          <LBtn onClick={() => navigate("/mypage")}></LBtn>
+          <Logo src={survey ? img1 : img2}></Logo>
+          <LBtn onClick={() => navigate("/mypage")} src={face}></LBtn>
         </Top>
         <ListWrapper>
           {surveyDummys?.map((e) => {
@@ -201,27 +205,27 @@ const Top = styled.div`
   margin-left: 5vw;
 `;
 
-const Logo = styled.div`
+const Logo = styled.img`
   &.survey {
-    background: url("src/assets/images/bFrame 16.svg") no-repeat;
+    //background: url("src/assets/images/bFrame 16.svg") no-repeat;
   }
   &.market {
-    background: url("src/assets/images/bsurveyshop.svg") no-repeat;
+    //background: url("src/assets/images/bsurveyshop.svg") no-repeat;
   }
-  width: 240px;
-  height: 41px;
+  //width: 240px;
+  //height: 41px;
   border: none;
   display: inline-block;
 `;
-const LBtn = styled.button`
+const LBtn = styled.img`
   display: inline-block;
   position: absolute;
   top: 50%;
   margin-top: -15px;
   right: 0%;
-  background: url("src/assets/images/bGroup 34 (2).svg") no-repeat;
-  width: 32px;
-  height: 32px;
+  //background: url("src/assets/images/bGroup 34 (2).svg") no-repeat;
+  //width: 32px;
+  //height: 32px;
   border: none;
 `;
 

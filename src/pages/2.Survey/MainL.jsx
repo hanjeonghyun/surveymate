@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import logo from "../../assets/images/cLogo.svg";
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -9,8 +10,8 @@ export default function MainL() {
     return(
         <All>
             <Top>
-                <Logo></Logo>
-                <Login><LBtn onClick={()=>navigate("/login")}>로그인</LBtn></Login>
+            <Logo src={logo}></Logo>
+            <Login><LBtn onClick={()=>navigate("/login")}>로그인</LBtn></Login>
             </Top>
             <Sset>
                 <Stitle><B>신규 등록</B> 설문조사</Stitle>
@@ -87,10 +88,10 @@ const Top = styled.div`
     margin: 3vh 0vw;
     margin-left: 5vw;
 `
-const Logo = styled.div`
-    background: url('src/assets/images/cLogo.svg') no-repeat;
-    width: 223px;
-    height: 41px;
+const Logo = styled.img`
+    //background: url('src/assets/images/cLogo.svg') no-repeat;
+    //width: 223px;
+    //height: 41px;
     border: none;
     display: inline-block;
 `
@@ -103,7 +104,7 @@ const Login = styled.div`
     margin-right: -10px;
 `
 const LBtn = styled.button`
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #6046FF;
     border: none;

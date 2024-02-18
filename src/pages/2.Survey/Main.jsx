@@ -6,6 +6,8 @@ import { nicknameState } from "../../components/RecoilDummys";
 import { useEffect } from "react";
 import { useState } from "react";
 import { idState } from "../../components/RecoilDummys";
+import logo from "../../assets/images/cLogo.svg";
+import face from "../../assets/images/cIcon.svg";
 import axios from "axios";
 
 
@@ -95,8 +97,9 @@ export default function Main() {
   return (
     <All>
       <Top>
-        <Logo></Logo>
-        <LBtn onClick={() => navigate("/mypage")}></LBtn>
+        <Logo src={logo}></Logo>
+        <LBtn onClick={() => navigate("/mypage")} src={face}>
+        </LBtn>
       </Top>
       <Sset>
         <Stitle>
@@ -179,20 +182,20 @@ const Top = styled.div`
   margin: 3vh 0vw;
   margin-left: 5vw;
 `;
-const Logo = styled.div`
-  background: url("src/assets/images/cLogo.svg") no-repeat;
-  width: 223px;
-  height: 41px;
+const Logo = styled.img`
+  //background: url("src/assets/images/cLogo.svg") no-repeat;
+ // width: 223px;
+  //height: 41px;
   border: none;
   display: inline-block;
 `;
-const LBtn = styled.button`
+const LBtn = styled.img`
   display: inline-block;
   position: absolute;
   top: 50%;
   margin-top: -15px;
   right: 0%;
-  background: url("src/assets/images/cIcon.svg") no-repeat;
+ // background: url("src/assets/images/cIcon.svg") no-repeat;
   width: 32px;
   height: 32px;
   border: none;
