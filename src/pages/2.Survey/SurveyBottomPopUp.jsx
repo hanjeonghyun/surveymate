@@ -182,7 +182,7 @@ const InputLabel = styled.p`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
-  margin-bottom:7vh;
+
 `;
 
 const ProcessExplain = styled.p`
