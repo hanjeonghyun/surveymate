@@ -164,9 +164,9 @@ export default function Auth() {
             className={!sendEmail ? "" : "resend"}
           />
           <BtnA
-            type='button'
+
             onClick={onClickEmail}
-            className={!sendEmail ? "" : "resend"}
+            src={!sendEmail ? Arrow : Resend}
           ></BtnA>
         </Wrapper>
         <PA className={!color ? "AlertR" : "AlertG"}>{emailMessage}</PA>
@@ -183,10 +183,11 @@ export default function Auth() {
             onChange={onChangeCode}
           />
           <BtnA
-            type='button'
-            onClick={onClickCode}
-            className={!sendEmail ? "Arrow" : ""}
+
+          onClick={onClickEmail}
+          src={!sendEmail ? GArrow : Arrow}
           ></BtnA>
+          
         </Wrapper>
         <PA
           style={{ display: !sendNumber ? "inline" : "inline" }}
@@ -244,7 +245,7 @@ const Content0 = styled.div`
 const Wrapper = styled.div`
   position: relative;
   width: auto;
-  display: flex;
+  //display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -268,18 +269,18 @@ const P = styled.p`
   color: #848383;
   margin-top: 1vh;
 `;
-const BtnA = styled.input`
+const BtnA = styled.img`
   &.Arrow {
-    background: url(${GArrow}) no-repeat;
+    //background: url(${GArrow}) no-repeat;
     width: 32px;
     height: 32px;
   }
-  background: url(${Arrow}) no-repeat;
+  //background: url(${Arrow}) no-repeat;
   width: 32px;
   height: 32px;
   border: none;
   &.resend {
-    background: url(${Resend}) no-repeat;
+    //background: url(${Resend}) no-repeat;
     width: 58px;
     height: 32px;
   }
@@ -287,7 +288,9 @@ const BtnA = styled.input`
 const BtnE = styled.img`
   position:absolute;
   border: none;
-  right:0;
+  //right:0;
+  //width: 32px;
+    //height: 32px;
 `;
 const AuthInput2 = styled.input`
   width: calc(90vw - 55px);

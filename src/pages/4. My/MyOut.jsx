@@ -91,7 +91,7 @@ export default function MyOut() {
             <BtnE
               type='button'
               onClick={handlePasswordType1}
-              src={pwType.visible ? EyeOpen : EyeClose}
+              src={pwType1.visible ? EyeOpen : EyeClose}
             ></BtnE>
           </Wrapper>
           <P>
@@ -137,7 +137,7 @@ const Question = styled.p`
 const Wrapper = styled.div`
   position: relative;
   width: auto;
-  display: flex;
+  //display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -168,7 +168,7 @@ const P = styled.p`
 const BtnE = styled.img`
   position:absolute;
   border: none;
-  right:0;
+  //right:0;
 `;
 const Blank = styled.p`
   margin-top: 8vh;

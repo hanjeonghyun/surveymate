@@ -8,6 +8,7 @@ import Arrow from "../../assets/images/cArrow.svg";
 import Resend from "../../assets/images/cResend.svg";
 import EyeClose from "../../assets/images/cEye.svg";
 import EyeOpen from "../../assets/images/cEyeopen.svg";
+import GArrow from "../../assets/images/cArrowgray.svg"
 
 export default function Auth() {
   const [email, setEmail] = useState();
@@ -172,10 +173,10 @@ export default function Auth() {
             onChange={onChangeEmail}
             className={!sendEmail ? "" : "resend"}
           />
+
           <BtnA
-            type='button'
             onClick={onClickEmail}
-            className={!sendEmail ? "" : "resend"}
+            src={!sendEmail ? Arrow : Resend}
           ></BtnA>
         </Wrapper>
         <PA className={!color ? "AlertR" : "AlertG"}>{emailMessage}</PA>
@@ -192,13 +193,8 @@ export default function Auth() {
             onChange={onChangeCode}
           />
           <BtnA
-            type='button'
             onClick={onClickCode}
-            style={{
-              background: !sendEmail
-                ? "url('src/assets/images/cArrowgray.svg')"
-                : "",
-            }}
+            src={!sendEmail?GArrow:Arrow}
           ></BtnA>
         </Wrapper>
         <PA
@@ -257,7 +253,7 @@ const Content0 = styled.div`
 const Wrapper = styled.div`
   position: relative;
   width: auto;
-  display: flex;
+  //display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -281,22 +277,28 @@ const P = styled.p`
   color: #848383;
   margin-top: 1vh;
 `;
-const BtnA = styled.input`
-  background: url(${Arrow}) no-repeat;
+const BtnA = styled.img`
+  &.Arrow {
+    //background: url(${GArrow}) no-repeat;
+    width: 32px;
+    height: 32px;
+  }
+  //background: url(${Arrow}) no-repeat;
   width: 32px;
   height: 32px;
   border: none;
   &.resend {
-    background: url(${Resend}) no-repeat;
+    //background: url(${Resend}) no-repeat;
     width: 58px;
     height: 32px;
   }
 `;
 
+
 const BtnE = styled.img`
   position:absolute;
   border: none;
-  right:0;
+  //right:0;
 `;
 const AuthInput2 = styled.input`
   width: calc(90vw - 55px);

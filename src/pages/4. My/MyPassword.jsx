@@ -113,10 +113,10 @@ export default function MyPassword() {
               name='Cpassword'
               value={Cpassword}
             />
-            <BtnE
+         <BtnE
               type='button'
               onClick={handlePasswordType1}
-              className={!pwType1.visible ? "Eye": "EyeOpen"}
+              src={pwType1.visible ? EyeOpen : EyeClose}
             ></BtnE>
           </Wrapper>
         </Content>
@@ -134,7 +134,7 @@ export default function MyPassword() {
             <BtnE
               type='button'
               onClick={handlePasswordType2}
-              src={pwType.visible ? EyeOpen : EyeClose}
+              src={pwType2.visible ? EyeOpen : EyeClose}
             ></BtnE>
           </Wrapper>
           <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
@@ -174,7 +174,7 @@ const Content = styled.div`
 const Wrapper = styled.div`
   position: relative;
   width: auto;
-  display: flex;
+  //display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -218,7 +218,7 @@ const PA = styled.p`
 const BtnE = styled.img`
   position:absolute;
   border: none;
-  right:0;
+  //right:0;
 `;
 const Blank = styled.p`
   margin-top: 8vh;
