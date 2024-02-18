@@ -77,7 +77,10 @@ export default function MarketPoint() {
   return (
     <>
       <C.TitleWrapper>
-        <BackBtn onClick={handleBack}></BackBtn>
+        <BackBtn
+          src={cBack}
+          onClick={handleBack}
+        ></BackBtn>
         <C.Title>설문데이터 구매</C.Title>
       </C.TitleWrapper>
       <ProcessTitle>포인트 차감 내용</ProcessTitle>
@@ -131,8 +134,7 @@ function PointBottom({ onCancel, amount, handleSubmit, token }) {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
+const BackBtn = styled.img`
   width: 24px;
   height: 24px;
   border: none;

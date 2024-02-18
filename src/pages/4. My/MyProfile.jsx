@@ -31,7 +31,10 @@ export default function MyProfile() {
   return (
     <>
       <C.TitleWrapper>
-        <BackBtn onClick={handleBack}></BackBtn>
+        <BackBtn
+          src={cBack}
+          onClick={handleBack}
+        ></BackBtn>
         <C.Title>마이페이지</C.Title>
       </C.TitleWrapper>
       <ProfileWrapper>
@@ -62,8 +65,7 @@ export default function MyProfile() {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
+const BackBtn = styled.img`
   width: 24px;
   height: 24px;
   border: none;

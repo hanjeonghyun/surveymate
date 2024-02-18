@@ -86,7 +86,10 @@ export default function MyProfileFix() {
   return (
     <>
       <C.TitleWrapper>
-        <BackBtn onClick={handleBack}></BackBtn>
+        <BackBtn
+          src={cBack}
+          onClick={handleBack}
+        ></BackBtn>
         <C.Title>프로필 변경</C.Title>
       </C.TitleWrapper>
       <ProfileWrapper>
@@ -184,8 +187,7 @@ function FileInput({ onUploadImage }) {
   );
 }
 
-const BackBtn = styled.button`
-  background: url(${cBack}) no-repeat;
+const BackBtn = styled.img`
   width: 24px;
   height: 24px;
   border: none;
@@ -215,7 +217,7 @@ const DefaultProfile = styled.div`
   object-fit: cover;
 `;
 
-const FixButton = styled.div`
+const FixButton = styled.img`
   position: absolute;
   left: 65%;
   top: 85%;
