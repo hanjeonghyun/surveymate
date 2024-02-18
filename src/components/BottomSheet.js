@@ -56,6 +56,7 @@ export const CancelButton = styled.button`
   align-items: center;
   position: flex;
   cursor: pointer;
+  margin-bottom:7vh;
 `;
 
 //보라색 버튼
@@ -70,6 +71,7 @@ export const ConfirmButton = styled.button`
   border: none;
   box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  margin-bottom:7vh;
 `;
 
 //진한 글씨
