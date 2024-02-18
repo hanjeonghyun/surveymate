@@ -9,7 +9,7 @@ import {
 } from "../../components/SurveyComponents";
 import styled, { css } from "styled-components";
 import checkMessage from "../../assets/images/acheck_message.svg";
-import aBack from "../../assets/images/aback_icon.svg";
+import back from "../../assets/images/aback_icon.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState } from "recoil";
@@ -71,6 +71,7 @@ export default function SurveyLink() {
     <>
       <TitleWrapper>
         <BackButton
+          src={back}
           onClick={() => {
             navigate(-1);
           }}
@@ -125,14 +126,10 @@ export default function SurveyLink() {
   );
 }
 
-const BackButton = styled.button`
-  background: url(${aBack}) no-repeat;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  left: 5vw;
-  border: none;
+const BackButton = styled.img`
+  margin-left:5vw;
+  position:absolute;
+  left:0;  
 `;
 
 const ThisNextSmallButton = styled(NextSmallButton)`

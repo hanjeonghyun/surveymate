@@ -7,6 +7,7 @@ import axios from "axios";
 import Arrow from "../../assets/images/cArrow.svg";
 import Resend from "../../assets/images/cResend.svg";
 import Eye from "../../assets/images/cEye.svg";
+import EyeOpen from "../../assets/images/cEyeopen.svg"
 
 export default function Auth() {
   const [email, setEmail] = useState();
@@ -221,11 +222,7 @@ export default function Auth() {
           <BtnE
             type='button'
             onClick={handlePasswordType}
-            style={{
-              background: !pwType.visible
-                ? ""
-                : "url('src/assets/images/cEyeopen.svg')",
-            }}
+            className={!pwType.visible ? "Eye": "EyeOpen"}
           ></BtnE>
         </Wrapper>
         <P>대소문자, 숫자, 특수문자(@$!*#?&) 포함 8~15자 이내</P>
@@ -296,7 +293,12 @@ const BtnA = styled.input`
   }
 `;
 const BtnE = styled.input`
-  background: url(${Eye}) no-repeat;
+  &.Eye{
+    background: url(${Eye}) no-repeat;
+  }
+  &.EyeOpen{
+    background: url(${EyeOpen}) no-repeat;
+  }
   width: 24px;
   height: 24px;
   border: none;

@@ -11,6 +11,7 @@ import { listState } from "../../components/RecoilDummys";
 import { idState } from "../../components/RecoilDummys";
 import { alertState } from "../../components/RecoilDummys";
 import { finishedState } from "../../components/RecoilDummys";
+import not from "../../assets/images/bNotStudent.svg";
 
 import img1 from "../../assets/images/bFrame16.svg";
 import img2 from "../../assets/images/bsurveyshop.svg";
@@ -61,11 +62,37 @@ export default function Survey() {
     setFinished(isFinished);
   };
 
+  const plusClick=()=>{
+    if (survey){
+      {isStudent&&navigate("/surveycontent")}
+    }
+    else{
+      navigate("/marketcontent")
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       if (window.location.pathname === "/survey") {
         setSurvey(true);
+        axios
+        .get(`/api/survey?page=0`,
+        {
+          headers: {
+            'Authorization': token,
+        },
+      })
+        .then((response) => {
+          console.log(response)
+        
+          setSurveyDummys(response.data.data.surveys);
+        })
+        .catch((response) => {
+          console.log(response);
+          console.log("응답없음");
+        });
+
         axios
         .get(`/api/survey/respondent`,
         {
@@ -92,6 +119,7 @@ export default function Survey() {
       })
         .then((response) => {
           console.log(response)
+          setIsStudent(response.data.data.studentAccount)
       
         })
         .catch((response) => {
@@ -207,9 +235,8 @@ export default function Survey() {
         </ListWrapper>
       </All>
       <PlusWrapper>
-        <Link to={survey ? "/surveycontent" : "/marketcontent"}>
-          <Plus src={survey ? plus : marketPlus}></Plus>
-        </Link>
+          <Plus src={survey ? (isStudent ? plus : not) : marketPlus}
+          onClick={plusClick}></Plus>
       </PlusWrapper>
     </>
   );
