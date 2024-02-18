@@ -17,7 +17,11 @@ export default function MyPoint() {
         const token = localStorage.getItem('token');
         if (token){
         try{
+<<<<<<< HEAD
             const response = await axios.get("https://sleigh.college/api/statement/total",{
+=======
+            const response = await axios.get("https://sleigh.college/statement/total",{
+>>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
                 headers: {
                     "accept": "*/*",
                     'Authorization': token,
@@ -40,6 +44,73 @@ export default function MyPoint() {
         getPoint(); 
     }, []);
 
+<<<<<<< HEAD
+=======
+    const [selectedCategory, setSelectedCategory] = useState('total');
+    const [categoryDummys,setCategoryDummys]=useState({
+        total:[{description:"설문조사 응답",createAt:"2024-02-14",amount:20,balance:80},
+        {description:"설문조사 등록",createAt:"2024-02-15",amount:-30,balance:50}],
+        plus:[],
+        minus:[],
+    });
+    // const categoryDummys = {
+    //     total:[
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-24",point:"+30",balance:"잔액 80POINT", id:1},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-24",point:"-30",balance:"잔액 50POINT", id:2}, 
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-25",point:"+30",balance:"잔액 80POINT", id:3},
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:4},  
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-26",point:"-30",balance:"잔액 80POINT", id:5},
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-26",point:"+30",balance:"잔액 110POINT", id:6},
+    //         {type: "plus", title: "설문조사 응답", time:"2024-01-27",point:"+30",balance:"잔액 140POINT", id:7},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-28",point:"-30",balance:"잔액 110POINT", id:8},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-29",point:"-30",balance:"잔액 80POINT", id:9},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-01-31",point:"-30",balance:"잔액 50POINT", id:10},
+    //         {type: "minus", title: "설문조사 등록", time:"2024-02-01",point:"-30",balance:"잔액 20POINT", id:11},
+    //     ],
+    //     plus:[],
+    //     minus:[],
+    // };
+
+    const getData = async()=>{
+        const token = localStorage.getItem('token');
+        if (token){
+        try{
+           // const res = await axios.get("https://survey-mate-api.jinhy.uk/statement/list",{
+             //   headers: {
+               //     "accept": "*/*",
+                 //   'Authorization': currentToken,
+                 // }
+              //  })
+            
+            const res = await axios.get("https://sleigh.college/statement/list",{
+                headers: {
+                    "accept": "*/*",
+                    'Authorization': token,
+                  }
+            })
+        
+            console.log(res);
+            setCategoryDummys(res.data.data);
+        
+        }catch(error) {
+            if (error.response) {
+                console.error('서버 응답 상태 코드:', error.response.status);
+                console.error('서버 응답 데이터:', error.response.data);
+            } else if (error.request) {
+                console.error('서버 응답 없음');
+            } else {
+                console.error('Axios 오류:', error.message);
+            }
+        }
+    
+    }
+    };
+    categoryDummys.plus = categoryDummys.total.filter(item => item.amount>0);
+    categoryDummys.minus = categoryDummys.total.filter(item => item.amount<0);
+
+    const count = categoryDummys[selectedCategory].length;
+
+>>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
     const handleBackBtnClick = ()=>{
         navigate("/mypage");
     };

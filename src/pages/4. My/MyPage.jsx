@@ -19,7 +19,11 @@ export default function MyPage() {
         const token = localStorage.getItem('token');
         if (token){
         try{
+<<<<<<< HEAD
             const response = await axios.get("https://sleigh.college/api/statement/total",{
+=======
+            const response = await axios.get("https://sleigh.college/statement/total",{
+>>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
                 headers: {
                     "accept": "*/*",
                     'Authorization': token,

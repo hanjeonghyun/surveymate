@@ -28,7 +28,11 @@ export default function MyOut() {
 
     const onClickButton=()=>{
         if (isPassword){
+<<<<<<< HEAD
             axios.delete("https://sleigh.college/api/auth/account",{
+=======
+            axios.delete("https://sleigh.college/auth/account",{
+>>>>>>> d4870eaf0b40fa52dc81d005528ec2806dedab99
                 currentPassword: password,
             })
             .then((response)=>{
