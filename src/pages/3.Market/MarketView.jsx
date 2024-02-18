@@ -101,7 +101,7 @@ export default function MarketView() {
         setShowAlert(false)
       })
     }
-  }, [currentPathname,location]);
+  }, [currentPathname]);
 
   const BackButtonClick=()=>{
     if (currentPathname==="/marketview2"){

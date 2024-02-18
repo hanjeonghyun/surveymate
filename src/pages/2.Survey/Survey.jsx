@@ -162,9 +162,6 @@ export default function Survey() {
             console.log(response);
             console.log("응답없음");
           });
-      }
-      if (window.location.pathname === "/market") {
-        setSurvey(false);
         axios
           .get(`/api/data/list`, {
             headers: {
@@ -250,7 +247,7 @@ const All = styled.div`
 
 const PlusWrapper = styled.div`
   position: fixed;
-  top: 77vh;
+  top: 72vh;
   left: 75vw;
   width: 92px;
   height: 92px;
